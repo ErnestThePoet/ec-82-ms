@@ -1,14 +1,15 @@
 import { CheckFn, CHECK_FNS } from "./check-fns";
+import { fact } from "../math/fact";
 
-interface OperationFn{
+export interface OperationFn{
     (...operands: number[]): number;
 }
 
 interface Operator{
     id: string;
     argN: number;
-    ck: CheckFn;
     op: OperationFn;
+    ck: CheckFn;
 }
 
 export const OPERATORS_UNARY_L: readonly Operator[] = [
@@ -105,5 +106,34 @@ export const OPERATORS_UNARY_L: readonly Operator[] = [
 ] as const;
 
 export const OPERATORS_UNARY_R: readonly Operator[] = [
-    
-]
+    {
+        id: "FACT",
+        argN: 1,
+        op: fact,
+        ck:CHECK_FNS.factCheck
+    },
+    {
+        id: "INV",
+        argN: 1,
+        op: (x:number)=>1/x,
+        ck: CHECK_FNS.invCheck
+    },
+    {
+        id: "CUBE",
+        argN: 1,
+        op: (x:number)=>x**3,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "SQR",
+        argN: 1,
+        op: (x:number)=>x**2,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "PERCENT",
+        argN: 1,
+        op: (x:number)=>x*0.01,
+        ck: CHECK_FNS.alwaysTrue
+    }
+] as const;

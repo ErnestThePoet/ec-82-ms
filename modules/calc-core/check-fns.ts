@@ -25,8 +25,9 @@ interface CheckFns{
     tanCheck: CheckFn; // !=odd multiples of pi/2
     asinAcosCheck: CheckFn; // -1<=x<=1
     factCheck: CheckFn; // >=0, integer
+    invCheck: CheckFn; // !=0
     ///// taking 2 args
-    combineCheck: CheckFn; // both integer, both >=0 and x>=y
+    nCrnPrCheck: CheckFn; // both integer, both >=0 and x>=y
     powCheck: CheckFn; // when x<0, y can only be integer
     rootCheck: CheckFn; // x!=0; when y<0, x can only be odd integer
     divCheck: CheckFn; // y!=0
@@ -66,7 +67,11 @@ export const CHECK_FNS: CheckFns = {
         ok: isNonNegativeInteger(operands[0]),
         msg: stringsRes.strings.ERROR_MSGS.FACT
     }),
-    combineCheck: (...operands: number[]) => {
+    invCheck: (...operands: number[]) => ({
+        ok: operands[0]!==0,
+        msg: stringsRes.strings.ERROR_MSGS.INV
+    }),
+    nCrnPrCheck: (...operands: number[]) => {
         if (!isNonNegativeInteger(operands[0])
             || !isNonNegativeInteger(operands[1])) {
             return {
