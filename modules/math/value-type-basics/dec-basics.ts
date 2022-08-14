@@ -3,13 +3,14 @@ import type {
     DegreeValue,
     TryToFracResult,
     FracDecOpResult
-} from "../calc-core/types";
+} from "../../calc-core/types";
+import { isInteger } from "../../calc-core/utils";
 import * as FB from "./frac-basics";
 import * as DGB from "./degree-basics";
 
 export function tryToFracValue(x: number): TryToFracResult{
-    // this handles most cases
-    if (x.toString().replace(".","").length <= 13) {
+    // this handles most non-int cases
+    if (!isInteger(x)&&x.toString().replace(".","").length <= 13) {
         return FB.tryFromTerminatingDiv(x, 1);
     }
 

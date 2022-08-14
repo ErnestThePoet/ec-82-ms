@@ -4,8 +4,8 @@ import type {
     TryToFracResult,
     FracDecOpResult,
     FracDegreeOpResult
-} from "../calc-core/types";
-import { gcd, lcm } from "./algorithm";
+} from "../../calc-core/types";
+import { gcd, lcm } from "../algorithm";
 import * as DB from "./dec-basics";
 import * as DGB from "./degree-basics";
 
@@ -29,20 +29,17 @@ export function tryFromTerminatingDiv(u: number, d: number): TryToFracResult{
 
     const tensToMul = Math.max((uStrSplitted[1] ?? "").length,
         (dStrSplitted[1] ?? "").length);
-    
-    const uProductLength = uStrSplitted[0].length + tensToMul;
-    const dProductLength = dStrSplitted[0].length + tensToMul;
-
-    // after multiplication to integer, both must be shorter than 14 digits
-    if (uProductLength > 13 || dProductLength > 13) {
-        return {
-            ok: false
-        };
-    }
 
     for (let i = 0; i < tensToMul; i++){
         u *= 10;
         d *= 10;
+
+        // after multiplication to integer, both must be safe integers
+        if (u >= Number.MAX_SAFE_INTEGER || d >= Number.MAX_SAFE_INTEGER) {
+            return {
+                ok: false
+            };
+        }
     }
 
     return {

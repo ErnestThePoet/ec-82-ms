@@ -3,7 +3,7 @@ import type {
     DegreeValue,
     TryToFracResult,
     FracDegreeOpResult
-} from "../calc-core/types";
+} from "../../calc-core/types";
 import * as DB from "./dec-basics";
 import * as FB from "./frac-basics";
 

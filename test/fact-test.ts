@@ -1,4 +1,4 @@
-import { assertEquals, runTests } from "./test-core";
+import { assertEquals, runTests } from "./test-core/test-core";
 import { fact } from "../modules/math/calculations/fact";
 
 function test() {

@@ -1,4 +1,4 @@
-import { assertEquals, runTests } from "./test-core";
+import { assertEquals, runTests } from "./test-core/test-core";
 import { nCr, nPr } from "../modules/math/calculations/ncr-npr";
 
 function testnPr() {
