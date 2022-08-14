@@ -1,4 +1,10 @@
-import { FracValue, DegreeValue } from "../calc-core/types";
+import type {
+    FracValue,
+    DegreeValue,
+    TryToFracResult,
+    FracDecOpResult,
+    FracDegreeOpResult
+} from "../calc-core/types";
 import { gcd, lcm } from "./algorithm";
 import * as DB from "./dec-basics";
 import * as DGB from "./degree-basics";
@@ -11,11 +17,37 @@ export function toDegree(x: FracValue): DegreeValue {
     return DB.toDegree(toDec(x));
 }
 
-export function trimSign(x: FracValue): FracValue{
-    const isNegative = (x.d < 0 && x.u > 0) || (x.d > 0 && x.u < 0);
+// u and d follow same RI as FracValue except u and d may not be int.
+export function tryFromTerminatingDiv(u: number, d: number): TryToFracResult{
+    const isNegative = (u < 0 && d > 0) || (u > 0 && d < 0);
+
+    u = Math.abs(u);
+    d = Math.abs(d);
+
+    const uStrSplitted = u.toString().split(".");
+    const dStrSplitted = d.toString().split(".");
+
+    const tensToMul = Math.max((uStrSplitted[1] ?? "").length,
+        (dStrSplitted[1] ?? "").length);
+    
+    const uProductLength = uStrSplitted[0].length + tensToMul;
+    const dProductLength = dStrSplitted[0].length + tensToMul;
+
+    // after multiplication to integer, both must be shorter than 14 digits
+    if (uProductLength > 13 || dProductLength > 13) {
+        return {
+            ok: false
+        };
+    }
+
+    for (let i = 0; i < tensToMul; i++){
+        u *= 10;
+        d *= 10;
+    }
+
     return {
-        u: isNegative ? -Math.abs(x.u) : Math.abs(x.u),
-        d: Math.abs(x.d)
+        ok: true,
+        frac: reduce({ u:isNegative?-u:u, d })
     };
 }
 
@@ -27,6 +59,7 @@ export function reduce(x: FracValue):FracValue {
     };
 }
 
+// x must not evaluate to 0.
 export function invert(x: FracValue): FracValue{
     return {
         u: x.d,
@@ -67,54 +100,91 @@ export function mulFrac(x: FracValue, y: FracValue): FracValue {
     return reduce(product);
 }
 
-// y most not evaluate to 0.
+// y must not evaluate to 0.
 export function divFrac(x: FracValue, y: FracValue): FracValue{
     return mulFrac(x, invert(y));
 }
 
 ///////////////////// Operations with decimal /////////////////////
-export function addDec(x: FracValue, y: number): {
-    isFrac: boolean;
-    y:FracValue|number
-} {
+export function addDec(x: FracValue, y: number): FracDecOpResult {
     const decFrac = DB.tryToFracValue(y);
 
     if (decFrac.ok) {
         return {
             isFrac: true,
-            y: addFrac(x, decFrac.frac!)
+            value: addFrac(x, decFrac.frac!)
         };
     }
 
     return {
         isFrac: false,
-        
-    }
-}
-
-export function subDec(x: FracValue, y: number): FracValue {
-    const decFrac: FracValue = {
-        u: x.d * y,
-        d: x.d
+        value: toDec(x)+y
     };
-
-    return subFrac(x, decFrac);
 }
 
-export function mulDec(x: FracValue, y: number): FracValue {
-    return mulFrac(x, { u: y, d: 1 });
+export function subDec(x: FracValue, y: number): FracDecOpResult {
+    return addDec(x, -y);
 }
 
-// y most not evaluate to 0.
-export function divDec(x: FracValue, y: number): FracValue {
-    return mulFrac(x, { u: 1, d: y });
+export function mulDec(x: FracValue, y: number): FracDecOpResult {
+    const decFrac = DB.tryToFracValue(y);
+
+    if (decFrac.ok) {
+        return {
+            isFrac: true,
+            value: mulFrac(x, decFrac.frac!)
+        };
+    }
+
+    return {
+        isFrac: false,
+        value: toDec(x)*y
+    };
+}
+
+// y must not evaluate to 0.
+export function divDec(x: FracValue, y: number): FracDecOpResult {
+    const decFrac = DB.tryToFracValue(y);
+
+    if (decFrac.ok) {
+        return {
+            isFrac: true,
+            value: divFrac(x, decFrac.frac!)
+        };
+    }
+
+    return {
+        isFrac: false,
+        value: toDec(x)/y
+    };
 }
 
 ///////////////////// Operations with degree /////////////////////
-export function addDegree(x: FracValue, y: DegreeValue): FracValue {
-    return addFrac(x, DGB.toFracValue(y));
+export function addDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
+    const yFrac = DGB.tryToFracValue(y);
+
+    if (!yFrac.ok) {
+        return {
+            isFrac: false,
+            value: toDec(x) + DGB.toDecValue(y)
+        };
+    }
+
+    return {
+        isFrac: true,
+        value: addFrac(x, yFrac.frac!)
+    };
 }
 
-export function subDegree(x: FracValue, y: DegreeValue): FracValue {
-    return subFrac(x, DGB.toFracValue(y));
+export function subDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
+    return addDegree(x, { ...y, neg: !y.neg });
+}
+
+export function mulDegree(x: FracValue, y: DegreeValue): DegreeValue{
+    return DB.toDegree(x.u * DGB.toDecValue(y) / x.d);
+}
+
+// y must not evaluate to 0.
+export function divDegree(x: FracValue, y: DegreeValue): DegreeValue {
+    return DB.toDegree(x.u / x.d / DGB.toDecValue(y));
 }

@@ -9,13 +9,28 @@ export interface FracValue{
 }
 
 // RI:
-// d and m are non-negative integers.
-// s is non-negative.
+// d and m are [0,59] integers.
+// s is [0,60).
 export interface DegreeValue{
     d: number;
     m: number;
     s: number;
     neg: boolean;
+}
+
+export interface TryToFracResult{
+    ok: boolean;
+    frac?: FracValue;
+}
+
+export interface FracDecOpResult {
+    isFrac: boolean;
+    value: FracValue | number;
+}
+
+export interface FracDegreeOpResult {
+    isFrac: boolean;
+    value: FracValue | number;
 }
 
 export interface OperationFn {

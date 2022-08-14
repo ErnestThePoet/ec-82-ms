@@ -1,7 +1,18 @@
-import { FracValue, DegreeValue } from "../calc-core/types";
+import type {
+    FracValue,
+    DegreeValue,
+    TryToFracResult,
+    FracDecOpResult
+} from "../calc-core/types";
 import * as FB from "./frac-basics";
+import * as DGB from "./degree-basics";
 
-export function tryToFracValue(x: number): {ok:boolean,frac?:FracValue}{
+export function tryToFracValue(x: number): TryToFracResult{
+    // this handles most cases
+    if (x.toString().replace(".","").length <= 13) {
+        return FB.tryFromTerminatingDiv(x, 1);
+    }
+
     const isNegative: boolean = x < 0;
     x = Math.abs(x);
 
@@ -54,4 +65,38 @@ export function toDegree(x: number): DegreeValue{
         s: x,
         neg
     };
+}
+///////////////////// Operations with frac /////////////////////
+export function subFrac(x: number, y: FracValue): FracDecOpResult{
+    return FB.addDec({ u: -y.u, d: y.d }, x);
+}
+
+// y must not evaluate to 0.
+export function divFrac(x: number, y: FracValue): FracDecOpResult {
+    return FB.mulDec(FB.invert(y), x);
+}
+
+///////////////////// Operations with degree /////////////////////
+export function addDegree(x: number, y: DegreeValue): number{
+    return x + DGB.toDecValue(y);
+}
+
+export function subDegree(x: number, y: DegreeValue): number {
+    return x - DGB.toDecValue(y);
+}
+
+export function mulDegree(x: number, y: DegreeValue): DegreeValue {
+    const neg = x >= 0 ? y.neg : !y.neg;
+
+    return DGB.fromDmsNeg(
+        y.d * x,
+        y.m * x,
+        y.s * x,
+        neg
+    );
+}
+
+// y must not evaluate to 0.
+export function divDegree(x: number, y: DegreeValue): DegreeValue {
+    return toDegree(x / DGB.toDecValue(y));
 }
