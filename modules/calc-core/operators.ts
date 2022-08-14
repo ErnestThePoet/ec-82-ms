@@ -1,9 +1,7 @@
-import { CheckFn, CHECK_FNS } from "./check-fns";
-import { fact } from "../math/fact";
-
-export interface OperationFn{
-    (...operands: number[]): number;
-}
+import { CHECK_FNS } from "./check-fns";
+import { fact } from "../math/calculations/fact";
+import { nPr,nCr } from "../math/calculations/ncr-npr";
+import type { CheckFn, OperationFn } from "./types";
 
 interface Operator{
     id: string;
@@ -135,5 +133,61 @@ export const OPERATORS_UNARY_R: readonly Operator[] = [
         argN: 1,
         op: (x:number)=>x*0.01,
         ck: CHECK_FNS.alwaysTrue
+    }
+] as const;
+
+export const OPERATORS_BINARY: readonly Operator[] = [
+    {
+        id: "NPR",
+        argN: 2,
+        op: nPr,
+        ck:CHECK_FNS.nCrnPrCheck
+    },
+    {
+        id: "NCR",
+        argN: 2,
+        op: nCr,
+        ck:CHECK_FNS.nCrnPrCheck
+    },
+    {
+        id: "POW",
+        argN: 2,
+        op: Math.pow,
+        ck:CHECK_FNS.powCheck
+    },
+    {
+        id: "ROOT",
+        argN: 2,
+        op: (x: number, y: number) => Math.pow(x, 1 / y),
+        ck:CHECK_FNS.rootCheck
+    },
+    {
+        id: "ADD",
+        argN: 2,
+        op: (x: number, y: number) => x + y,
+        ck:CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "SUB",
+        argN: 2,
+        op: (x: number, y: number) => x - y,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "MUL",
+        argN: 2,
+        op: (x: number, y: number) => x * y,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "DIV",
+        argN: 2,
+        op: (x: number, y: number) => x / y,
+        ck: CHECK_FNS.divCheck
+    },
+    {
+        id: "POL",
+        argN: 2,
+        op:
     }
 ] as const;

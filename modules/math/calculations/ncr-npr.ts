@@ -1,4 +1,4 @@
-import { OperationFn } from "../calc-core/operators";
+import { OperationFn } from "../../calc-core/types";
 import { fact } from "./fact";
 
 export const nPr: OperationFn = (n: number, r: number) => {

@@ -2,3 +2,4 @@
 :: Usage: ./test xxx
 call tsc test/%1%-test.ts
 node --trace-uncaught test/%1%-test.js
+call clean

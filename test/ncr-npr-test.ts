@@ -1,5 +1,5 @@
 import { assertEquals, runTests } from "./test-core";
-import { nCr, nPr } from "../modules/math/ncr-npr";
+import { nCr, nPr } from "../modules/math/calculations/ncr-npr";
 
 function testnPr() {
     assertEquals(1, nPr(0, 0));

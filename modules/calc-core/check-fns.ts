@@ -1,10 +1,8 @@
 import calculatorState from "../../observables/calculator-state";
 import stringsRes from "../../observables/strings-res";
 import { isInteger,isNonNegativeInteger, isOdd } from "./utils";
+import type { CheckFn } from "./types";
 
-export interface CheckFn{
-    (...operands: number[]): { ok: boolean, msg: string };
-}
 
 const gzCheck: (funcName: string) => CheckFn
     = (funcName: string) => (
