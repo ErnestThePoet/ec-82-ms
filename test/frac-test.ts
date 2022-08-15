@@ -26,6 +26,7 @@ function testReduce() {
     assertObjectEquals({ u: 3, d: 1 }, FB.reduce({ u: 9, d: 3 }));
 }
 
+///////////////////// Operations with frac /////////////////////
 function testAddFrac() {
     assertObjectEquals({ u: 0, d: 1 },
         FB.addFrac({ u: 0, d: 2 }, { u: 0, d: 3 }));
@@ -66,9 +67,168 @@ function testSubFrac() {
         FB.subFrac({ u: 197, d: 2 }, { u: 2002, d: 3 }));
 }
 
+function testMulFrac() {
+    assertObjectEquals({ u: 0, d: 1 },
+        FB.mulFrac({ u: 0, d: 2 }, { u: 1, d: 3 }));
+
+    assertObjectEquals({ u: -1, d: 4 },
+        FB.mulFrac({ u: 1, d: 2 }, { u: -1, d: 2 }));
+
+    assertObjectEquals({ u: 1, d: 1 },
+        FB.mulFrac({ u: 5, d: 2 }, { u: 2, d: 5 }));
+
+    assertObjectEquals({ u: 197197, d: 3 },
+        FB.mulFrac({ u: 197, d: 2 }, { u: 2002, d: 3 }));
+}
+
+function testDivFrac() {
+    assertObjectEquals({ u: 0, d: 1 },
+        FB.divFrac({ u: 0, d: 2 }, { u: 1, d: 3 }));
+
+    assertObjectEquals({ u: -1, d: 1 },
+        FB.divFrac({ u: 1, d: 2 }, { u: -1, d: 2 }));
+
+    assertObjectEquals({ u: 1, d: 1 },
+        FB.divFrac({ u: 1, d: 2 }, { u: 1, d: 2 }));
+
+    assertObjectEquals({ u: 3, d: 2 },
+        FB.divFrac({ u: 1, d: 2 }, { u: 1, d: 3 }));
+
+    assertObjectEquals({ u: -3, d: 2 },
+        FB.divFrac({ u: 1, d: 2 }, { u: -1, d: 3 }));
+
+    assertObjectEquals({ u: 591, d: 4004 },
+        FB.divFrac({ u: 197, d: 2 }, { u: 2002, d: 3 }));
+}
+
+
+///////////////////// Operations with dec /////////////////////
+function testAddDec() {
+    assertObjectEquals({ isFrac: true, value: { u: 1, d: 1 } },
+        FB.addDec({ u: 0, d: 1 }, 1));
+    
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.addDec({ u: 0, d: 1 }, -1));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 17, d: 10 } },
+        FB.addDec({ u: 1, d: 2 }, 1.2));
+    
+    assertObjectEquals({ isFrac: true, value: { u: -7, d: 10 } },
+        FB.addDec({ u: 1, d: 2 }, -1.2));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 1_333_333_333_333, d: 1_000_000_000_000 } },
+        FB.addDec({ u: 0, d: 1 }, 1.333_333_333_333));
+    
+    assertObjectEquals({ isFrac: true, value: { u: -1_333_333_333_333, d: 1_000_000_000_000 } },
+        FB.addDec({ u: 0, d: 1 }, -1.333_333_333_333));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 4_999_999_999_999, d: 3_000_000_000_000 } },
+        FB.addDec({ u: 1, d: 3 }, 1.333_333_333_333));
+
+    assertObjectEquals({ isFrac: true, value: { u: -2_999_999_999_999, d: 3_000_000_000_000 } },
+        FB.addDec({ u: 1, d: 3 }, -1.333_333_333_333));
+}
+
+function testSubDec() {
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.subDec({ u: 0, d: 1 }, 1));
+
+    assertObjectEquals({ isFrac: true, value: { u: 1, d: 1 } },
+        FB.subDec({ u: 0, d: 1 }, -1));
+
+    assertObjectEquals({ isFrac: true, value: { u: -7, d: 10 } },
+        FB.subDec({ u: 1, d: 2 }, 1.2));
+
+    assertObjectEquals({ isFrac: true, value: { u: 17, d: 10 } },
+        FB.subDec({ u: 1, d: 2 }, -1.2));
+
+    assertObjectEquals({ isFrac: true, value: { u: -2_999_999_999_999, d: 3_000_000_000_000 } },
+        FB.subDec({ u: 1, d: 3 }, 1.333_333_333_333));
+
+    assertObjectEquals({ isFrac: true, value: { u: 4_999_999_999_999, d: 3_000_000_000_000 } },
+        FB.subDec({ u: 1, d: 3 }, -1.333_333_333_333));
+}
+
+function testMulDec() {
+    assertObjectEquals({ isFrac: true, value: { u: 0, d: 1 } },
+        FB.mulDec({ u: 1, d: 3 }, 0));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 0, d: 1 } },
+        FB.mulDec({ u: 0, d: 1 }, 1));
+
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.mulDec({ u: 1, d: 1 }, -1));
+
+    assertObjectEquals({ isFrac: true, value: { u: 3, d: 5 } },
+        FB.mulDec({ u: 1, d: 2 }, 1.2));
+
+    assertObjectEquals({ isFrac: true, value: { u: -3, d: 5 } },
+        FB.mulDec({ u: 1, d: 2 }, -1.2));
+}
+
+function testDivDec() {
+    assertObjectEquals({ isFrac: true, value: { u: 0, d: 1 } },
+        FB.divDec({ u: 0, d: 1 }, 1));
+
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.divDec({ u: 1, d: 1 }, -1));
+
+    assertObjectEquals({ isFrac: true, value: { u: 5, d: 12 } },
+        FB.divDec({ u: 1, d: 2 }, 1.2));
+
+    assertObjectEquals({ isFrac: true, value: { u: -5, d: 12 } },
+        FB.divDec({ u: 1, d: 2 }, -1.2));
+}
+
+///////////////////// Operations with degree /////////////////////
+function testAddDegree() {
+    assertObjectEquals({ isFrac: true, value: { u: 0, d: 1 } },
+        FB.addDegree({ u: 0, d: 2 }, { d: 0, m: 0, s: 0, neg: false }));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 1, d: 1 } },
+        FB.addDegree({ u: 0, d: 2 }, { d: 1, m: 0, s: 0, neg: false }));
+    
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.addDegree({ u: 0, d: 2 }, { d: 1, m: 0, s: 0, neg: true }));
+    
+    assertObjectEquals({ isFrac: true, value: { u: 5461, d: 3600 } },
+        FB.addDegree({ u: 1, d: 2 }, { d: 1, m: 1, s: 1, neg: false }));
+    
+    assertObjectEquals({ isFrac: true, value: { u: -293, d: 240 } },
+        FB.addDegree({ u: 1, d: 3 }, { d: 1.5, m: 2.25, s: 60, neg: true }));
+}
+
+function testSubDegree() {
+    assertObjectEquals({ isFrac: true, value: { u: 0, d: 1 } },
+        FB.subDegree({ u: 0, d: 2 }, { d: 0, m: 0, s: 0, neg: false }));
+
+    assertObjectEquals({ isFrac: true, value: { u: -1, d: 1 } },
+        FB.subDegree({ u: 0, d: 2 }, { d: 1, m: 0, s: 0, neg: false }));
+
+    assertObjectEquals({ isFrac: true, value: { u: 1, d: 1 } },
+        FB.subDegree({ u: 0, d: 2 }, { d: 1, m: 0, s: 0, neg: true }));
+
+    assertObjectEquals({ isFrac: true, value: { u: -1861, d: 3600 } },
+        FB.subDegree({ u: 1, d: 2 }, { d: 1, m: 1, s: 1, neg: false }));
+
+    assertObjectEquals({ isFrac: true, value: { u: 151, d: 80 } },
+        FB.subDegree({ u: 1, d: 3 }, { d: 1.5, m: 2.25, s: 60, neg: true }));
+}
+
 runTests(
     testTryFromTerminatingDiv,
     testReduce,
+
     testAddFrac,
-    testSubFrac
+    testSubFrac,
+    testMulFrac,
+    testDivFrac,
+
+    testAddDec,
+    testSubDec,
+    testMulDec,
+    testDivDec,
+
+    testAddDegree,
+    testSubDegree
 );

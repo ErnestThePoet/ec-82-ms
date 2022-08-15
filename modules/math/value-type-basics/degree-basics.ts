@@ -34,7 +34,16 @@ export function tryToFracValue(x: DegreeValue): TryToFracResult{
 }
 
 // d,m,s only need to be non-negative.
-export function fromDmsNeg(d: number, m: number, s: number, neg: boolean):DegreeValue {
+export function fromDmsNeg(d: number, m: number, s: number, neg: boolean): DegreeValue {
+    // step 1: make d and m integers
+    // if d=1.2, then d%1 got 0.200000...
+    m += parseFloat(`0.${d.toString().split(".")[1]??"0"}`) * 60;
+    d = Math.floor(d);
+
+    s += parseFloat(`0.${m.toString().split(".")[1] ?? "0"}`) * 60;
+    m = Math.floor(m);
+
+    // step 2: reduce m and s
     m += Math.floor(s / 60);
     s %= 60;
     d += Math.floor(m / 60);

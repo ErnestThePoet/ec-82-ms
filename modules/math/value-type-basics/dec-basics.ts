@@ -10,7 +10,7 @@ import * as DGB from "./degree-basics";
 
 export function tryToFracValue(x: number): TryToFracResult{
     // this handles most non-int cases
-    if (!isInteger(x)&&x.toString().replace(".","").length <= 13) {
+    if (!isInteger(x)&&Math.abs(x).toString().replace(".","").length <= 13) {
         return FB.tryFromTerminatingDiv(x, 1);
     }
 

@@ -29,17 +29,14 @@ export function tryFromTerminatingDiv(u: number, d: number): TryToFracResult{
 
     const tensToMul = Math.max((uStrSplitted[1] ?? "").length,
         (dStrSplitted[1] ?? "").length);
-
-    for (let i = 0; i < tensToMul; i++){
-        u *= 10;
-        d *= 10;
-
-        // after multiplication to integer, both must be safe integers
-        if (u >= Number.MAX_SAFE_INTEGER || d >= Number.MAX_SAFE_INTEGER) {
-            return {
-                ok: false
-            };
-        }
+    
+    u *= 10 ** tensToMul;
+    d *= 10 ** tensToMul;
+    // after multiplication to integer, both must be safe integers
+    if (u >= Number.MAX_SAFE_INTEGER || d >= Number.MAX_SAFE_INTEGER) {
+        return {
+            ok: false
+        };
     }
 
     return {
@@ -59,8 +56,8 @@ export function reduce(x: FracValue):FracValue {
 // x must not evaluate to 0.
 export function invert(x: FracValue): FracValue{
     return {
-        u: x.d,
-        d: x.u
+        u: x.u<0?-Math.abs(x.d):Math.abs(x.d),
+        d: Math.abs(x.u)
     };
 }
 

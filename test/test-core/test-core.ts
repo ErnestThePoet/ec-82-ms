@@ -51,7 +51,7 @@ export function assertObjectEquals(expected: object, actual: object) {
 }
 
 export function runTests(...testFns: Array<() => void>) {
-    console.log("Test Start");
+    console.log(`Test Start - total ${testFns.length} tests`);
     console.log("======================");
 
     for (let i = 0; i < testFns.length; i++){
