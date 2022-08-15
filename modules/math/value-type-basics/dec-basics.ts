@@ -67,6 +67,23 @@ export function toDegreeValue(x: number): DegreeValue{
         neg
     };
 }
+///////////////////// Operations with dec /////////////////////
+// fraction optimization
+export function divDec(x: number, y: number): FracDecOpResult{
+    const tryFrac = FB.tryFromTerminatingDiv(x, y);
+    if (tryFrac.ok) {
+        return {
+            isFrac: true,
+            value: tryFrac.frac!
+        };
+    }
+
+    return {
+        isFrac: false,
+        value: x / y
+    };
+}
+
 ///////////////////// Operations with frac /////////////////////
 export function subFrac(x: number, y: FracValue): FracDecOpResult{
     return FB.addDec({ u: -y.u, d: y.d }, x);
