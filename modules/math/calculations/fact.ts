@@ -1,6 +1,4 @@
-import { OperationFn } from "../../calc-core/types";
-
-export const fact:OperationFn=(x: number)=>{
+export function fact(x: number):number{
     let res = 1;
     for (let i = 1; i <= x; i++){
         res *= i;

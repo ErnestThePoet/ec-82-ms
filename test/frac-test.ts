@@ -101,6 +101,16 @@ function testDivFrac() {
         FB.divFrac({ u: 197, d: 2 }, { u: 2002, d: 3 }));
 }
 
+function testIntPower() {
+    assertObjectEquals({ u: 1, d: 1 }, FB.intPower({ u: 1, d: 2 }, 0));
+    assertObjectEquals({ u: 1, d: 2 }, FB.intPower({ u: 1, d: 2 }, 1));
+    assertObjectEquals({ u: 1, d: 4 }, FB.intPower({ u: 1, d: 2 }, 2));
+    assertObjectEquals({ u: -1, d: 2 }, FB.intPower({ u: -1, d: 2 }, 1));
+    assertObjectEquals({ u: 1, d: 4 }, FB.intPower({ u: -1, d: 2 }, 2));
+    assertObjectEquals({ u: 2, d: 1 }, FB.intPower({ u: 1, d: 2 }, -1));
+    assertObjectEquals({ u: 4, d: 1 }, FB.intPower({ u: 1, d: 2 }, -2));
+    assertObjectEquals({ u: 27, d: 125 }, FB.intPower({ u: 5, d: 3 }, -3));
+}
 
 ///////////////////// Operations with dec /////////////////////
 function testAddDec() {
@@ -223,6 +233,7 @@ runTests(
     testSubFrac,
     testMulFrac,
     testDivFrac,
+    testIntPower,
 
     testAddDec,
     testSubDec,

@@ -1,3 +1,4 @@
+import { InternalNumber } from "./internal-number";
 // common types
 
 // RI:
@@ -34,9 +35,9 @@ export interface FracDegreeOpResult {
 }
 
 export interface OperationFn {
-    (...operands: number[]): number;
+    (...operands: InternalNumber[]): InternalNumber;
 }
 
 export interface CheckFn {
-    (...operands: number[]): { ok: boolean, msg: string };
+    (...operands: InternalNumber[]): { ok: boolean, msg: string };
 }

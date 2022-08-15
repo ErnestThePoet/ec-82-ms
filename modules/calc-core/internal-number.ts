@@ -40,4 +40,16 @@ export class InternalNumber{
     get type():InternalNumberType {
         return this.numberType;
     }
+
+    get dec(): number{
+        return this.decValue;
+    }
+
+    get frac(): FracValue{
+        return this.fracValue;
+    }
+
+    get degree(): DegreeValue{
+        return this.degreeValue;
+    }
 }

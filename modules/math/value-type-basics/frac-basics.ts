@@ -9,12 +9,12 @@ import { gcd, lcm } from "../algorithm";
 import * as DB from "./dec-basics";
 import * as DGB from "./degree-basics";
 
-export function toDec(x: FracValue): number{
+export function toDecValue(x: FracValue): number{
     return x.u / x.d;
 }
 
 export function toDegreeValue(x: FracValue): DegreeValue {
-    return DB.toDegreeValue(toDec(x));
+    return DB.toDegreeValue(toDecValue(x));
 }
 
 // u and d follow same RI as FracValue except u and d may not be int.
@@ -99,6 +99,16 @@ export function divFrac(x: FracValue, y: FracValue): FracValue{
     return mulFrac(x, invert(y));
 }
 
+export function intPower(x: FracValue, y: number): FracValue{
+    if (y >= 0) {
+        return reduce({ u: x.u ** y, d: x.d ** y });
+    }
+    else {
+        return reduce({ u: x.d ** (-y), d: x.u ** (-y) });
+    }
+    
+}
+
 ///////////////////// Operations with decimal /////////////////////
 export function addDec(x: FracValue, y: number): FracDecOpResult {
     const decFrac = DB.tryToFracValue(y);
@@ -112,7 +122,7 @@ export function addDec(x: FracValue, y: number): FracDecOpResult {
 
     return {
         isFrac: false,
-        value: toDec(x)+y
+        value: toDecValue(x)+y
     };
 }
 
@@ -132,7 +142,7 @@ export function mulDec(x: FracValue, y: number): FracDecOpResult {
 
     return {
         isFrac: false,
-        value: toDec(x)*y
+        value: toDecValue(x)*y
     };
 }
 
@@ -149,7 +159,7 @@ export function divDec(x: FracValue, y: number): FracDecOpResult {
 
     return {
         isFrac: false,
-        value: toDec(x)/y
+        value: toDecValue(x)/y
     };
 }
 
@@ -160,7 +170,7 @@ export function addDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
     if (!yFrac.ok) {
         return {
             isFrac: false,
-            value: toDec(x) + DGB.toDecValue(y)
+            value: toDecValue(x) + DGB.toDecValue(y)
         };
     }
 
