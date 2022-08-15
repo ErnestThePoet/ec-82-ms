@@ -1,7 +1,6 @@
-import { OperationFn } from "../../calc-core/types";
 import { fact } from "./fact";
 
-export const nPr: OperationFn = (n: number, r: number) => {
+export function nPr(n: number, r: number):number {
     let res = 1;
     for (let i = n; i > n - r; i--){
         res *= i;
@@ -9,6 +8,6 @@ export const nPr: OperationFn = (n: number, r: number) => {
     return res;
 }
 
-export const nCr: OperationFn = (n: number, r: number) => {
+export function nCr(n: number, r: number):number {
     return nPr(n, r) / fact(r);
 }

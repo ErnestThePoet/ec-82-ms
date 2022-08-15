@@ -7,6 +7,29 @@ import type {
 import * as DB from "./dec-basics";
 import * as FB from "./frac-basics";
 
+export function isAbsGreaterThan(x: DegreeValue, y: DegreeValue): boolean{
+    if (x.d > y.d) {
+        return true;
+    }
+    else if (x.d < y.d) {
+        return false;
+    }
+    
+    if (x.m > y.m) {
+        return true;
+    }
+    else if (x.m < y.m) {
+        return false;
+    }
+
+    if (x.s > y.s) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 export function toDecValue(x: DegreeValue): number {
     const decAbs = x.d + x.m / 60 + x.s / 3600;
     return x.neg ? -decAbs : decAbs;
@@ -54,6 +77,75 @@ export function fromDmsNeg(d: number, m: number, s: number, neg: boolean): Degre
     };
 }
 
+///////////////////// Operations with degree /////////////////////
+export function addDegree(x: DegreeValue, y: DegreeValue): DegreeValue{
+    if (x.neg && y.neg) {
+        return fromDmsNeg(x.d + y.d, x.m + y.m, x.s + y.s, true);
+    }
+    else if (!x.neg && !y.neg) {
+        return fromDmsNeg(x.d + y.d, x.m + y.m, x.s + y.s, false);
+    }
+    else {
+        // make sure x.neg && !y.neg
+        if (y.neg && !x.neg) {
+            const t = y;
+            y = x;
+            x = t;
+        }
+
+        if (isAbsGreaterThan(x, y)) {
+            let s = x.s - y.s;
+            let m = x.m - y.m;
+            let d = x.d - y.d;
+
+            if (s < 0) {
+                m--;
+                s += 60;
+            }
+
+            if (m < 0) {
+                d--;
+                m += 60;
+            }
+
+            d = Math.abs(d);
+
+            return { d, m, s, neg: true };
+        }
+        else {
+            let s = y.s - x.s;
+            let m = y.m - x.m;
+            let d = y.d - x.d;
+
+            if (s < 0) {
+                m--;
+                s += 60;
+            }
+
+            if (m < 0) {
+                d--;
+                m += 60;
+            }
+
+            d = Math.abs(d);
+
+            return { d, m, s, neg: false };
+        }
+    }
+}
+
+export function subDegree(x: DegreeValue, y: DegreeValue): DegreeValue{
+    return addDegree(x, { ...y, neg: !y.neg });
+}
+
+export function mulDegree(x: DegreeValue, y: DegreeValue): number{
+    return toDecValue(x) * toDecValue(y);
+}
+
+export function divDegree(x: DegreeValue, y: DegreeValue): number {
+    return toDecValue(x) / toDecValue(y);
+}
+
 ///////////////////// Operations with dec /////////////////////
 export function subDec(x: DegreeValue, y: number): number {
     return DB.addDegree(-y, x);
@@ -61,12 +153,7 @@ export function subDec(x: DegreeValue, y: number): number {
 
 // y must not evaluate to 0.
 export function divDec(x: DegreeValue, y: number): DegreeValue {
-    return {
-        d: x.d / y,
-        m: x.m / y,
-        s: x.s / y,
-        neg: x.neg
-    };
+    return fromDmsNeg(x.d / y, x.m / y, x.s / y, x.neg);
 }
 
 ///////////////////// Operations with frac /////////////////////

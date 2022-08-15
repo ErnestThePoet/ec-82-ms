@@ -18,6 +18,8 @@ class CalculatorState{
     shift: boolean = false;
     // alpha
     alpha: boolean = false;
+    // hyp
+    hyp: boolean = false;
 
     setValueType(newType: CalculatorValueType) {
         this.valueType = newType;
@@ -29,10 +31,22 @@ class CalculatorState{
 
     setShift(newShift:boolean) {
         this.shift = newShift;
+
+        if (newShift) {
+            this.alpha = false;
+        }
     }
 
     setAlpha(newAlpha: boolean) {
         this.alpha = newAlpha;
+
+        if (newAlpha) {
+            this.shift = false;
+        }
+    }
+
+    setHyp(newHyp: boolean) {
+        this.hyp = newHyp;
     }
 }
 

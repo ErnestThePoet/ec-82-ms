@@ -8,10 +8,22 @@ import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
+import { isInteger } from "../calc-core/utils";
 import type { OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorState from "../../observables/calculator-state";
 import calculatorMemory from "../../observables/calculator-memory";
+
+export function getDecValue(x: InternalNumber): number{
+    switch (x.type) {
+        case "DEC":
+            return x.dec;
+        case "FRAC":
+            return FB.toDecValue(x.frac);
+        case "DEGREE":
+            return DGB.toDecValue(x.degree);
+    }
+}
 
 export const cbrt: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
@@ -43,24 +55,24 @@ export const sqrt: OperationFn = (x: InternalNumber) => {
     }
 }
 
-export const log: OperationFn = FNC.createDecBinaryOpFn(Math.log10);
-export const ln: OperationFn = FNC.createDecBinaryOpFn(Math.log);
-export const exp10: OperationFn = FNC.createDecBinaryOpFn((x: number) => 10 ** x);
-export const exp: OperationFn = FNC.createDecBinaryOpFn(Math.exp);
+export const log: OperationFn = FNC.createDecUnaryOpFn(Math.log10);
+export const ln: OperationFn = FNC.createDecUnaryOpFn(Math.log);
+export const exp10: OperationFn = FNC.createDecUnaryOpFn((x: number) => 10 ** x);
+export const exp: OperationFn = FNC.createDecUnaryOpFn(Math.exp);
 
 export const sin: OperationFn = FNC.createTriangleOpFn(Math.sin);
 export const cos: OperationFn = FNC.createTriangleOpFn(Math.cos);
 export const tan: OperationFn = FNC.createTriangleOpFn(Math.tan);
 
-export const sinh: OperationFn = FNC.createDecBinaryOpFn(Math.sinh);
-export const cosh: OperationFn = FNC.createDecBinaryOpFn(Math.cosh);
-export const tanh: OperationFn = FNC.createDecBinaryOpFn(Math.tanh);
+export const sinh: OperationFn = FNC.createDecUnaryOpFn(Math.sinh);
+export const cosh: OperationFn = FNC.createDecUnaryOpFn(Math.cosh);
+export const tanh: OperationFn = FNC.createDecUnaryOpFn(Math.tanh);
 
-export const asin: OperationFn = FNC.createDecBinaryOpFn(Math.asin);
-export const acos: OperationFn = FNC.createDecBinaryOpFn(Math.acos);
-export const atan: OperationFn = FNC.createDecBinaryOpFn(Math.atan);
+export const asin: OperationFn = FNC.createDecUnaryOpFn(Math.asin);
+export const acos: OperationFn = FNC.createDecUnaryOpFn(Math.acos);
+export const atan: OperationFn = FNC.createDecUnaryOpFn(Math.atan);
 
-export const fact: OperationFn = FNC.createDecBinaryOpFn(FACT.fact);
+export const fact: OperationFn = FNC.createDecUnaryOpFn(FACT.fact);
 export const inv: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
@@ -76,7 +88,7 @@ export const cube: OperationFn = (x: InternalNumber) => {
         case "DEC":
             return new InternalNumber("DEC", x.dec**3);
         case "FRAC":
-            return new InternalNumber("FRAC", { u:x.frac.u ** 3, d:x.frac.d ** 3 });
+            return new InternalNumber("FRAC", FB.intPower(x.frac,3));
         case "DEGREE":
             return new InternalNumber("DEC", DGB.toDecValue(x.degree)**3);
     }
@@ -86,7 +98,7 @@ export const sqr: OperationFn = (x: InternalNumber) => {
         case "DEC":
             return new InternalNumber("DEC", x.dec ** 2);
         case "FRAC":
-            return new InternalNumber("FRAC", FB.mulFrac);
+            return new InternalNumber("FRAC", FB.intPower(x.frac, 2));
         case "DEGREE":
             return new InternalNumber("DEC", DGB.toDecValue(x.degree) ** 2);
     }
@@ -98,6 +110,26 @@ export const percent: OperationFn = (x: InternalNumber) => {
         case "FRAC":
             return new InternalNumber("FRAC", FB.mulDec(x.frac,100).value!);
         case "DEGREE":
-            return new InternalNumber("DEC", DGB.toDecValue(x.degree) ** 2);
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree) *100);
+    }
+}
+
+export const nCr: OperationFn = FNC.createDecBinaryOpFn(NCRNPR.nCr);
+export const nPr: OperationFn = FNC.createDecBinaryOpFn(NCRNPR.nPr);
+
+export const pow: OperationFn = (x: InternalNumber, y: InternalNumber) => {
+    const yDec = getDecValue(y);
+    
+    switch (x.type) {
+        case "DEC":
+            return new InternalNumber("DEC", x.dec ** yDec);
+        case "FRAC":
+            
+            if (isInteger(yDec)) {
+                return new InternalNumber("FRAC", FB.intPower(x.frac, yDec));
+            }
+            return new InternalNumber("DEC", FB.toDecValue(x.frac) ** yDec);
+        case "DEGREE":
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree) ** yDec);
     }
 }
