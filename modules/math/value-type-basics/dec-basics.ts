@@ -51,7 +51,7 @@ export function tryToFracValue(x: number): TryToFracResult{
     };
 }
 
-export function toDegree(x: number): DegreeValue{
+export function toDegreeValue(x: number): DegreeValue{
     const neg: boolean = x < 0;
     x = Math.abs(x);
     const d: number = Math.floor(x);
@@ -99,5 +99,5 @@ export function mulDegree(x: number, y: DegreeValue): DegreeValue {
 
 // y must not evaluate to 0.
 export function divDegree(x: number, y: DegreeValue): DegreeValue {
-    return toDegree(x / DGB.toDecValue(y));
+    return toDegreeValue(x / DGB.toDecValue(y));
 }

@@ -13,8 +13,8 @@ export function toDec(x: FracValue): number{
     return x.u / x.d;
 }
 
-export function toDegree(x: FracValue): DegreeValue {
-    return DB.toDegree(toDec(x));
+export function toDegreeValue(x: FracValue): DegreeValue {
+    return DB.toDegreeValue(toDec(x));
 }
 
 // u and d follow same RI as FracValue except u and d may not be int.
@@ -175,10 +175,10 @@ export function subDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
 }
 
 export function mulDegree(x: FracValue, y: DegreeValue): DegreeValue{
-    return DB.toDegree(x.u * DGB.toDecValue(y) / x.d);
+    return DB.toDegreeValue(x.u * DGB.toDecValue(y) / x.d);
 }
 
 // y must not evaluate to 0.
 export function divDegree(x: FracValue, y: DegreeValue): DegreeValue {
-    return DB.toDegree(x.u / x.d / DGB.toDecValue(y));
+    return DB.toDegreeValue(x.u / x.d / DGB.toDecValue(y));
 }

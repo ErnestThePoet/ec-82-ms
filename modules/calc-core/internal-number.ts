@@ -40,28 +40,4 @@ export class InternalNumber{
     get type():InternalNumberType {
         return this.numberType;
     }
-    
-    toDec() {
-        switch (this.type) {
-            case "DEC":
-                return new InternalNumber("DEC",this.decValue);
-            case "FRAC":
-                return new InternalNumber("DEC", this.fracValue.u / this.fracValue.d);
-            case "DEGREE":
-                return new InternalNumber("DEC",
-                    this.degreeValue.d + this.degreeValue.m / 60 + this.degreeValue.s / 3600);
-        }
-    }
-
-    toFrac() {
-        switch (this.type) {
-            case "DEC":
-                return new InternalNumber("DEC", this.decValue);
-            case "FRAC":
-                return new InternalNumber("DEC", this.fracValue.u / this.fracValue.d);
-            case "DEGREE":
-                return new InternalNumber("DEC",
-                    this.degreeValue.d + this.degreeValue.m / 60 + this.degreeValue.s / 3600);
-        }
-    }
 }
