@@ -4,7 +4,7 @@ import * as DGB from "./value-type-basics/degree-basics";
 import type { OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorState from "../../observables/calculator-state";
-import { degreeToRad, gradeToRad } from "../calc-core/utils";
+import { degreeToRad, gradeToRad,radToDegree,radToGrade } from "../calc-core/utils";
 import { getDecValue } from "./internal-number-math";
 
 export function createDecUnaryOpFn(numberFn: (_:number) => number): OperationFn {
@@ -27,6 +27,21 @@ export function createTriangleOpFn(numberFn: (_: number) => number): OperationFn
         }
 
         return new InternalNumber("DEC", numberFn(operand));
+    }
+}
+
+export function createArcTriangleOpFn(numberFn: (_: number) => number): OperationFn {
+    return (x: InternalNumber) => {
+        let res = numberFn(getDecValue(x));
+        switch (calculatorState.drgMode) {
+            case "D":
+                res = radToDegree(res);
+                break;
+            case "G":
+                res = radToGrade(res);
+                break;
+        }
+        return new InternalNumber("DEC", res);
     }
 }
 

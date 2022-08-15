@@ -9,6 +9,12 @@ import { gcd, lcm } from "../algorithm";
 import * as DB from "./dec-basics";
 import * as DGB from "./degree-basics";
 
+export function isSafe(x: FracValue): boolean{
+    return x.u < Number.MAX_SAFE_INTEGER
+        && x.u > Number.MIN_SAFE_INTEGER
+        && x.d < Number.MAX_SAFE_INTEGER;
+}
+
 export function toDecValue(x: FracValue): number{
     return x.u / x.d;
 }

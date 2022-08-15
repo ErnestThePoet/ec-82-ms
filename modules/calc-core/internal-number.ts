@@ -2,6 +2,7 @@ import type { FracValue, DegreeValue } from "./types";
 
 type InternalNumberType = "DEC" | "FRAC" | "DEGREE";
 
+// Immutable
 export class InternalNumber{
     // an InternalNumber object only maintains the value of its current type.
     private numberType: InternalNumberType = "DEC";

@@ -17,3 +17,11 @@ export function degreeToRad(degree: number): number{
 export function gradeToRad(grade: number): number{
     return Math.PI * grade / 200;
 }
+
+export function radToDegree(rad: number): number{
+    return 180 * rad / Math.PI;
+}
+
+export function radToGrade(rad: number): number{
+    return 200 * rad / Math.PI;
+}

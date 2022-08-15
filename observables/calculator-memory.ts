@@ -1,11 +1,6 @@
-import { makeAutoObservable } from "mobx";
 import { InternalNumber } from "../modules/calc-core/internal-number";
 
 class CalculatorMemory {
-    constructor() {
-        makeAutoObservable(this);
-    }
-
     ans: InternalNumber = new InternalNumber("DEC", 0);
     A: InternalNumber = new InternalNumber("DEC", 0);
     B: InternalNumber = new InternalNumber("DEC", 0);
