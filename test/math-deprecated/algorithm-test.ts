@@ -1,5 +1,5 @@
-import { assertEquals, runTests } from "./test-core/test-core";
-import { gcd,lcm } from "../modules/math/algorithm";
+import { assertEquals, runTests } from "../test-core/test-core";
+import { gcd,lcm } from "../../modules/math/algorithm";
 
 function testGcd() {
     assertEquals(3, gcd(3, 0));

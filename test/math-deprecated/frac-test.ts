@@ -1,5 +1,5 @@
-import { assertEquals,assertObjectEquals, runTests } from "./test-core/test-core";
-import * as FB from "../modules/math/value-type-basics/frac-basics";
+import { assertEquals,assertObjectEquals, runTests } from "../test-core/test-core";
+import * as FB from "../../modules/math/value-type-basics/frac-basics";
 
 function testTryFromTerminatingDiv() {
     assertObjectEquals({ ok: true, frac: { u: 0, d: 1 } }, FB.tryFromTerminatingDiv(0, 1));

@@ -1,5 +1,5 @@
-import { assertEquals, assertObjectEquals, runTests } from "./test-core/test-core";
-import * as DB from "../modules/math/value-type-basics/dec-basics";
+import { assertEquals, assertObjectEquals, runTests } from "../test-core/test-core";
+import * as DB from "../../modules/math/value-type-basics/dec-basics";
 
 function testTryToFracValue() {
     assertObjectEquals({ ok: true, frac: { u: 0, d: 1 } },

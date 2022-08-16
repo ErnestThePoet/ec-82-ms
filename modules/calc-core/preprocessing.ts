@@ -50,6 +50,9 @@ function reduceAddSub(entries_: KeyEntry[]): KeyEntry[]{
                     case "SUB":
                         entries.splice(i, 1);
                         break;
+                    default:
+                        i++;
+                        break;
                 }
                 break;
             case "SUB":
@@ -61,10 +64,14 @@ function reduceAddSub(entries_: KeyEntry[]): KeyEntry[]{
                         entries.splice(i, 1);
                         entries[i] = KEY_ENTRIES.add;
                         break;
+                    default:
+                        i++;
+                        break;
                 }
                 break;
             default:
                 i++;
+                break;
         }
     }
 

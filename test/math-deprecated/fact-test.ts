@@ -1,5 +1,5 @@
-import { assertEquals, runTests } from "./test-core/test-core";
-import { fact } from "../modules/math/calculations/fact";
+import { assertEquals, runTests } from "../test-core/test-core";
+import { fact } from "../../modules/math/calculations/fact";
 
 function test() {
     assertEquals(1, fact(0));
