@@ -132,6 +132,24 @@ export const OPERATORS_UNARY_R: readonly Operator[] = [
         argN: 1,
         op: INM.percent,
         ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "FROM_D",
+        argN: 1,
+        op: INM.fromD,
+        ck:CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "FROM_R",
+        argN: 1,
+        op: INM.fromR,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "FROM_G",
+        argN: 1,
+        op: INM.fromG,
+        ck: CHECK_FNS.alwaysTrue
     }
 ] as const;
 

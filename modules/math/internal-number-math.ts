@@ -9,8 +9,10 @@ import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
+import * as DC from "./degree-conversions";
 import type { FracValue, OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
+import calculatorState from "../../observables/calculator-state";
 import calculatorMemory from "../../observables/calculator-memory";
 
 function getFracValue(x: InternalNumber): FracValue{
@@ -176,6 +178,41 @@ export const percent: OperationFn = (x: InternalNumber) => {
             return new InternalNumber("FRAC", FB.mulDec(x.frac,new Decimal(100)));
         case "DEGREE":
             return new InternalNumber("DEC", DGB.toDecValue(x.degree).mul(100));
+    }
+}
+
+export const fromD: OperationFn = (x: InternalNumber) => {
+    switch (calculatorState.drgMode) {
+        case "D":
+            return x;
+        case "R":
+            return new InternalNumber("DEC", DC.degreeToRad(getDecValue(x)));
+        case "G":
+            return new InternalNumber("FRAC",
+                FB.mulFrac(getFracValue(x), { u: new Decimal(10), d: new Decimal(9) }));
+    }
+}
+
+export const fromR: OperationFn = (x: InternalNumber) => {
+    switch (calculatorState.drgMode) {
+        case "D":
+            return new InternalNumber("DEC", DC.radToDegree(getDecValue(x)));
+        case "R":
+            return x;
+        case "G":
+            return new InternalNumber("DEC", DC.radToGrade(getDecValue(x)));
+    }
+}
+
+export const fromG: OperationFn = (x: InternalNumber) => {
+    switch (calculatorState.drgMode) {
+        case "D":
+            return new InternalNumber("FRAC",
+                FB.mulFrac(getFracValue(x), { u: new Decimal(9), d: new Decimal(10) }));
+        case "R":
+            return new InternalNumber("DEC", DC.gradeToRad(getDecValue(x)));
+        case "G":
+            return x;
     }
 }
 

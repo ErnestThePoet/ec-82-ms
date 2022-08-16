@@ -2,7 +2,7 @@ import Decimal from "decimal.js";
 import type { OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorState from "../../observables/calculator-state";
-import { degreeToRad, gradeToRad,radToDegree,radToGrade } from "../calc-core/utils";
+import { degreeToRad, gradeToRad,radToDegree,radToGrade } from "./degree-conversions";
 import { getDecValue } from "./internal-number-math";
 
 export function createDecUnaryOpFn(numberFn: (_:Decimal) => Decimal): OperationFn {
