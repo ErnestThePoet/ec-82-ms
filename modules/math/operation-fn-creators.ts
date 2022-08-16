@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
-import type { OperationFn } from "../calc-core/types";
-import { InternalNumber } from "../calc-core/internal-number";
+import type { OperationFn } from "../calc-core/objs/types";
+import { InternalNumber } from "../calc-core/objs/internal-number";
 import calculatorState from "../../observables/calculator-state";
 import { degreeToRad, gradeToRad,radToDegree,radToGrade } from "./degree-conversions";
 import { getDecValue } from "./internal-number-math";

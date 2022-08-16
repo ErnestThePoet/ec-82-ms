@@ -1,4 +1,4 @@
-import { KeyEntry, KEY_ENTRIES } from "../modules/calc-core/key-entry";
+import { KeyEntry, KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
 import { preprocess } from "../modules/calc-core/preprocessing";
 
 function test() {

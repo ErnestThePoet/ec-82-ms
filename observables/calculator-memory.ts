@@ -1,5 +1,5 @@
 import Decimal from "decimal.js";
-import { InternalNumber } from "../modules/calc-core/internal-number";
+import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
 class CalculatorMemory {
     ans: InternalNumber = new InternalNumber("DEC", new Decimal(0));

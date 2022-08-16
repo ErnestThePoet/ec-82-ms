@@ -1,6 +1,6 @@
 import { CHECK_FNS } from "./check-fns";
 import type { CheckFn, OperationFn } from "./types";
-import * as INM from "../math/internal-number-math";
+import * as INM from "../../math/internal-number-math";
 
 export interface Operator{
     id: string;

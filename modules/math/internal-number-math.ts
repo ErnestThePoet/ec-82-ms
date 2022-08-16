@@ -10,8 +10,8 @@ import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
 import * as DC from "./degree-conversions";
-import type { FracValue, OperationFn } from "../calc-core/types";
-import { InternalNumber } from "../calc-core/internal-number";
+import type { FracValue, OperationFn } from "../calc-core/objs/types";
+import { InternalNumber } from "../calc-core/objs/internal-number";
 import calculatorState from "../../observables/calculator-state";
 import calculatorMemory from "../../observables/calculator-memory";
 

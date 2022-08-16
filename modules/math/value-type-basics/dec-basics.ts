@@ -2,7 +2,7 @@ import Decimal from "decimal.js";
 import type {
     FracValue,
     DegreeValue
-} from "../../calc-core/types";
+} from "../../calc-core/objs/types";
 import * as FB from "./frac-basics";
 import * as DGB from "./degree-basics";
 

@@ -7,7 +7,7 @@ import {
     isUnaryR,
     isVar,
     isNum
-} from "./key-entry";
+} from "./objs/key-entry";
 
 function padRBrackets(entries_: KeyEntry[]): KeyEntry[]{
     const entries: KeyEntry[] = Object.assign([], entries_);

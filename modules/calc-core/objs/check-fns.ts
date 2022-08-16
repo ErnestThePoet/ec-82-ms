@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
-import calculatorState from "../../observables/calculator-state";
-import stringsRes from "../../observables/strings-res";
-import { InternalNumber } from "../calc-core/internal-number";
+import calculatorState from "../../../observables/calculator-state";
+import stringsRes from "../../../observables/strings-res";
+import { InternalNumber } from "./internal-number";
 import {
     getDecValue,
     isNegative,
@@ -13,7 +13,7 @@ import {
     isOdd,
 
     div
-} from "../math/internal-number-math";
+} from "../../math/internal-number-math";
 import type { CheckFn } from "./types";
 
 
