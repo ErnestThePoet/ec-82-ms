@@ -2,7 +2,7 @@ import { CHECK_FNS } from "./check-fns";
 import type { CheckFn, OperationFn } from "./types";
 import * as INM from "../math/internal-number-math";
 
-interface Operator{
+export interface Operator{
     id: string;
     argN: number;
     op: OperationFn;
@@ -183,12 +183,15 @@ export const OPERATORS_BINARY: readonly Operator[] = [
         argN: 2,
         op: INM.div,
         ck: CHECK_FNS.divCheck
-    },
+    }
+] as const;
+
+export const OPERATORS_BINARY_FN: readonly Operator[] = [
     {
         id: "POL",
         argN: 2,
         op: INM.pol,
-        ck:CHECK_FNS.alwaysTrue
+        ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "REC",
