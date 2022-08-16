@@ -14,7 +14,10 @@ const STRINGS_ZH_CN = {
         ROOT_X_ZERO: "不能求0次根",
         ROOT_Y_NEG_X_NOT_ODD_INT: "被开根数为负时,只能求其奇数次根",
         DIV: "不能除以0",
-        REC:"Rec()转换的第一个参数不能为负"
+        REC: "Rec()转换的第一个参数(极径)不能为负",
+        
+        CREATE_DEGREE: "创建度数时,分、秒不能为负",
+        CREATE_FRAC:"分数分母不能为0"
     }
 }
 

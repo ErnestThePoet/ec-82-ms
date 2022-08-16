@@ -1,13 +1,5 @@
 import Decimal from "decimal.js";
 
-export function isNonNegativeInteger(x: Decimal): boolean {
-    return x.isInteger() && x.gte(0);
-}
-
-export function isOdd(x: Decimal): boolean{
-    return x.isInteger() && x.mod(2).eq(1);
-}
-
 export function degreeToRad(degree: Decimal): Decimal{
     return new Decimal(Math.PI).mul(degree).div(180);
 }

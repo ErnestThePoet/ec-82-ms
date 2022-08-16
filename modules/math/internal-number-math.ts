@@ -9,9 +9,20 @@ import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
-import type { OperationFn } from "../calc-core/types";
+import type { FracValue, OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorMemory from "../../observables/calculator-memory";
+
+function getFracValue(x: InternalNumber): FracValue{
+    switch (x.type) {
+        case "DEC":
+            return DB.toFracValue(x.dec);
+        case "FRAC":
+            return x.frac;
+        case "DEGREE":
+            return DGB.toFracValue(x.degree);
+    }
+}
 
 export function getDecValue(x: InternalNumber): Decimal{
     switch (x.type) {
@@ -22,6 +33,56 @@ export function getDecValue(x: InternalNumber): Decimal{
         case "DEGREE":
             return DGB.toDecValue(x.degree);
     }
+}
+
+export function isZero(x: InternalNumber): boolean {
+    switch (x.type) {
+        case "DEC":
+            return x.dec.isZero();
+        case "FRAC":
+            return x.frac.u.isZero();
+        case "DEGREE":
+            return x.degree.d.isZero()&&x.degree.m.isZero()&&x.degree.s.isZero();
+    }
+}
+
+export function isPositive(x: InternalNumber): boolean{
+    switch (x.type) {
+        case "DEC":
+            return x.dec.isPos();
+        case "FRAC":
+            return x.frac.u.isPos();
+        case "DEGREE":
+            return !isZero(x)&&!x.degree.neg;
+    }
+}
+
+export function isNegative(x: InternalNumber): boolean {
+    switch (x.type) {
+        case "DEC":
+            return x.dec.isNeg();
+        case "FRAC":
+            return x.frac.u.isNeg();
+        case "DEGREE":
+            return !isZero(x) &&x.degree.neg;
+    }
+}
+
+export function isZeroPositive(x: InternalNumber): boolean {
+    return isZero(x) || isPositive(x);
+}
+
+export function isZeroNegative(x: InternalNumber): boolean{
+    return isZero(x) || isNegative(x);
+}
+
+export function isNonNegativeInteger(x: InternalNumber): boolean {
+    return getDecValue(x).isInteger() && isZeroPositive(x);
+}
+
+export function isOdd(x: InternalNumber): boolean {
+    const decValue = getDecValue(x);
+    return decValue.isInteger() && decValue.mod(2).eq(1);
 }
 
 export const negative: OperationFn = (x: InternalNumber) => {
@@ -59,8 +120,8 @@ export const sqrt: OperationFn = (x: InternalNumber) => {
     }
 }
 
-export const log: OperationFn = FNC.createDecUnaryOpFn(Decimal.log10);
-export const ln: OperationFn = FNC.createDecUnaryOpFn(Decimal.log);
+export const log10: OperationFn = FNC.createDecUnaryOpFn(Decimal.log10);
+export const ln: OperationFn = FNC.createDecUnaryOpFn(Decimal.ln);
 export const exp10: OperationFn = FNC.createDecUnaryOpFn((x: Decimal) => Decimal.pow(10,x));
 export const exp: OperationFn = FNC.createDecUnaryOpFn(Decimal.exp);
 
@@ -139,9 +200,8 @@ export const pow: OperationFn = (x: InternalNumber, y: InternalNumber) => {
 
 export const root: OperationFn = (x: InternalNumber, y: InternalNumber) => {
     const xDec = getDecValue(x);
-    const yDec = getDecValue(y);
 
-    if (yDec.gte(0)) {
+    if (isZeroPositive(y)) {
         if (xDec.eq(2)) {
             return sqrt(y);
         }
@@ -288,16 +348,13 @@ export const div: OperationFn = (x: InternalNumber, y: InternalNumber) => {
 }
 
 export const pol: OperationFn = (x: InternalNumber, y: InternalNumber) => {
-    const xDec = getDecValue(x);
-    const yDec = getDecValue(y);
-
-    if (xDec.isZero()) {
-        if (yDec.isZero()) {
+    if (isZero(x)) {
+        if (isZero(y)) {
             calculatorMemory.E = new InternalNumber("DEC", new Decimal(0));
             calculatorMemory.F = new InternalNumber("DEC", new Decimal(0));
             return new InternalNumber("DEC", new Decimal(0));
         }
-        else if (yDec.isPos()) {
+        else if (isPositive(y)) {
             calculatorMemory.E = y;
             calculatorMemory.F = acos(new InternalNumber("DEC", new Decimal(0)));
             return y;
@@ -310,7 +367,7 @@ export const pol: OperationFn = (x: InternalNumber, y: InternalNumber) => {
         }
     }
 
-    if (xDec.isNeg() && yDec.isZero()) {
+    if (isNegative(x) && isZero(y)) {
         const negX = negative(x);
         calculatorMemory.E = negX;
         calculatorMemory.F = acos(new InternalNumber("DEC", new Decimal(-1)));
@@ -332,3 +389,45 @@ export const rec: OperationFn = (x: InternalNumber, y: InternalNumber) => {
     calculatorMemory.F = mul(x, sin(y));
     return calculatorMemory.E;
 }
+
+export const createDegree: OperationFn
+    = (d: InternalNumber, m: InternalNumber, s: InternalNumber) => {
+        const neg = isNegative(d);
+        return new InternalNumber("DEGREE", DGB.fromDmsNeg(
+            getDecValue(d).abs(),
+            getDecValue(m),
+            getDecValue(s),
+            neg
+        ));
+    }
+
+export const createFrac: OperationFn
+    = (a: InternalNumber, b: InternalNumber, c: InternalNumber) => {
+        // follow Casio behaviour: odd negatives make result negative
+        let isResultNegative: boolean = false;
+
+        // first make all components non-negative
+        if (isNegative(a)) {
+            isResultNegative = !isResultNegative;
+            a = negative(a);
+        }
+
+        if (isNegative(b)) {
+            isResultNegative = !isResultNegative;
+            b = negative(b);
+        }
+
+        if (isNegative(c)) {
+            isResultNegative = !isResultNegative;
+            c = negative(c);
+        }
+
+        const result: FracValue = FB.addFrac(getFracValue(a),
+            FB.divFrac(getFracValue(b), getFracValue(c)));
+        
+        if (isResultNegative) {
+            result.u = result.u.neg();
+        }
+
+        return new InternalNumber("FRAC", result);
+    }

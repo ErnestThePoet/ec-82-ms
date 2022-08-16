@@ -1,7 +1,6 @@
 import { CHECK_FNS } from "./check-fns";
-import { fact } from "../math/calculations/fact";
-import { nPr,nCr } from "../math/calculations/ncr-npr";
 import type { CheckFn, OperationFn } from "./types";
+import * as INM from "../math/internal-number-math";
 
 interface Operator{
     id: string;
@@ -14,91 +13,91 @@ export const OPERATORS_UNARY_L: readonly Operator[] = [
     {
         id: "CBRT",
         argN:1,
-        op: Math.cbrt,
+        op: INM.cbrt,
         ck:CHECK_FNS.alwaysTrue
     },
     {
         id: "SQRT",
         argN: 1,
-        op: Math.sqrt,
+        op: INM.sqrt,
         ck: CHECK_FNS.sqrtCheck
     },
     {
         id: "LOG",
         argN: 1,
-        op: Math.log10,
+        op: INM.log10,
         ck: CHECK_FNS.logCheck
     },
     {
         id: "LN",
         argN: 1,
-        op: Math.log,
+        op: INM.ln,
         ck: CHECK_FNS.lnCheck
     },
     {
-        id: "10EXP",
+        id: "EXP10",
         argN: 1,
-        op: (x: number) => 10 ** x,
+        op: INM.exp10,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "EXP",
         argN: 1,
-        op: Math.exp,
+        op: INM.exp,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "SIN",
         argN: 1,
-        op: Math.sin,
+        op: INM.sin,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "COS",
         argN: 1,
-        op: Math.cos,
+        op: INM.cos,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "TAN",
         argN: 1,
-        op: Math.tan,
+        op: INM.tan,
         ck: CHECK_FNS.tanCheck
     },
     {
         id: "SINH",
         argN: 1,
-        op: Math.sinh,
+        op: INM.sinh,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "COSH",
         argN: 1,
-        op: Math.cosh,
+        op: INM.cosh,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "TANH",
         argN: 1,
-        op: Math.tanh,
+        op: INM.tanh,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "ASIN",
         argN: 1,
-        op: Math.asin,
+        op: INM.asin,
         ck: CHECK_FNS.asinAcosCheck
     },
     {
         id: "ACOS",
         argN: 1,
-        op: Math.acos,
+        op: INM.acos,
         ck: CHECK_FNS.asinAcosCheck
     },
     {
         id: "ATAN",
         argN: 1,
-        op: Math.atan,
+        op: INM.atan,
         ck: CHECK_FNS.alwaysTrue
     },
 ] as const;
@@ -107,31 +106,31 @@ export const OPERATORS_UNARY_R: readonly Operator[] = [
     {
         id: "FACT",
         argN: 1,
-        op: fact,
+        op: INM.fact,
         ck:CHECK_FNS.factCheck
     },
     {
         id: "INV",
         argN: 1,
-        op: (x:number)=>1/x,
+        op: INM.inv,
         ck: CHECK_FNS.invCheck
     },
     {
         id: "CUBE",
         argN: 1,
-        op: (x:number)=>x**3,
+        op: INM.cube,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "SQR",
         argN: 1,
-        op: (x:number)=>x**2,
+        op: INM.sqr,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "PERCENT",
         argN: 1,
-        op: (x:number)=>x*0.01,
+        op: INM.percent,
         ck: CHECK_FNS.alwaysTrue
     }
 ] as const;
@@ -140,54 +139,76 @@ export const OPERATORS_BINARY: readonly Operator[] = [
     {
         id: "NPR",
         argN: 2,
-        op: nPr,
+        op: INM.nPr,
         ck:CHECK_FNS.nCrnPrCheck
     },
     {
         id: "NCR",
         argN: 2,
-        op: nCr,
+        op: INM.nCr,
         ck:CHECK_FNS.nCrnPrCheck
     },
     {
         id: "POW",
         argN: 2,
-        op: Math.pow,
+        op: INM.pow,
         ck:CHECK_FNS.powCheck
     },
     {
         id: "ROOT",
         argN: 2,
-        op: (x: number, y: number) => Math.pow(x, 1 / y),
+        op: INM.root,
         ck:CHECK_FNS.rootCheck
     },
     {
         id: "ADD",
         argN: 2,
-        op: (x: number, y: number) => x + y,
+        op: INM.add,
         ck:CHECK_FNS.alwaysTrue
     },
     {
         id: "SUB",
         argN: 2,
-        op: (x: number, y: number) => x - y,
+        op: INM.sub,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "MUL",
         argN: 2,
-        op: (x: number, y: number) => x * y,
+        op: INM.mul,
         ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "DIV",
         argN: 2,
-        op: (x: number, y: number) => x / y,
+        op: INM.div,
         ck: CHECK_FNS.divCheck
     },
     {
         id: "POL",
         argN: 2,
-        op:
+        op: INM.pol,
+        ck:CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "REC",
+        argN: 2,
+        op: INM.rec,
+        ck: CHECK_FNS.recCheck
+    }
+] as const;
+
+export const OPERATORS_TERNARY: readonly Operator[] = [
+    {
+        id: "CREATE_DEGREE",
+        argN: 3,
+        op: INM.createDegree,
+        ck:CHECK_FNS.createDegreeCheck
+    },
+    {
+        id: "CREATE_FRAC",
+        argN: 3,
+        op: INM.createFrac,
+        ck: CHECK_FNS.createFracCheck
     }
 ] as const;
