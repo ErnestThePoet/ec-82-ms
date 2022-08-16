@@ -63,6 +63,6 @@ export function mulDegree(x: Decimal, y: DegreeValue): DegreeValue {
 }
 
 // y must not evaluate to 0.
-export function divDegree(x: Decimal, y: DegreeValue): DegreeValue {
-    return toDegreeValue(x.div(DGB.toDecValue(y)));
+export function divDegree(x: Decimal, y: DegreeValue): FracValue {
+    return divFrac(x,DGB.toFracValue(y));
 }

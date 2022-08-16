@@ -1,22 +1,19 @@
 import Decimal from "decimal.js";
-import * as DB from "./value-type-basics/dec-basics";
-import * as FB from "./value-type-basics/frac-basics";
-import * as DGB from "./value-type-basics/degree-basics";
 import type { OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorState from "../../observables/calculator-state";
 import { degreeToRad, gradeToRad,radToDegree,radToGrade } from "../calc-core/utils";
 import { getDecValue } from "./internal-number-math";
 
-export function createDecUnaryOpFn(numberFn: (_:number) => number): OperationFn {
+export function createDecUnaryOpFn(numberFn: (_:Decimal) => Decimal): OperationFn {
     return (x: InternalNumber) => {
         return new InternalNumber("DEC", numberFn(getDecValue(x)));
     }
 }
 
-export function createTriangleOpFn(numberFn: (_: number) => number): OperationFn{
+export function createTriangleOpFn(numberFn: (_: Decimal) => Decimal): OperationFn{
     return (x: InternalNumber) => {
-        let operand: number = getDecValue(x);
+        let operand: Decimal = getDecValue(x);
 
         switch (calculatorState.drgMode) {
             case "D":
@@ -31,7 +28,7 @@ export function createTriangleOpFn(numberFn: (_: number) => number): OperationFn
     }
 }
 
-export function createArcTriangleOpFn(numberFn: (_: number) => number): OperationFn {
+export function createArcTriangleOpFn(numberFn: (_: Decimal) => Decimal): OperationFn {
     return (x: InternalNumber) => {
         let res = numberFn(getDecValue(x));
         switch (calculatorState.drgMode) {
@@ -46,7 +43,7 @@ export function createArcTriangleOpFn(numberFn: (_: number) => number): Operatio
     }
 }
 
-export function createDecBinaryOpFn(numberFn: (_: number,__:number) => number): OperationFn {
+export function createDecBinaryOpFn(numberFn: (_: Decimal,__:Decimal) => Decimal): OperationFn {
     return (x: InternalNumber,y:InternalNumber) => {
         return new InternalNumber("DEC", numberFn(getDecValue(x),getDecValue(y)));
     }

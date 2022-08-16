@@ -9,11 +9,11 @@ import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
-import type { FracValue, OperationFn } from "../calc-core/types";
+import type { OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
 import calculatorMemory from "../../observables/calculator-memory";
 
-export function getDecValue(x: InternalNumber): number{
+export function getDecValue(x: InternalNumber): Decimal{
     switch (x.type) {
         case "DEC":
             return x.dec;
@@ -27,9 +27,9 @@ export function getDecValue(x: InternalNumber): number{
 export const negative: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", -x.dec);
+            return new InternalNumber("DEC", x.dec.neg());
         case "FRAC":
-            return new InternalNumber("FRAC", { u: -x.frac.u, d: x.frac.d });
+            return new InternalNumber("FRAC", { u: x.frac.u.neg(), d: x.frac.d });
         case "DEGREE":
             return new InternalNumber("DEGREE", { ...x.degree, neg: !x.degree.neg });
     }
@@ -38,89 +38,83 @@ export const negative: OperationFn = (x: InternalNumber) => {
 export const cbrt: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", Math.cbrt(x.dec));
+            return new InternalNumber("DEC", x.dec.cbrt());
         case "FRAC":
-            const tryFrac = FB.tryFromTerminatingDiv(Math.cbrt(x.frac.u), Math.cbrt(x.frac.d));
-            if (tryFrac.ok) {
-                return new InternalNumber("FRAC", tryFrac.frac!);
-            }
-            return new InternalNumber("DEC", Math.cbrt(FB.toDecValue(x.frac)));
+            const resFrac = FB.fromTerminatingDiv(x.frac.u.cbrt(), x.frac.d.cbrt());
+            return new InternalNumber("FRAC", resFrac);
         case "DEGREE":
-            return new InternalNumber("DEC", Math.cbrt(DGB.toDecValue(x.degree)));
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).cbrt());
     }
 }
 
 export const sqrt: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", Math.sqrt(x.dec));
+            return new InternalNumber("DEC", x.dec.sqrt());
         case "FRAC":
-            const tryFrac = FB.tryFromTerminatingDiv(Math.sqrt(x.frac.u), Math.sqrt(x.frac.d));
-            if (tryFrac.ok) {
-                return new InternalNumber("FRAC", tryFrac.frac!);
-            }
-            return new InternalNumber("DEC", Math.sqrt(FB.toDecValue(x.frac)));
+            const resFrac = FB.fromTerminatingDiv(x.frac.u.sqrt(), x.frac.d.sqrt());
+            return new InternalNumber("FRAC", resFrac);
         case "DEGREE":
-            return new InternalNumber("DEC", Math.sqrt(DGB.toDecValue(x.degree)));
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).sqrt());
     }
 }
 
-export const log: OperationFn = FNC.createDecUnaryOpFn(Math.log10);
-export const ln: OperationFn = FNC.createDecUnaryOpFn(Math.log);
-export const exp10: OperationFn = FNC.createDecUnaryOpFn((x: number) => 10 ** x);
-export const exp: OperationFn = FNC.createDecUnaryOpFn(Math.exp);
+export const log: OperationFn = FNC.createDecUnaryOpFn(Decimal.log10);
+export const ln: OperationFn = FNC.createDecUnaryOpFn(Decimal.log);
+export const exp10: OperationFn = FNC.createDecUnaryOpFn((x: Decimal) => Decimal.pow(10,x));
+export const exp: OperationFn = FNC.createDecUnaryOpFn(Decimal.exp);
 
-export const sin: OperationFn = FNC.createTriangleOpFn(Math.sin);
-export const cos: OperationFn = FNC.createTriangleOpFn(Math.cos);
-export const tan: OperationFn = FNC.createTriangleOpFn(Math.tan);
+export const sin: OperationFn = FNC.createTriangleOpFn(Decimal.sin);
+export const cos: OperationFn = FNC.createTriangleOpFn(Decimal.cos);
+export const tan: OperationFn = FNC.createTriangleOpFn(Decimal.tan);
 
-export const sinh: OperationFn = FNC.createDecUnaryOpFn(Math.sinh);
-export const cosh: OperationFn = FNC.createDecUnaryOpFn(Math.cosh);
-export const tanh: OperationFn = FNC.createDecUnaryOpFn(Math.tanh);
+export const sinh: OperationFn = FNC.createDecUnaryOpFn(Decimal.sinh);
+export const cosh: OperationFn = FNC.createDecUnaryOpFn(Decimal.cosh);
+export const tanh: OperationFn = FNC.createDecUnaryOpFn(Decimal.tanh);
 
-export const asin: OperationFn = FNC.createArcTriangleOpFn(Math.asin);
-export const acos: OperationFn = FNC.createArcTriangleOpFn(Math.acos);
-export const atan: OperationFn = FNC.createArcTriangleOpFn(Math.atan);
+export const asin: OperationFn = FNC.createArcTriangleOpFn(Decimal.asin);
+export const acos: OperationFn = FNC.createArcTriangleOpFn(Decimal.acos);
+export const atan: OperationFn = FNC.createArcTriangleOpFn(Decimal.atan);
 
 export const fact: OperationFn = FNC.createDecUnaryOpFn(FACT.fact);
 export const inv: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", 1 / x.dec);
+            return new InternalNumber("FRAC", DB.divDec(new Decimal(1),x.dec));
         case "FRAC":
             return new InternalNumber("FRAC", FB.invert(x.frac));
         case "DEGREE":
-            return new InternalNumber("DEC", 1 / DGB.toDecValue(x.degree));
+            return new InternalNumber("FRAC", DB.divDegree(new Decimal(1),x.degree));
     }
 }
 export const cube: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", x.dec**3);
+            return new InternalNumber("DEC", x.dec.pow(3));
         case "FRAC":
-            return new InternalNumber("FRAC", FB.intPower(x.frac,3));
+            return new InternalNumber("FRAC", FB.intPower(x.frac,new Decimal(3)));
         case "DEGREE":
-            return new InternalNumber("DEC", DGB.toDecValue(x.degree)**3);
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).pow(3));
     }
 }
 export const sqr: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", x.dec ** 2);
+            return new InternalNumber("DEC", x.dec.pow(2));
         case "FRAC":
-            return new InternalNumber("FRAC", FB.intPower(x.frac, 2));
+            return new InternalNumber("FRAC", FB.intPower(x.frac, new Decimal(2)));
         case "DEGREE":
-            return new InternalNumber("DEC", DGB.toDecValue(x.degree) ** 2);
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).pow(2));
     }
 }
 export const percent: OperationFn = (x: InternalNumber) => {
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", x.dec*100);
+            return new InternalNumber("DEC", x.dec.mul(100));
         case "FRAC":
-            return new InternalNumber("FRAC", FB.mulDec(x.frac,100).value!);
+            return new InternalNumber("FRAC", FB.mulDec(x.frac,new Decimal(100)));
         case "DEGREE":
-            return new InternalNumber("DEC", DGB.toDecValue(x.degree) *100);
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).mul(100));
     }
 }
 
@@ -132,14 +126,14 @@ export const pow: OperationFn = (x: InternalNumber, y: InternalNumber) => {
     
     switch (x.type) {
         case "DEC":
-            return new InternalNumber("DEC", x.dec ** yDec);
+            return new InternalNumber("DEC", x.dec.pow(yDec));
         case "FRAC":
-            if (isInteger(yDec)) {
+            if (yDec.isInteger()) {
                 return new InternalNumber("FRAC", FB.intPower(x.frac, yDec));
             }
-            return new InternalNumber("DEC", FB.toDecValue(x.frac) ** yDec);
+            return new InternalNumber("DEC", FB.toDecValue(x.frac).pow(yDec));
         case "DEGREE":
-            return new InternalNumber("DEC", DGB.toDecValue(x.degree) ** yDec);
+            return new InternalNumber("DEC", DGB.toDecValue(x.degree).pow(yDec));
     }
 }
 
@@ -147,12 +141,12 @@ export const root: OperationFn = (x: InternalNumber, y: InternalNumber) => {
     const xDec = getDecValue(x);
     const yDec = getDecValue(y);
 
-    if (yDec >= 0) {
-        if (xDec === 2) {
+    if (yDec.gte(0)) {
+        if (xDec.eq(2)) {
             return sqrt(y);
         }
 
-        if (xDec === 3) {
+        if (xDec.eq(3)) {
             return cbrt(y);
         }
 
@@ -170,17 +164,11 @@ export const add: OperationFn = (x: InternalNumber, y: InternalNumber) => {
         case "DEC":
             switch (y.type) {
                 case "DEC":
-                    return new InternalNumber("DEC", x.dec + y.dec);
+                    return new InternalNumber("DEC", x.dec.add(y.dec));
                 case "DEGREE":
                     return new InternalNumber("DEC", DB.addDegree(x.dec, y.degree));
                 case "FRAC":
-                    const res = FB.addDec(y.frac, x.dec);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", FB.addDec(y.frac, x.dec));
             }
         case "DEGREE":
             switch (y.type) {
@@ -189,38 +177,16 @@ export const add: OperationFn = (x: InternalNumber, y: InternalNumber) => {
                 case "DEGREE":
                     return new InternalNumber("DEGREE", DGB.addDegree(x.degree, y.degree));
                 case "FRAC":
-                    const res = FB.addDegree(y.frac, x.degree);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", FB.addDegree(y.frac, x.degree));
             }
         case "FRAC":
             switch (y.type) {
                 case "DEC":
-                    const res1 = FB.addDec(x.frac, y.dec);
-                    if (res1.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res1.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res1.value);
-                    }
+                    return new InternalNumber("FRAC", FB.addDec(x.frac, y.dec));
                 case "DEGREE":
-                    const res2 = FB.addDegree(x.frac, y.degree);
-                    if (res2.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res2.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res2.value);
-                    }
+                    return new InternalNumber("FRAC", FB.addDegree(x.frac, y.degree));
                 case "FRAC":
-                    const product = FB.addFrac(x.frac, y.frac);
-                    if (!FB.isSafe(product)) {
-                        return new InternalNumber("DEC", FB.toDecValue(product));
-                    }
-                    return new InternalNumber("FRAC", product);
+                    return new InternalNumber("FRAC", FB.addFrac(x.frac, y.frac));
             }
     }
 }
@@ -230,17 +196,11 @@ export const sub: OperationFn = (x: InternalNumber, y: InternalNumber) => {
         case "DEC":
             switch (y.type) {
                 case "DEC":
-                    return new InternalNumber("DEC", x.dec - y.dec);
+                    return new InternalNumber("DEC", x.dec.sub(y.dec));
                 case "DEGREE":
                     return new InternalNumber("DEC", DB.subDegree(x.dec, y.degree));
                 case "FRAC":
-                    const res = DB.subFrac(x.dec, y.frac);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", DB.subFrac(x.dec, y.frac));
             }
         case "DEGREE":
             switch (y.type) {
@@ -249,38 +209,16 @@ export const sub: OperationFn = (x: InternalNumber, y: InternalNumber) => {
                 case "DEGREE":
                     return new InternalNumber("DEGREE", DGB.subDegree(x.degree, y.degree));
                 case "FRAC":
-                    const res = DGB.subFrac(x.degree,y.frac);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", DGB.subFrac(x.degree, y.frac));
             }
         case "FRAC":
             switch (y.type) {
                 case "DEC":
-                    const res1 = FB.subDec(x.frac, y.dec);
-                    if (res1.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res1.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res1.value);
-                    }
+                    return new InternalNumber("FRAC", FB.subDec(x.frac, y.dec));
                 case "DEGREE":
-                    const res2 = FB.subDegree(x.frac, y.degree);
-                    if (res2.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res2.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res2.value);
-                    }
+                    return new InternalNumber("FRAC", FB.subDegree(x.frac, y.degree));
                 case "FRAC":
-                    const product = FB.subFrac(x.frac, y.frac);
-                    if (!FB.isSafe(product)) {
-                        return new InternalNumber("DEC", FB.toDecValue(product));
-                    }
-                    return new InternalNumber("FRAC", product);
+                    return new InternalNumber("FRAC", FB.subFrac(x.frac, y.frac));
             }
     }
 }
@@ -290,17 +228,11 @@ export const mul: OperationFn = (x: InternalNumber, y: InternalNumber) => {
         case "DEC":
             switch (y.type) {
                 case "DEC":
-                    return new InternalNumber("DEC", x.dec * y.dec);
+                    return new InternalNumber("DEC", x.dec.mul(y.dec));
                 case "DEGREE":
                     return new InternalNumber("DEGREE", DB.mulDegree(x.dec, y.degree));
                 case "FRAC":
-                    const res = FB.mulDec(y.frac, x.dec);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", FB.mulDec(y.frac, x.dec));
             }
         case "DEGREE":
             switch (y.type) {
@@ -309,26 +241,16 @@ export const mul: OperationFn = (x: InternalNumber, y: InternalNumber) => {
                 case "DEGREE":
                     return new InternalNumber("DEC", DGB.mulDegree(x.degree, y.degree));
                 case "FRAC":
-                    return new InternalNumber("DEGREE", FB.mulDegree(y.frac, x.degree));
+                    return new InternalNumber("FRAC", FB.mulDegree(y.frac, x.degree));
             }
         case "FRAC":
             switch (y.type) {
                 case "DEC":
-                    const res1 = FB.mulDec(x.frac, y.dec);
-                    if (res1.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res1.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res1.value);
-                    }
+                    return new InternalNumber("FRAC", FB.mulDec(x.frac, y.dec));
                 case "DEGREE":
-                    return new InternalNumber("DEGREE", FB.mulDegree(x.frac, y.degree));
+                    return new InternalNumber("FRAC", FB.mulDegree(x.frac, y.degree));
                 case "FRAC":
-                    const product = FB.mulFrac(x.frac, y.frac);
-                    if (!FB.isSafe(product)) {
-                        return new InternalNumber("DEC", FB.toDecValue(product));
-                    }
-                    return new InternalNumber("FRAC", product);
+                    return new InternalNumber("FRAC", FB.mulFrac(x.frac, y.frac));
             }
     }
 }
@@ -338,52 +260,29 @@ export const div: OperationFn = (x: InternalNumber, y: InternalNumber) => {
         case "DEC":
             switch (y.type) {
                 case "DEC":
-                    // special div fraction optimization
-                    const divRes = DB.divDec(x.dec, y.dec);
-                    if (divRes.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>divRes.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>divRes.value);
-                    }
+                    return new InternalNumber("FRAC", DB.divDec(x.dec, y.dec));
                 case "DEGREE":
-                    return new InternalNumber("DEGREE", DB.divDegree(x.dec, y.degree));
+                    return new InternalNumber("FRAC", DB.divDegree(x.dec, y.degree));
                 case "FRAC":
-                    const res = DB.divFrac(x.dec, y.frac);
-                    if (res.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res.value);
-                    }
+                    return new InternalNumber("FRAC", DB.divFrac(x.dec, y.frac));
             }
         case "DEGREE":
             switch (y.type) {
                 case "DEC":
-                    return new InternalNumber("DEGREE", DGB.divDec(x.degree,y.dec));
+                    return new InternalNumber("FRAC", DGB.divDec(x.degree,y.dec));
                 case "DEGREE":
-                    return new InternalNumber("DEC", DGB.divDegree(x.degree, y.degree));
+                    return new InternalNumber("FRAC", DGB.divDegree(x.degree, y.degree));
                 case "FRAC":
-                    return new InternalNumber("DEGREE", DGB.divFrac(x.degree,y.frac));
+                    return new InternalNumber("FRAC", DGB.divFrac(x.degree,y.frac));
             }
         case "FRAC":
             switch (y.type) {
                 case "DEC":
-                    const res1 = FB.divDec(x.frac, y.dec);
-                    if (res1.isFrac) {
-                        return new InternalNumber("FRAC", <FracValue>res1.value);
-                    }
-                    else {
-                        return new InternalNumber("DEC", <number>res1.value);
-                    }
+                    return new InternalNumber("FRAC", FB.divDec(x.frac, y.dec));
                 case "DEGREE":
-                    return new InternalNumber("DEGREE", FB.divDegree(x.frac, y.degree));
+                    return new InternalNumber("FRAC", FB.divDegree(x.frac, y.degree));
                 case "FRAC":
-                    const product = FB.divFrac(x.frac, y.frac);
-                    if (!FB.isSafe(product)) {
-                        return new InternalNumber("DEC", FB.toDecValue(product));
-                    }
-                    return new InternalNumber("FRAC", product);
+                    return new InternalNumber("FRAC", FB.divFrac(x.frac, y.frac));
             }
     }
 }
@@ -392,29 +291,29 @@ export const pol: OperationFn = (x: InternalNumber, y: InternalNumber) => {
     const xDec = getDecValue(x);
     const yDec = getDecValue(y);
 
-    if (xDec === 0) {
-        if (yDec === 0) {
-            calculatorMemory.E = new InternalNumber("DEC", 0);
-            calculatorMemory.F = new InternalNumber("DEC", 0);
-            return new InternalNumber("DEC", 0);
+    if (xDec.isZero()) {
+        if (yDec.isZero()) {
+            calculatorMemory.E = new InternalNumber("DEC", new Decimal(0));
+            calculatorMemory.F = new InternalNumber("DEC", new Decimal(0));
+            return new InternalNumber("DEC", new Decimal(0));
         }
-        else if (yDec > 0) {
+        else if (yDec.isPos()) {
             calculatorMemory.E = y;
-            calculatorMemory.F = acos(new InternalNumber("DEC", 0));
+            calculatorMemory.F = acos(new InternalNumber("DEC", new Decimal(0)));
             return y;
         }
         else {
             const negY = negative(y);
             calculatorMemory.E = negY;
-            calculatorMemory.F = negative(acos(new InternalNumber("DEC", 0)));
+            calculatorMemory.F = negative(acos(new InternalNumber("DEC", new Decimal(0))));
             return negY;
         }
     }
 
-    if (xDec < 0 && yDec === 0) {
+    if (xDec.isNeg() && yDec.isZero()) {
         const negX = negative(x);
         calculatorMemory.E = negX;
-        calculatorMemory.F = acos(new InternalNumber("DEC", -1));
+        calculatorMemory.F = acos(new InternalNumber("DEC", new Decimal(-1)));
         return negX;
     }
 
