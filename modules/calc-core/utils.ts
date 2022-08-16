@@ -1,27 +1,25 @@
-export function isInteger(x: number): boolean{
-    return x % 1===0;
+import Decimal from "decimal.js";
+
+export function isNonNegativeInteger(x: Decimal): boolean {
+    return x.isInteger() && x.gte(0);
 }
 
-export function isNonNegativeInteger(x: number): boolean {
-    return isInteger(x) && x >= 0;
+export function isOdd(x: Decimal): boolean{
+    return x.isInteger() && x.mod(2).eq(1);
 }
 
-export function isOdd(x: number): boolean{
-    return isInteger(x) && x % 2 === 1;
+export function degreeToRad(degree: Decimal): Decimal{
+    return new Decimal(Math.PI).mul(degree).div(180);
 }
 
-export function degreeToRad(degree: number): number{
-    return Math.PI * degree / 180;
+export function gradeToRad(grade: Decimal): Decimal{
+    return new Decimal(Math.PI).mul(grade).div(200);
 }
 
-export function gradeToRad(grade: number): number{
-    return Math.PI * grade / 200;
+export function radToDegree(rad: Decimal): Decimal{
+    return new Decimal(180).mul(rad).div(Math.PI);
 }
 
-export function radToDegree(rad: number): number{
-    return 180 * rad / Math.PI;
-}
-
-export function radToGrade(rad: number): number{
-    return 200 * rad / Math.PI;
+export function radToGrade(rad: Decimal): Decimal{
+    return new Decimal(200).mul(rad).div(Math.PI);
 }

@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";

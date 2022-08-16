@@ -1,22 +1,14 @@
+import Decimal from "decimal.js";
 import type {
     FracValue,
-    DegreeValue,
-    TryToFracResult,
-    FracDecOpResult,
-    FracDegreeOpResult
+    DegreeValue
 } from "../../calc-core/types";
 import { gcd, lcm } from "../algorithm";
 import * as DB from "./dec-basics";
 import * as DGB from "./degree-basics";
 
-export function isSafe(x: FracValue): boolean{
-    return x.u < Number.MAX_SAFE_INTEGER
-        && x.u > Number.MIN_SAFE_INTEGER
-        && x.d < Number.MAX_SAFE_INTEGER;
-}
-
-export function toDecValue(x: FracValue): number{
-    return x.u / x.d;
+export function toDecValue(x: FracValue): Decimal{
+    return x.u.div(x.d);
 }
 
 export function toDegreeValue(x: FracValue): DegreeValue {
@@ -24,11 +16,11 @@ export function toDegreeValue(x: FracValue): DegreeValue {
 }
 
 // u and d follow same RI as FracValue except u and d may not be int.
-export function tryFromTerminatingDiv(u: number, d: number): TryToFracResult{
-    const isNegative = (u < 0 && d > 0) || (u > 0 && d < 0);
+export function fromTerminatingDiv(u: Decimal, d: Decimal): FracValue{
+    const isNegative = (u.isNeg() && d.isPos()) || (u.isPos() && d.isNeg());
 
-    u = Math.abs(u);
-    d = Math.abs(d);
+    u = u.abs();
+    d = d.abs();
 
     const uStrSplitted = u.toString().split(".");
     const dStrSplitted = d.toString().split(".");
@@ -36,34 +28,25 @@ export function tryFromTerminatingDiv(u: number, d: number): TryToFracResult{
     const tensToMul = Math.max((uStrSplitted[1] ?? "").length,
         (dStrSplitted[1] ?? "").length);
     
-    u *= 10 ** tensToMul;
-    d *= 10 ** tensToMul;
-    // after multiplication to integer, both must be safe integers
-    if (u >= Number.MAX_SAFE_INTEGER || d >= Number.MAX_SAFE_INTEGER) {
-        return {
-            ok: false
-        };
-    }
+    u =u.mul(Decimal.pow(10,tensToMul));
+    d = d.mul(Decimal.pow(10, tensToMul));
 
-    return {
-        ok: true,
-        frac: reduce({ u:isNegative?-u:u, d })
-    };
+    return reduce({ u:isNegative?u.neg():u, d });
 }
 
 export function reduce(x: FracValue):FracValue {
     const fracGcd = gcd(x.u, x.d);
     return {
-        u: x.u / fracGcd,
-        d: x.d / fracGcd
+        u: x.u.div(fracGcd),
+        d: x.d.div(fracGcd)
     };
 }
 
 // x must not evaluate to 0.
 export function invert(x: FracValue): FracValue{
     return {
-        u: x.u<0?-Math.abs(x.d):Math.abs(x.d),
-        d: Math.abs(x.u)
+        u: x.u.isNeg()?x.d.abs().neg():x.d.abs(),
+        d: x.u.abs()
     };
 }
 
@@ -71,7 +54,7 @@ export function invert(x: FracValue): FracValue{
 export function addFrac(x: FracValue, y: FracValue): FracValue{
     const fracLcm = lcm(x.d, y.d);
     const sum: FracValue = {
-        u: x.u * (fracLcm / x.d) + y.u * (fracLcm / y.d),
+        u: x.u.mul(fracLcm.div(x.d)).add(y.u.mul(fracLcm.div(y.d))),
         d: fracLcm
     };
 
@@ -81,7 +64,7 @@ export function addFrac(x: FracValue, y: FracValue): FracValue{
 export function subFrac(x: FracValue, y: FracValue): FracValue {
     const fracLcm = lcm(x.d, y.d);
     const sum: FracValue = {
-        u: x.u * (fracLcm / x.d) - y.u * (fracLcm / y.d),
+        u: x.u.mul(fracLcm.div(x.d)).sub(y.u.mul(fracLcm.div(y.d))),
         d: fracLcm
     };
 
@@ -93,8 +76,8 @@ export function mulFrac(x: FracValue, y: FracValue): FracValue {
     const crossGcd2 = gcd(x.d, y.u);
 
     const product: FracValue = {
-        u: (x.u / crossGcd1) * (y.u / crossGcd2),
-        d: (x.d / crossGcd2) * (y.d / crossGcd1)
+        u: (x.u.div(crossGcd1)).mul(y.u.div(crossGcd2)),
+        d: (x.d.div(crossGcd2)).mul(y.d.div(crossGcd1))
     };
 
     return reduce(product);
@@ -105,96 +88,56 @@ export function divFrac(x: FracValue, y: FracValue): FracValue{
     return mulFrac(x, invert(y));
 }
 
-export function intPower(x: FracValue, y: number): FracValue{
-    if (y >= 0) {
-        return reduce({ u: x.u ** y, d: x.d ** y });
+export function intPower(x: FracValue, y: Decimal): FracValue{
+    if (y.gte(0)) {
+        return reduce({ u: x.u.pow(y), d: x.d.pow(y) });
     }
     else {
-        return reduce({ u: x.d ** (-y), d: x.u ** (-y) });
+        return reduce({ u: x.d.pow(y.neg()), d: x.u.pow(y.neg()) });
     }
     
 }
 
 ///////////////////// Operations with decimal /////////////////////
-export function addDec(x: FracValue, y: number): FracDecOpResult {
-    const decFrac = DB.tryToFracValue(y);
+export function addDec(x: FracValue, y: Decimal): FracValue {
+    const decFrac = DB.toFracValue(y);
 
-    if (decFrac.ok) {
-        return {
-            isFrac: true,
-            value: addFrac(x, decFrac.frac!)
-        };
-    }
-
-    return {
-        isFrac: false,
-        value: toDecValue(x)+y
-    };
+    return addFrac(x, decFrac);
 }
 
-export function subDec(x: FracValue, y: number): FracDecOpResult {
-    return addDec(x, -y);
+export function subDec(x: FracValue, y: Decimal): FracValue {
+    return addDec(x, y.neg());
 }
 
-export function mulDec(x: FracValue, y: number): FracDecOpResult {
-    const decFrac = DB.tryToFracValue(y);
+export function mulDec(x: FracValue, y: Decimal): FracValue {
+    const decFrac = DB.toFracValue(y);
 
-    if (decFrac.ok) {
-        return {
-            isFrac: true,
-            value: mulFrac(x, decFrac.frac!)
-        };
-    }
-
-    return {
-        isFrac: false,
-        value: toDecValue(x)*y
-    };
+    return mulFrac(x, decFrac);
 }
 
 // y must not evaluate to 0.
-export function divDec(x: FracValue, y: number): FracDecOpResult {
-    const decFrac = DB.tryToFracValue(y);
+export function divDec(x: FracValue, y: Decimal): FracValue {
+    const decFrac = DB.toFracValue(y);
 
-    if (decFrac.ok) {
-        return {
-            isFrac: true,
-            value: divFrac(x, decFrac.frac!)
-        };
-    }
-
-    return {
-        isFrac: false,
-        value: toDecValue(x)/y
-    };
+    return divFrac(x, decFrac);
 }
 
 ///////////////////// Operations with degree /////////////////////
-export function addDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
-    const yFrac = DGB.tryToFracValue(y);
+export function addDegree(x: FracValue, y: DegreeValue): FracValue {
+    const yFrac = DGB.toFracValue(y);
 
-    if (!yFrac.ok) {
-        return {
-            isFrac: false,
-            value: toDecValue(x) + DGB.toDecValue(y)
-        };
-    }
-
-    return {
-        isFrac: true,
-        value: addFrac(x, yFrac.frac!)
-    };
+    return addFrac(x, yFrac);
 }
 
-export function subDegree(x: FracValue, y: DegreeValue): FracDegreeOpResult {
+export function subDegree(x: FracValue, y: DegreeValue): FracValue {
     return addDegree(x, { ...y, neg: !y.neg });
 }
 
-export function mulDegree(x: FracValue, y: DegreeValue): DegreeValue{
-    return DB.toDegreeValue(x.u * DGB.toDecValue(y) / x.d);
+export function mulDegree(x: FracValue, y: DegreeValue): FracValue{
+    return mulFrac(x,DGB.toFracValue(y));
 }
 
 // y must not evaluate to 0.
-export function divDegree(x: FracValue, y: DegreeValue): DegreeValue {
-    return DB.toDegreeValue(x.u / x.d / DGB.toDecValue(y));
+export function divDegree(x: FracValue, y: DegreeValue): FracValue {
+    return divFrac(x, DGB.toFracValue(y));
 }

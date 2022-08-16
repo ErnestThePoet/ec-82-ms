@@ -1,11 +1,12 @@
+import Decimal from "decimal.js";
 // both m and n needs to be integers.
 // always return positive or 0.
-export function gcd(m: number, n: number): number{
-    m = Math.abs(m);
-    n = Math.abs(n);
+export function gcd(m: Decimal, n: Decimal): Decimal{
+    m = m.abs();
+    n = n.abs();
 
-    while (n > 0) {
-        const t = m % n;
+    while (n.gt(0)) {
+        const t = m.mod(n);
         m = n;
         n = t;
     }
@@ -13,13 +14,13 @@ export function gcd(m: number, n: number): number{
 }
 
 // always return positive or 0.
-export function lcm(m: number, n: number): number{
-    if (m === 0 && n === 0) {
-        return 0;
+export function lcm(m: Decimal, n: Decimal): Decimal{
+    if (m.isZero() && n.isZero()) {
+        return new Decimal(0);
     }
 
-    m = Math.abs(m);
-    n = Math.abs(n);
+    m = m.abs();
+    n = n.abs();
 
-    return (m / gcd(m, n)) * n;
+    return (m.div(gcd(m, n))).mul(n);
 }

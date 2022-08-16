@@ -2,16 +2,15 @@
 // 1. calculate InternalNumbers that are guarenteed to be valid for the operation;
 // 2. modify E and F in calculator memory for Pol and Rec.
 
+import Decimal from "decimal.js";
 import * as FACT from "./calculations/fact";
 import * as NCRNPR from "./calculations/ncr-npr";
 import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as FNC from "./operation-fn-creators";
-import { isInteger } from "../calc-core/utils";
 import type { FracValue, OperationFn } from "../calc-core/types";
 import { InternalNumber } from "../calc-core/internal-number";
-import calculatorState from "../../observables/calculator-state";
 import calculatorMemory from "../../observables/calculator-memory";
 
 export function getDecValue(x: InternalNumber): number{
