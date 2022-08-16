@@ -219,7 +219,7 @@ export const OPERATORS_BINARY_FN: readonly Operator[] = [
     }
 ] as const;
 
-export const OPERATORS_TERNARY: readonly Operator[] = [
+export const OPERATORS_TERNARY_FN: readonly Operator[] = [
     {
         id: "CREATE_DEGREE",
         argN: 3,

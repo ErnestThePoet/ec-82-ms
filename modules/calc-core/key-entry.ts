@@ -1,3 +1,4 @@
+// These arrays are used to determine if a KeyEntry belongs to a certain type.
 const OPERATOR_UNARY_L_IDS: readonly string[]
     = ["CBRT", "SQRT", "LOG", "LN", "EXP10", "EXP",
         "SIN", "COS", "TAN", "SINH", "COSH", "TANH", "ASIN", "ACOS", "ATAN"] as const;
@@ -10,6 +11,14 @@ const OPERATOR_BINARY_IDS: readonly string[]
 
 const OPERATOR_BINARY_FN_IDS: readonly string[]
     = ["POL", "REC"] as const;
+
+const VAR_IDS: readonly string[]
+    = ["A", "B", "C", "D", "E", "F", "X", "Y", "M", "e", "PI", "RAN", "ANS"];
+
+const NUM_IDS: readonly string[]
+    = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+
+    
 
 type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
     | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN";
@@ -31,14 +40,33 @@ export interface KeyEntry {
     id: KeyEntryId;
 }
 
-function isRBracketType(k: KeyEntryId): boolean {
-    return k === ")";
+export function isRBracketType(k: KeyEntry): boolean {
+    return k.id === ")";
 }
 
-export function isLBracketType(k: KeyEntryId): boolean {
-    return k === "("
-        || OPERATOR_UNARY_L_IDS.includes(k)
-        || OPERATOR_UNARY_R_IDS.includes(k);
+export function isLBracketType(k: KeyEntry): boolean {
+    return k.id === "("
+        || OPERATOR_UNARY_L_IDS.includes(k.id)
+        || OPERATOR_UNARY_R_IDS.includes(k.id)
+        || OPERATOR_BINARY_FN_IDS.includes(k.id);
+}
+
+export function isLBracketTypeNoFn(k: KeyEntry): boolean {
+    return k.id === "("
+        || OPERATOR_UNARY_L_IDS.includes(k.id)
+        || OPERATOR_UNARY_R_IDS.includes(k.id);
+}
+
+export function isUnaryR(k: KeyEntry): boolean{
+    return OPERATOR_UNARY_R_IDS.includes(k.id);
+}
+
+export function isVar(k: KeyEntry): boolean{
+    return VAR_IDS.includes(k.id);
+}
+
+export function isNum(k: KeyEntry): boolean {
+    return NUM_IDS.includes(k.id);
 }
 
 interface KeyEntries {
