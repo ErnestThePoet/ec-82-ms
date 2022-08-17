@@ -57,8 +57,20 @@ export function isLBracketTypeNoFn(k: KeyEntry): boolean {
         || OPERATOR_UNARY_R_IDS.includes(k.id);
 }
 
+export function isUnaryL(k: KeyEntry): boolean {
+    return OPERATOR_UNARY_L_IDS.includes(k.id);
+}
+
 export function isUnaryR(k: KeyEntry): boolean{
     return OPERATOR_UNARY_R_IDS.includes(k.id);
+}
+
+export function isBinary(k: KeyEntry): boolean {
+    return OPERATOR_BINARY_IDS.includes(k.id);
+}
+
+export function isBinaryFn(k: KeyEntry): boolean {
+    return OPERATOR_BINARY_FN_IDS.includes(k.id);
 }
 
 export function isVar(k: KeyEntry): boolean{

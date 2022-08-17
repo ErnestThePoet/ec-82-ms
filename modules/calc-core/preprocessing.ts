@@ -4,10 +4,19 @@ import {
     isLBracketType,
     isRBracketType,
 
+    isUnaryL,
     isUnaryR,
     isVar,
     isNum
 } from "./objs/key-entry";
+
+function appendAns(entries_: KeyEntry[]): KeyEntry[]{
+    const entries: KeyEntry[] = Object.assign([], entries_);
+    if (isUnaryL(entries[entries.length - 1])) {
+        entries.push(KEY_ENTRIES.ANS);
+    }
+    return entries;
+}
 
 function padRBrackets(entries_: KeyEntry[]): KeyEntry[]{
     const entries: KeyEntry[] = Object.assign([], entries_);
@@ -106,5 +115,5 @@ function fillMul(entries_: KeyEntry[]): KeyEntry[]{
 }
 
 export function preprocess(entries: KeyEntry[]): KeyEntry[]{
-    return fillMul(reduceAddSub(padRBrackets(entries)));
+    return fillMul(reduceAddSub(padRBrackets(appendAns(entries))));
 }
