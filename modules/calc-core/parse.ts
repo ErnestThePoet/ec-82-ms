@@ -11,22 +11,24 @@ import {
     isNum,
     isVar,
     isPpu,
-    KEY_ENTRIES
+    KEY_ENTRIES,
+    getNumString,
+    getVarInternalNumber,
+    isOpPriorityHigher,
+    isLBracket
 } from "./objs/key-entry";
 import { Lexem } from "./objs/lexem";
+import Decimal from "decimal.js";
+import { InternalNumber } from "./objs/internal-number";
 import { getOperatorById } from "./objs/operators";
 
 interface ParseResult {
     success: boolean;
     msg: string;
-    failIndex: number;
     lexems: Lexem[];
 }
 
-export function parse(entries: KeyEntry[],offset:number): ParseResult{
-    const s1: Lexem[] = [];
-    const s2: Lexem[] = [];
-
+export function parse(entries: KeyEntry[]): ParseResult{
     // first we eliminish all UnaryR, BinaryFn and TernaryFn.
     // We pre-parse them into a Lexem[] which can be treated as a Var.
     // Then we replace the original KeyEntrys with one KeyEntry
@@ -56,8 +58,7 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                 if (probeIndex < 0) {
                     return {
                         success: false,
-                        msg: "Failed to find matching (",
-                        failIndex:0+offset,
+                        msg: "Missing (",
                         lexems: []
                     };
                 }
@@ -80,12 +81,11 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                 return {
                     success: false,
                     msg: "Unexpected key entry",
-                    failIndex: i-1+offset,
                     lexems: []
                 };
             }
 
-            const subParseResult = parse(subEntries,probeIndex+1);
+            const subParseResult = parse(subEntries);
 
             if (!subParseResult.success) {
                 return subParseResult;
@@ -128,7 +128,6 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                 return {
                     success: false,
                     msg: "Failed to find ,",
-                    failIndex: entries.length-1+offset,
                     lexems: []
                 };
             }
@@ -149,18 +148,17 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                 return {
                     success: false,
                     msg: "Failed to find )",
-                    failIndex: entries.length - 1+offset,
                     lexems: []
                 };
             }
 
-            const arg1ParseResult = parse(arg1Entries,i);
+            const arg1ParseResult = parse(arg1Entries);
 
             if (!arg1ParseResult.success) {
                 return arg1ParseResult;
             }
 
-            const arg2ParseResult = parse(arg2Entries,i);
+            const arg2ParseResult = parse(arg2Entries);
 
             if (!arg2ParseResult.success) {
                 return arg2ParseResult;
@@ -212,8 +210,7 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                     if (probeIndex < 0) {
                         return {
                             success: false,
-                            msg: "Failed to find matching (",
-                            failIndex: 0+offset,
+                            msg: "Missing (",
                             lexems: []
                         };
                     }
@@ -235,7 +232,6 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                     return {
                         success: false,
                         msg: "Unexpected key entry",
-                        failIndex: i - 1+offset,
                         lexems: []
                     };
                 }
@@ -249,7 +245,6 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
                         return {
                             success: false,
                             msg: "Too many degree symbols",
-                            failIndex: i - 1+offset,
                             lexems: []
                         };
                     }
@@ -271,9 +266,9 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
             }
 
             const smdParseResults:ParseResult[] = [
-                parse(subEntriesSMD[0],probeIndex+1),
-                parse(subEntriesSMD[1], probeIndex + 1),
-                parse(subEntriesSMD[2], probeIndex + 1)
+                parse(subEntriesSMD[0]),
+                parse(subEntriesSMD[1]),
+                parse(subEntriesSMD[2])
             ];
 
             let smdLexems: Lexem[] = [];
@@ -305,5 +300,118 @@ export function parse(entries: KeyEntry[],offset:number): ParseResult{
     }
 
     // normal parse
+    const s1: KeyEntry[] = [];
+    let s2: Lexem[] = [];
 
+    for (let i = 0; i < entries.length; i++){
+        if (isPpu(entries[i])) {
+            s2 = s2.concat(entries[i].ppLexems!);
+        }
+        else if (isVar(entries[i])) {
+            s2.push({
+                type: "NBR",
+                obj: getVarInternalNumber(entries[i])
+            });
+        }
+        else if (isNum(entries[i])) {
+            let num: string = "";
+            let dotCount = 0;
+            let probeIndex = i;
+            while (probeIndex < entries.length
+                && isNum(entries[probeIndex])) {
+                num += getNumString(entries[probeIndex]);
+                dotCount += entries[probeIndex].id === "." ? 1 : 0;
+                if (dotCount > 1) {
+                    return {
+                        success: false,
+                        msg: "Too many decimal points",
+                        lexems: []
+                    };
+                }
+                probeIndex++;
+            }
+
+            if (probeIndex < entries.length) {
+                // make sure next iteration i points to the KeyEntry after last num
+                probeIndex--;
+            }
+
+            s2.push({
+                type: "NBR",
+                obj: new InternalNumber("DEC", new Decimal(num))
+            });
+
+            i = probeIndex;
+        }
+        else if (isOpBinary(entries[i])) {
+            if (s1.length === 0
+                || isLBracketEqvNoFn(s1[s1.length - 1])
+                || !isOpPriorityHigher(s1[s1.length - 1], entries[i])) {
+                s1.push(entries[i]);
+            }
+            else {
+                s2.push({
+                    type: "OP",
+                    obj: getOperatorById(s1.pop()!.id)
+                });
+                i--;
+            }
+        }
+        else if (isLBracketEqvNoFn(entries[i])) {
+            s1.push(entries[i]);
+        }
+        else if (isRBracket(entries[i])) {
+            let isLBracketEqvFound: boolean = false;
+
+            while (s1.length>0) {
+                const currentOp = s1.pop()!;
+                if (isOpUnaryL(currentOp)) {
+                    s2.push({
+                        type: "OP",
+                        obj: getOperatorById(currentOp.id)
+                    });
+                    isLBracketEqvFound = true;
+                    break;
+                }
+                else if (isLBracket(currentOp)) {
+                    isLBracketEqvFound = true;
+                    break;
+                }
+                else {
+                    s2.push({
+                        type: "OP",
+                        obj: getOperatorById(currentOp.id)
+                    });
+                }
+            }
+
+            if (!isLBracketEqvFound) {
+                return {
+                    success: false,
+                    msg: "Missing (",
+                    lexems: []
+                };
+            }
+        }
+        else {
+            return {
+                success: false,
+                msg: "Unexpected key entry",
+                lexems: []
+            };
+        }
+    }
+
+    while (s1.length > 0) {
+        s2.push({
+            type: "OP",
+            obj: getOperatorById(s1.pop()!.id)
+        });
+    }
+
+    return {
+        success: true,
+        msg: "",
+        lexems: s2
+    };
 }

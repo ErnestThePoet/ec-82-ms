@@ -206,6 +206,12 @@ export const OPERATORS_BINARY: readonly Operator[] = [
         argN: 2,
         op: INM.div,
         ck: CHECK_FNS.divCheck
+    },
+    {
+        id: "FRAC",
+        argN: 2,
+        op: INM.div,
+        ck: CHECK_FNS.divCheck
     }
 ] as const;
 

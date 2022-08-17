@@ -1,3 +1,6 @@
+import { InternalNumber } from "./internal-number";
+import Decimal from "decimal.js";
+import calculatorMemory from "../../../observables/calculator-memory";
 import type { Lexem } from "./lexem";
 
 type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
@@ -77,6 +80,49 @@ export function isPpu(k: KeyEntry): boolean{
     return k.type === "PPU";
 }
 
+export function getNumString(k: KeyEntry): string{
+    return k.id;
+}
+
+export function getVarInternalNumber(k: KeyEntry): InternalNumber{
+    switch (k.id) {
+        case "A":
+            return calculatorMemory.A;
+        case "B":
+            return calculatorMemory.B;
+        case "C":
+            return calculatorMemory.C;
+        case "D":
+            return calculatorMemory.D;
+        case "E":
+            return calculatorMemory.E;
+        case "F":
+            return calculatorMemory.F;
+        case "X":
+            return calculatorMemory.X;
+        case "Y":
+            return calculatorMemory.Y;
+        case "M":
+            return calculatorMemory.M;
+        case "ANS":
+            return calculatorMemory.ans;
+        case "e":
+            return new InternalNumber("DEC", new Decimal(
+                "2.71828_18284_59045_23536"));
+        case "PI":
+            return new InternalNumber("DEC", new Decimal(
+                "3.14159_26535_89793_23846"));
+        case "RAN":
+            return new InternalNumber("DEC", new Decimal(Math.random()));
+        default:
+            return new InternalNumber("DEC", new Decimal(0));
+    }
+}
+
+export function isOpPriorityHigher(x: KeyEntry, y: KeyEntry) {
+    return x.id !== "ADD" && x.id !== "SUB" && (y.id === "ADD" || y.id === "SUB");
+}
+
 interface KeyEntries {
     cbrt: KeyEntry;
     sqrt: KeyEntry;
@@ -111,6 +157,7 @@ interface KeyEntries {
     sub: KeyEntry;
     mul: KeyEntry;
     div: KeyEntry;
+    frac: KeyEntry;
 
     pol: KeyEntry;
     rec: KeyEntry;
@@ -119,7 +166,6 @@ interface KeyEntries {
     rBracket: KeyEntry;
 
     neg: KeyEntry;
-    frac: KeyEntry;
     degree: KeyEntry;
     comma: KeyEntry;
 
@@ -313,6 +359,11 @@ export const KEY_ENTRIES: KeyEntries = {
         type: "OP_BINARY",
         svg: ""
     },
+    frac: {
+        id: "FRAC",
+        type: "OP_BINARY",
+        svg: ""
+    },
 
     pol: {
         id: "POL",
@@ -336,12 +387,6 @@ export const KEY_ENTRIES: KeyEntries = {
         svg: ""
     },
 
-    
-    frac: {
-        id: "FRAC",
-        type:"SYMBOL",
-        svg: ""
-    },
     degree: {
         id: "DEGREE",
         type: "SYMBOL",
