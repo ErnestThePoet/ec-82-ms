@@ -119,12 +119,15 @@ function fillMul(entries: KeyEntry[]): void{
     // NumVar
     // UnaryR()
     // UnaryRVar
+    // Degree()
+    // DegreeVar
 
     for (let i = 0; i < entries.length - 1; i++){
         if (isRBracket(entries[i])
             || isVar(entries[i])
             || isNum(entries[i])
-            ||isOpUnaryR(entries[i])) {
+            || isOpUnaryR(entries[i])
+            || entries[i].id==="DEGREE") {
             if (isLBracketEqv(entries[i + 1]) || isVar(entries[i + 1])) {
                 entries.splice(i + 1, 0, KEY_ENTRIES.mul);
             }

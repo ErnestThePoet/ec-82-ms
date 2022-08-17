@@ -231,12 +231,12 @@ export const OPERATORS_TERNARY_FN: readonly Operator[] = [
         op: INM.createDegree,
         ck:CHECK_FNS.createDegreeCheck
     },
-    {
-        id: "CREATE_FRAC",
-        argN: 3,
-        op: INM.createFrac,
-        ck: CHECK_FNS.createFracCheck
-    }
+    // {
+    //     id: "CREATE_FRAC",
+    //     argN: 3,
+    //     op: INM.createFrac,
+    //     ck: CHECK_FNS.createFracCheck
+    // }
 ] as const;
 
 const FULL_OPERATORS: readonly Operator[] =

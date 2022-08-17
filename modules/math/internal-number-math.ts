@@ -438,33 +438,33 @@ export const createDegree: OperationFn
         ));
     }
 
-export const createFrac: OperationFn
-    = (a: InternalNumber, b: InternalNumber, c: InternalNumber) => {
-        // follow Casio behaviour: odd negatives make result negative
-        let isResultNegative: boolean = false;
+// export const createFrac: OperationFn
+//     = (a: InternalNumber, b: InternalNumber, c: InternalNumber) => {
+//         // follow Casio behaviour: odd negatives make result negative
+//         let isResultNegative: boolean = false;
 
-        // first make all components non-negative
-        if (isNegative(a)) {
-            isResultNegative = !isResultNegative;
-            a = negative(a);
-        }
+//         // first make all components non-negative
+//         if (isNegative(a)) {
+//             isResultNegative = !isResultNegative;
+//             a = negative(a);
+//         }
 
-        if (isNegative(b)) {
-            isResultNegative = !isResultNegative;
-            b = negative(b);
-        }
+//         if (isNegative(b)) {
+//             isResultNegative = !isResultNegative;
+//             b = negative(b);
+//         }
 
-        if (isNegative(c)) {
-            isResultNegative = !isResultNegative;
-            c = negative(c);
-        }
+//         if (isNegative(c)) {
+//             isResultNegative = !isResultNegative;
+//             c = negative(c);
+//         }
 
-        const result: FracValue = FB.addFrac(getFracValue(a),
-            FB.divFrac(getFracValue(b), getFracValue(c)));
+//         const result: FracValue = FB.addFrac(getFracValue(a),
+//             FB.divFrac(getFracValue(b), getFracValue(c)));
         
-        if (isResultNegative) {
-            result.u = result.u.neg();
-        }
+//         if (isResultNegative) {
+//             result.u = result.u.neg();
+//         }
 
-        return new InternalNumber("FRAC", result);
-    }
+//         return new InternalNumber("FRAC", result);
+//     }
