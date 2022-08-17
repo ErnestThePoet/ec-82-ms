@@ -99,7 +99,12 @@ export const OPERATORS_UNARY_L: readonly Operator[] = [
         argN: 1,
         op: INM.atan,
         ck: CHECK_FNS.alwaysTrue
-    },
+    }, {
+        id: "NEG",
+        argN: 1,
+        op: INM.negative,
+        ck: CHECK_FNS.alwaysTrue
+    }
 ] as const;
 
 export const OPERATORS_UNARY_R: readonly Operator[] = [
@@ -233,3 +238,11 @@ export const OPERATORS_TERNARY_FN: readonly Operator[] = [
         ck: CHECK_FNS.createFracCheck
     }
 ] as const;
+
+const FULL_OPERATORS: readonly Operator[] =
+    OPERATORS_UNARY_L.concat(OPERATORS_UNARY_R).concat(OPERATORS_BINARY)
+        .concat(OPERATORS_BINARY_FN).concat(OPERATORS_TERNARY_FN);
+
+export function getOperatorById(id: string): Operator{
+    return FULL_OPERATORS.find(x => x.id === id)!;
+}

@@ -1,33 +1,11 @@
-// These arrays are used to determine if a KeyEntry belongs to a certain type.
-const OPERATOR_UNARY_L_IDS: readonly string[]
-    = ["CBRT", "SQRT", "LOG", "LN", "EXP10", "EXP",
-        "SIN", "COS", "TAN", "SINH", "COSH", "TANH", "ASIN", "ACOS", "ATAN"] as const;
-
-const OPERATOR_UNARY_R_IDS: readonly string[]
-    = ["FACT", "INV", "CUBE", "SQR", "PERCENT", "FROM_D", "FROM_R", "FROM_G"] as const;
-
-const OPERATOR_BINARY_IDS: readonly string[]
-    = ["NPR", "NCR", "POW", "ROOT", "ADD", "SUB", "MUL", "DIV"] as const;
-
-const OPERATOR_BINARY_FN_IDS: readonly string[]
-    = ["POL", "REC"] as const;
-
-const VAR_IDS: readonly string[]
-    = ["A", "B", "C", "D", "E", "F", "X", "Y", "M", "e", "PI", "RAN", "ANS"];
-
-const NUM_IDS: readonly string[]
-    = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-
-    
-
 type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
-    | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN";
+    | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN" | "NEG";
 type OperatorUnaryRId = "FACT" | "INV" | "CUBE" | "SQR" | "PERCENT" | "FROM_D" | "FROM_R" | "FROM_G";
 type OperatorBinaryId = "NPR" | "NCR" | "POW" | "ROOT" | "ADD" | "SUB" | "MUL" | "DIV";
 type OperatorBinaryFnId = "POL" | "REC";
 
 type BracketId = "(" | ")";
-type SymbolId = "NEG" | "FRAC" | "DEGREE" | "COMMA";
+type SymbolId = "FRAC" | "DEGREE" | "COMMA";
 type VarId = "A" | "B" | "C" | "D" | "E" | "F" | "X" | "Y" | "M" | "e" | "PI" | "RAN" | "ANS";
 type NumId = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | ".";
 
@@ -35,50 +13,60 @@ type KeyEntryId = OperatorUnaryLId | OperatorUnaryRId
     | OperatorBinaryId | OperatorBinaryFnId
     | BracketId | SymbolId | VarId | NumId;
 
+type KeyEntryType = "OP_UNARY_L" | "OP_UNARY_R" | "OP_BINARY" | "OP_BINARY_FN"
+    | "BRACKET_L" | "BRACKET_R" | "SYMBOL" | "VAR" | "NUM";
+
 export interface KeyEntry {
     svg: string;
     id: KeyEntryId;
-}
-
-export function isRBracketType(k: KeyEntry): boolean {
-    return k.id === ")";
-}
-
-export function isLBracketType(k: KeyEntry): boolean {
-    return k.id === "("
-        || OPERATOR_UNARY_L_IDS.includes(k.id)
-        || OPERATOR_UNARY_R_IDS.includes(k.id)
-        || OPERATOR_BINARY_FN_IDS.includes(k.id);
-}
-
-export function isLBracketTypeNoFn(k: KeyEntry): boolean {
-    return k.id === "("
-        || OPERATOR_UNARY_L_IDS.includes(k.id)
-        || OPERATOR_UNARY_R_IDS.includes(k.id);
+    type: KeyEntryType;
 }
 
 export function isUnaryL(k: KeyEntry): boolean {
-    return OPERATOR_UNARY_L_IDS.includes(k.id);
+    return k.type === "OP_UNARY_L";
 }
 
 export function isUnaryR(k: KeyEntry): boolean{
-    return OPERATOR_UNARY_R_IDS.includes(k.id);
+    return k.type === "OP_UNARY_R";
 }
 
 export function isBinary(k: KeyEntry): boolean {
-    return OPERATOR_BINARY_IDS.includes(k.id);
+    return k.type === "OP_BINARY";
 }
 
 export function isBinaryFn(k: KeyEntry): boolean {
-    return OPERATOR_BINARY_FN_IDS.includes(k.id);
+    return k.type === "OP_BINARY_FN";
+}
+
+export function isLBracket(k: KeyEntry): boolean {
+    return k.type === "BRACKET_L";
+}
+
+export function isLBracketEqv(k: KeyEntry): boolean {
+    return k.type === "BRACKET_L"
+        || k.type === "OP_UNARY_L"
+        || k.type === "OP_BINARY_FN";
+}
+
+export function isLBracketEqvNoFn(k: KeyEntry): boolean {
+    return k.type === "BRACKET_L"
+        || k.type === "OP_UNARY_L";
+}
+
+export function isRBracket(k: KeyEntry): boolean {
+    return k.type === "BRACKET_R";
+}
+
+export function isSymbol(k: KeyEntry): boolean{
+    return k.type === "SYMBOL";
 }
 
 export function isVar(k: KeyEntry): boolean{
-    return VAR_IDS.includes(k.id);
+    return k.type === "VAR";
 }
 
 export function isNum(k: KeyEntry): boolean {
-    return NUM_IDS.includes(k.id);
+    return k.type === "NUM";
 }
 
 interface KeyEntries {
@@ -157,261 +145,325 @@ interface KeyEntries {
 export const KEY_ENTRIES: KeyEntries = {
     cbrt: {
         id: "CBRT",
+        type:"OP_UNARY_L",
         svg: ""
     },
     sqrt: {
         id: "SQRT",
+        type: "OP_UNARY_L",
         svg: ""
     },
     log: {
         id: "LOG",
+        type: "OP_UNARY_L",
         svg: ""
     },
     ln: {
         id: "LN",
+        type: "OP_UNARY_L",
         svg: ""
     },
     exp10: {
         id: "EXP10",
+        type: "OP_UNARY_L",
         svg: ""
     },
     exp: {
         id: "EXP",
+        type: "OP_UNARY_L",
         svg: ""
     },
     sin: {
         id: "SIN",
+        type: "OP_UNARY_L",
         svg: ""
     },
     cos: {
         id: "COS",
+        type: "OP_UNARY_L",
         svg: ""
     },
     tan: {
         id: "TAN",
+        type: "OP_UNARY_L",
         svg: ""
     },
     sinh: {
         id: "SINH",
+        type: "OP_UNARY_L",
         svg: ""
     },
     cosh: {
         id: "COSH",
+        type: "OP_UNARY_L",
         svg: ""
     },
     tanh: {
         id: "TANH",
+        type: "OP_UNARY_L",
         svg: ""
     },
     asin: {
         id: "ASIN",
+        type: "OP_UNARY_L",
         svg: ""
     },
     acos: {
         id: "ACOS",
+        type: "OP_UNARY_L",
         svg: ""
     },
     atan: {
         id: "ATAN",
+        type: "OP_UNARY_L",
+        svg: ""
+    },
+    neg: {
+        id: "NEG",
+        type: "OP_UNARY_L",
         svg: ""
     },
 
     fact: {
         id: "FACT",
+        type:"OP_UNARY_R",
         svg: ""
     },
     inv: {
         id: "INV",
+        type: "OP_UNARY_R",
         svg: ""
     },
     cube: {
         id: "CUBE",
+        type: "OP_UNARY_R",
         svg: ""
     },
     sqr: {
         id: "SQR",
+        type: "OP_UNARY_R",
         svg: ""
     },
     percent: {
         id: "PERCENT",
+        type: "OP_UNARY_R",
         svg: ""
     },
     fromD: {
         id: "FROM_D",
+        type: "OP_UNARY_R",
         svg: ""
     },
     fromR: {
         id: "FROM_R",
+        type: "OP_UNARY_R",
         svg: ""
     },
     fromG: {
         id: "FROM_G",
+        type: "OP_UNARY_R",
         svg: ""
     },
 
     npr: {
         id: "NPR",
+        type:"OP_BINARY",
         svg: ""
     },
     ncr: {
         id: "NCR",
+        type: "OP_BINARY",
         svg: ""
     },
     pow: {
         id: "POW",
+        type: "OP_BINARY",
         svg: ""
     },
     root: {
         id: "ROOT",
+        type: "OP_BINARY",
         svg: ""
     },
     add: {
         id: "ADD",
+        type: "OP_BINARY",
         svg: ""
     },
     sub: {
         id: "SUB",
+        type: "OP_BINARY",
         svg: ""
     },
     mul: {
         id: "MUL",
+        type: "OP_BINARY",
         svg: ""
     },
     div: {
         id: "DIV",
+        type: "OP_BINARY",
         svg: ""
     },
 
     pol: {
         id: "POL",
+        type:"OP_BINARY_FN",
         svg: ""
     },
     rec: {
         id: "REC",
+        type: "OP_BINARY_FN",
         svg: ""
     },
 
     lBracket: {
         id: "(",
+        type:"BRACKET_L",
         svg: ""
     },
     rBracket: {
         id: ")",
+        type:"BRACKET_R",
         svg: ""
     },
 
-    neg: {
-        id: "NEG",
-        svg: ""
-    },
+    
     frac: {
         id: "FRAC",
+        type:"SYMBOL",
         svg: ""
     },
     degree: {
         id: "DEGREE",
+        type: "SYMBOL",
         svg: ""
     },
     comma: {
         id: "COMMA",
+        type: "SYMBOL",
         svg: ""
     },
 
     A: {
         id: "A",
+        type:"VAR",
         svg: ""
     },
     B: {
         id: "B",
+        type: "VAR",
         svg: ""
     },
     C: {
         id: "C",
+        type: "VAR",
         svg: ""
     },
     D: {
         id: "D",
+        type: "VAR",
         svg: ""
     },
     E: {
         id: "E",
+        type: "VAR",
         svg: ""
     },
     F: {
         id: "F",
+        type: "VAR",
         svg: ""
     },
     X: {
         id: "X",
+        type: "VAR",
         svg: ""
     },
     Y: {
         id: "Y",
+        type: "VAR",
         svg: ""
     },
     M: {
         id: "M",
+        type: "VAR",
         svg: ""
     },
     e: {
         id: "e",
+        type: "VAR",
         svg: ""
     },
     PI: {
         id: "PI",
+        type: "VAR",
         svg: ""
     },
     RAN: {
         id: "RAN",
+        type: "VAR",
         svg: ""
     },
     ANS: {
         id: "ANS",
+        type: "VAR",
         svg: ""
     },
 
     n0: {
         id: "0",
+        type:"NUM",
         svg: ""
     },
     n1: {
         id: "1",
+        type: "NUM",
         svg: ""
     },
     n2: {
         id: "2",
+        type: "NUM",
         svg: ""
     },
     n3: {
         id: "3",
+        type: "NUM",
         svg: ""
     },
     n4: {
         id: "4",
+        type: "NUM",
         svg: ""
     },
     n5: {
         id: "5",
+        type: "NUM",
         svg: ""
     },
     n6: {
         id: "6",
+        type: "NUM",
         svg: ""
     },
     n7: {
         id: "7",
+        type: "NUM",
         svg: ""
     },
     n8: {
         id: "8",
+        type: "NUM",
         svg: ""
     },
     n9: {
         id: "9",
+        type: "NUM",
         svg: ""
     },
     nDot: {
         id: ".",
+        type: "NUM",
         svg: ""
     }
 };

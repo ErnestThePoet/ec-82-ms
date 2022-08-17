@@ -1,49 +1,25 @@
 import {
     KeyEntry,
     KEY_ENTRIES,
-    isLBracketType,
-    isRBracketType,
 
     isUnaryL,
     isUnaryR,
+
+    isLBracketEqv,
+    isRBracket,
+
+    isSymbol,
     isVar,
     isNum
 } from "./objs/key-entry";
 
-function appendAns(entries_: KeyEntry[]): KeyEntry[]{
-    const entries: KeyEntry[] = Object.assign([], entries_);
+function appendAns(entries: KeyEntry[]):void{
     if (isUnaryL(entries[entries.length - 1])) {
         entries.push(KEY_ENTRIES.ANS);
     }
-    return entries;
 }
 
-function padRBrackets(entries_: KeyEntry[]): KeyEntry[]{
-    const entries: KeyEntry[] = Object.assign([], entries_);
-
-    let bracketDiffCount = 0;
-
-    for (const i of entries) {
-        if (isLBracketType(i) || i.id === "POL" || i.id === "REC") {
-            bracketDiffCount++;
-        }
-        else if (i.id === ")") {
-            bracketDiffCount--;
-        }
-    }
-
-    if (bracketDiffCount > 0) {
-        for (let i = 0; i < bracketDiffCount; i++){
-            entries.push(KEY_ENTRIES.rBracket);
-        }
-    }
-
-    return entries;
-}
-
-function reduceAddSub(entries_: KeyEntry[]): KeyEntry[]{
-    const entries: KeyEntry[] = Object.assign([], entries_);
-
+function reduceAddSub(entries: KeyEntry[]): void{
     // ++ -> +
     // +- -> -
     // -+ -> -
@@ -83,13 +59,57 @@ function reduceAddSub(entries_: KeyEntry[]): KeyEntry[]{
                 break;
         }
     }
-
-    return entries;
 }
 
-function fillMul(entries_: KeyEntry[]): KeyEntry[]{
-    const entries: KeyEntry[] = Object.assign([], entries_);
+function reducePosNeg(entries: KeyEntry[]): void{
+    // previous preprocessing eusures there is no continuous +,-.
+    // X -> UnaryL | BinaryFn | BracketL | Symbol
+    // Y -> UnaryL | BinaryFn | BracketL | Var | Num
+    // reduce rules:
+    // X+Y => XY
+    // X-Y => XnegY
+    const isX = (x: KeyEntry) =>
+        isLBracketEqv(x) || isSymbol(x);
+    const isY = (x: KeyEntry) =>
+        isLBracketEqv(x) || isVar(x) || isNum(x);
+    
+    for (let i = entries.length - 1; i >= 2; i--){
+        if (isY(entries[i])
+            && entries[i - 1].id === "ADD"
+            && isX(entries[i - 2])) {
+            entries.splice(i - 1, 1);
+            // next search should start from X
+            i--;
+        }
+        else if (isY(entries[i])
+            && entries[i - 1].id === "SUB"
+            && isX(entries[i - 2])) {
+            entries[i - 1] = KEY_ENTRIES.neg;
+            i--;
+        }
+    }
+}
 
+function padRBrackets(entries: KeyEntry[]): void{
+    let bracketDiffCount = 0;
+
+    for (const i of entries) {
+        if (isLBracketEqv(i) || i.id === "POL" || i.id === "REC") {
+            bracketDiffCount++;
+        }
+        else if (i.id === ")") {
+            bracketDiffCount--;
+        }
+    }
+
+    if (bracketDiffCount > 0) {
+        for (let i = 0; i < bracketDiffCount; i++) {
+            entries.push(KEY_ENTRIES.rBracket);
+        }
+    }
+}
+
+function fillMul(entries: KeyEntry[]): void{
     // places to fill MUL:
     // ()()
     // ()Var
@@ -101,19 +121,23 @@ function fillMul(entries_: KeyEntry[]): KeyEntry[]{
     // UnaryRVar
 
     for (let i = 0; i < entries.length - 1; i++){
-        if (isRBracketType(entries[i])
+        if (isRBracket(entries[i])
             || isVar(entries[i])
             || isNum(entries[i])
             ||isUnaryR(entries[i])) {
-            if (isLBracketType(entries[i + 1]) || isVar(entries[i + 1])) {
+            if (isLBracketEqv(entries[i + 1]) || isVar(entries[i + 1])) {
                 entries.splice(i + 1, 0, KEY_ENTRIES.mul);
             }
         }
     }
-
-    return entries;
 }
 
-export function preprocess(entries: KeyEntry[]): KeyEntry[]{
-    return fillMul(reduceAddSub(padRBrackets(appendAns(entries))));
+export function preprocess(entries_: KeyEntry[]): KeyEntry[]{
+    const entries: KeyEntry[] = Object.assign([], entries_);
+    appendAns(entries);
+    reduceAddSub(entries);
+    reducePosNeg(entries);
+    padRBrackets(entries);
+    fillMul(entries);
+    return entries;
 }
