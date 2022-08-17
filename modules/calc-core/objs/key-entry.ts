@@ -1,3 +1,5 @@
+import type { Lexem } from "./lexem";
+
 type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
     | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN" | "NEG";
 type OperatorUnaryRId = "FACT" | "INV" | "CUBE" | "SQR" | "PERCENT" | "FROM_D" | "FROM_R" | "FROM_G";
@@ -11,30 +13,32 @@ type NumId = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | ".";
 
 type KeyEntryId = OperatorUnaryLId | OperatorUnaryRId
     | OperatorBinaryId | OperatorBinaryFnId
-    | BracketId | SymbolId | VarId | NumId;
+    | BracketId | SymbolId | VarId | NumId |"PPU";
 
 type KeyEntryType = "OP_UNARY_L" | "OP_UNARY_R" | "OP_BINARY" | "OP_BINARY_FN"
-    | "BRACKET_L" | "BRACKET_R" | "SYMBOL" | "VAR" | "NUM";
+    | "BRACKET_L" | "BRACKET_R" | "SYMBOL" | "VAR" | "NUM"
+    |"PPU";
 
 export interface KeyEntry {
     svg: string;
     id: KeyEntryId;
     type: KeyEntryType;
+    ppLexems?: Lexem[];
 }
 
-export function isUnaryL(k: KeyEntry): boolean {
+export function isOpUnaryL(k: KeyEntry): boolean {
     return k.type === "OP_UNARY_L";
 }
 
-export function isUnaryR(k: KeyEntry): boolean{
+export function isOpUnaryR(k: KeyEntry): boolean{
     return k.type === "OP_UNARY_R";
 }
 
-export function isBinary(k: KeyEntry): boolean {
+export function isOpBinary(k: KeyEntry): boolean {
     return k.type === "OP_BINARY";
 }
 
-export function isBinaryFn(k: KeyEntry): boolean {
+export function isOpBinaryFn(k: KeyEntry): boolean {
     return k.type === "OP_BINARY_FN";
 }
 
@@ -67,6 +71,10 @@ export function isVar(k: KeyEntry): boolean{
 
 export function isNum(k: KeyEntry): boolean {
     return k.type === "NUM";
+}
+
+export function isPpu(k: KeyEntry): boolean{
+    return k.type === "PPU";
 }
 
 interface KeyEntries {

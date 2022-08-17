@@ -2,8 +2,8 @@ import {
     KeyEntry,
     KEY_ENTRIES,
 
-    isUnaryL,
-    isUnaryR,
+    isOpUnaryL,
+    isOpUnaryR,
 
     isLBracketEqv,
     isRBracket,
@@ -14,7 +14,7 @@ import {
 } from "./objs/key-entry";
 
 function appendAns(entries: KeyEntry[]):void{
-    if (isUnaryL(entries[entries.length - 1])) {
+    if (isOpUnaryL(entries[entries.length - 1])) {
         entries.push(KEY_ENTRIES.ANS);
     }
 }
@@ -124,7 +124,7 @@ function fillMul(entries: KeyEntry[]): void{
         if (isRBracket(entries[i])
             || isVar(entries[i])
             || isNum(entries[i])
-            ||isUnaryR(entries[i])) {
+            ||isOpUnaryR(entries[i])) {
             if (isLBracketEqv(entries[i + 1]) || isVar(entries[i + 1])) {
                 entries.splice(i + 1, 0, KEY_ENTRIES.mul);
             }
@@ -132,12 +132,10 @@ function fillMul(entries: KeyEntry[]): void{
     }
 }
 
-export function preprocess(entries_: KeyEntry[]): KeyEntry[]{
-    const entries: KeyEntry[] = Object.assign([], entries_);
+export function preprocess(entries: KeyEntry[]): void{
     appendAns(entries);
     reduceAddSub(entries);
     reducePosNeg(entries);
     padRBrackets(entries);
     fillMul(entries);
-    return entries;
 }
