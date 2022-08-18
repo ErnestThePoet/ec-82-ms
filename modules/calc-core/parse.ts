@@ -46,11 +46,29 @@ export function parse(entries: KeyEntry[]): ParseResult{
             const subEntries: KeyEntry[] = [];
             let probeIndex = i - 1;
             if (isRBracket(entries[i - 1])) {
-                // add key entries to subEntries until we reach a LBracketType
+                // add key entries to subEntries until we reach its LBracketType
                 // if we fail to reach a LBracketEqv, then the parsing is unsuccessful
+
+                // rBrackets-lBrackets during search.
+                let bracketDiff = 0;
                 
-                while (probeIndex >= 0
-                    && !isLBracketEqv(entries[probeIndex])) {
+                while (probeIndex >= 0) {
+                    if (isRBracket(entries[probeIndex])) {
+                        bracketDiff++;
+                    }
+                    else if (isLBracketEqv(entries[probeIndex])) {
+                        if (bracketDiff === 0) {
+                            // this is the matching lBracket
+                            // include if is op
+                            if (!isLBracket(entries[probeIndex])) {
+                                subEntries.unshift(entries[probeIndex]);
+                            }
+                            break;
+                        }
+                        else {
+                            bracketDiff--;
+                        }
+                    }
                     subEntries.unshift(entries[probeIndex]);
                     probeIndex--;
                 }
@@ -138,8 +156,20 @@ export function parse(entries: KeyEntry[]): ParseResult{
 
             // find a rBracket to terminate 2nd arg
 
-            while (probeIndex < entries.length
-                && entries[probeIndex].id !== ")") {
+            let bracketDiff = 0;
+
+            while (probeIndex < entries.length) {
+                if (isLBracketEqv(entries[probeIndex])) {
+                    bracketDiff++;
+                }
+                else if (entries[probeIndex].id === ")") {
+                    if (bracketDiff === 0) {
+                        break;
+                    }
+                    else {
+                        bracketDiff--;
+                    }
+                }
                 arg2Entries.push(entries[probeIndex]);
                 probeIndex++;
             }
@@ -201,8 +231,26 @@ export function parse(entries: KeyEntry[]): ParseResult{
 
             while (true) {
                 if (isRBracket(entries[i - 1])) {
-                    while (probeIndex >= 0
-                        && !isLBracketEqv(entries[probeIndex])) {
+                    let bracketDiff = 0;
+
+                    while (probeIndex >= 0) {
+                        if (isRBracket(entries[probeIndex])) {
+                            bracketDiff++;
+                        }
+                        else if (isLBracketEqv(entries[probeIndex])) {
+                            if (bracketDiff === 0) {
+                                // this is the matching lBracket
+                                // include if is op
+                                if (!isLBracket(entries[probeIndex])) {
+                                    subEntriesSMD[degreeCount - 1]
+                                        .unshift(entries[probeIndex]);
+                                }
+                                break;
+                            }
+                            else {
+                                bracketDiff--;
+                            }
+                        }
                         subEntriesSMD[degreeCount-1].unshift(entries[probeIndex]);
                         probeIndex--;
                     }

@@ -54,4 +54,17 @@ export class InternalNumber{
     get degree(): DegreeValue{
         return this.degreeValue;
     }
+
+    toString(): string{
+        switch (this.numberType) {
+            case "DEC":
+                return this.decValue.toString();
+            case "FRAC":
+                return this.fracValue.u.toString() + "/" + this.fracValue.d.toString();
+            case "DEGREE":
+                return `${this.degreeValue.neg ? "-" : ""}${this.degreeValue.d.toString()}°`
+                    + `${this.degreeValue.m.toString()}'`
+                    + `${this.degreeValue.s.toString()}"`;
+        }
+    }
 }

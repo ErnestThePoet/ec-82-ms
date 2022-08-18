@@ -67,24 +67,66 @@ function reducePosNeg(entries: KeyEntry[]): void{
     // Y -> UnaryL | BinaryFn | BracketL | Var | Num
     // reduce rules:
     // X+Y => XY
-    // X-Y => XnegY
+    // X-Y => XnegY)
+    // note that neg is a special UnaryL because no LBracket is shown.
+    // that's why we manually add the RBracket.
     const isX = (x: KeyEntry) =>
         isLBracketEqv(x) || isSymbol(x);
     const isY = (x: KeyEntry) =>
         isLBracketEqv(x) || isVar(x) || isNum(x);
     
-    for (let i = entries.length - 1; i >= 2; i--){
-        if (isY(entries[i])
-            && entries[i - 1].id === "ADD"
-            && isX(entries[i - 2])) {
-            entries.splice(i - 1, 1);
+    for (let i = 0; i <=entries.length-3; i++){
+        if (isX(entries[i])
+            && entries[i + 1].id === "ADD"
+            && isY(entries[i+2])) {
+            entries.splice(i + 1, 1);
             // next search should start from X
             i--;
         }
-        else if (isY(entries[i])
-            && entries[i - 1].id === "SUB"
-            && isX(entries[i - 2])) {
-            entries[i - 1] = KEY_ENTRIES.neg;
+        else if (isX(entries[i])
+            && entries[i + 1].id === "SUB"
+            && isY(entries[i+2])) {
+            entries[i + 1] = KEY_ENTRIES.neg;
+            // for LBracketEqv, append a rBracket after its matching rBracket.
+            // if it has no matching rBracket, do nothing and leave the two 
+            // padding jobs for next preprocessing step.
+            if (isLBracketEqv(entries[i+2])) {
+                let bracketDiff = 0;
+                let probeIndex = i + 3;
+                while (probeIndex < entries.length) {
+                    if (isLBracketEqv(entries[probeIndex])) {
+                        bracketDiff++;
+                    }
+                    else if (isRBracket(entries[probeIndex])) {
+                        if (bracketDiff === 0) {
+                            break;
+                        }
+                        else {
+                            bracketDiff--;
+                        }
+                    }
+                }
+
+                if (probeIndex >= entries.length) {
+                    continue;
+                }
+                else {
+                    entries.splice(probeIndex + 1, 0, KEY_ENTRIES.rBracket);
+                }
+            }
+            else if (isNum(entries[i + 2])) {
+                let probeIndex = i + 3;
+                while (probeIndex < entries.length
+                    && isNum(entries[probeIndex])) {
+                    probeIndex++;
+                }
+
+                entries.splice(probeIndex, 0, KEY_ENTRIES.rBracket);
+            }
+            else {
+                entries.splice(i + 3, 0, KEY_ENTRIES.rBracket);
+            }
+            
             i--;
         }
     }
