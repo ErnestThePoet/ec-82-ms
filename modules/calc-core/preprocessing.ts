@@ -10,7 +10,8 @@ import {
 
     isSymbol,
     isVar,
-    isNum
+    isNum,
+    isOpBinary
 } from "./objs/key-entry";
 
 function appendAns(entries: KeyEntry[]):void{
@@ -63,7 +64,7 @@ function reduceAddSub(entries: KeyEntry[]): void{
 
 function reducePosNeg(entries: KeyEntry[]): void{
     // previous preprocessing eusures there is no continuous +,-.
-    // X -> UnaryL | BinaryFn | BracketL | Symbol
+    // X -> UnaryL | BinaryFn | BracketL | BinaryOp | Symbol
     // Y -> UnaryL | BinaryFn | BracketL | Var | Num
     // reduce rules:
     // X+Y => XY
@@ -71,7 +72,7 @@ function reducePosNeg(entries: KeyEntry[]): void{
     // note that neg is a special UnaryL because no LBracket is shown.
     // that's why we manually add the RBracket.
     const isX = (x: KeyEntry) =>
-        isLBracketEqv(x) || isSymbol(x);
+        isLBracketEqv(x) || isOpBinary(x) || isSymbol(x);
     const isY = (x: KeyEntry) =>
         isLBracketEqv(x) || isVar(x) || isNum(x);
     

@@ -4,6 +4,7 @@ import { preprocess } from "../modules/calc-core/preprocessing";
 import { parse } from "../modules/calc-core/parse";
 import { calculate } from "../modules/calc-core/calculate";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
+import Decimal from "decimal.js";
 
 function printResult(ke: KeyEntry[]) {
     preprocess(ke);
@@ -20,6 +21,7 @@ function printResult(ke: KeyEntry[]) {
     }
     else {
         console.log(pr.msg);
+        return;
     }
 
     const cr = calculate(pr.lexems);
@@ -34,7 +36,7 @@ function printResult(ke: KeyEntry[]) {
 
 function test1() {
     // 3*(5+3sin(-(5.5--6
-    // =>3*(5+3*sin(neg((-5.5+6))))
+    // =>3*(5+3*sin(neg((5.5+6))))
     const ke: KeyEntry[] = [
         KEY_ENTRIES.n3,
         KEY_ENTRIES.mul,
@@ -57,10 +59,13 @@ function test1() {
 }
 
 function test2() {
-    // 6E
+    // 1.2-1
     const ke: KeyEntry[] = [
-        KEY_ENTRIES.n6,
-        KEY_ENTRIES.E
+        KEY_ENTRIES.n1,
+        KEY_ENTRIES.nDot,
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.sub,
+        KEY_ENTRIES.n1
     ];
 
     printResult(ke);
@@ -145,4 +150,31 @@ function test7() {
     printResult(ke);
 }
 
-test2();
+function test8() {
+    // 5.6/.
+    const ke: KeyEntry[] = [
+        KEY_ENTRIES.n5,
+        KEY_ENTRIES.nDot,
+        KEY_ENTRIES.n6,
+        KEY_ENTRIES.frac,
+        KEY_ENTRIES.nDot
+    ];
+
+    printResult(ke);
+}
+
+function test9() {
+    // 5.6/.
+    const ke: KeyEntry[] = [
+        KEY_ENTRIES.n1,
+        KEY_ENTRIES.nDot,
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.frac,
+        KEY_ENTRIES.sub,
+        KEY_ENTRIES.n2
+    ];
+
+    printResult(ke);
+}
+
+test3();

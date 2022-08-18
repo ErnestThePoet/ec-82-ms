@@ -2,6 +2,7 @@ import { InternalNumber } from "./internal-number";
 import Decimal from "decimal.js";
 import calculatorMemory from "../../../observables/calculator-memory";
 import type { Lexem } from "./lexem";
+import * as C from "../../math/constants";
 
 type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
     | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN" | "NEG";
@@ -107,11 +108,9 @@ export function getVarInternalNumber(k: KeyEntry): InternalNumber{
         case "ANS":
             return calculatorMemory.ans;
         case "e":
-            return new InternalNumber("DEC", new Decimal(
-                "2.71828_18284_59045_23536"));
+            return new InternalNumber("DEC", new Decimal(C.E));
         case "PI":
-            return new InternalNumber("DEC", new Decimal(
-                "3.14159_26535_89793_23846"));
+            return new InternalNumber("DEC", new Decimal(C.PI));
         case "RAN":
             return new InternalNumber("DEC", new Decimal(Math.random()));
         default:

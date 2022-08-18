@@ -399,15 +399,23 @@ export function parse(entries: KeyEntry[]): ParseResult{
     const s1: KeyEntry[] = [];
     let s2: Lexem[] = [];
 
+    // when there is a pair of empty brackets,
+    // when we reach the rBracket the top of s1 will
+    // be lBracketEqvNoFn and without s2 change since
+    // the last encounter of lBracketEqvNoFn.
+    let hasS2Changed:boolean = false;
+
     for (let i = 0; i < entries.length; i++){
         if (isPpu(entries[i])) {
             s2 = s2.concat(entries[i].ppLexems!);
+            hasS2Changed = true;
         }
         else if (isVar(entries[i])) {
             s2.push({
                 type: "NBR",
                 obj: getVarInternalNumber(entries[i])
             });
+            hasS2Changed = true;
         }
         else if (isNum(entries[i])) {
             let num: string = "";
@@ -442,6 +450,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 obj: new InternalNumber("DEC", new Decimal(num))
             });
 
+            hasS2Changed = true;
+
             i = probeIndex;
         }
         else if (isOpBinary(entries[i])) {
@@ -457,22 +467,29 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 });
                 i--;
             }
+
+            hasS2Changed = true;
         }
         else if (isLBracketEqvNoFn(entries[i])) {
             s1.push(entries[i]);
+            hasS2Changed = false;
         }
         else if (isRBracket(entries[i])) {
             let isLBracketEqvFound: boolean = false;
 
             // brackets cannot be empty
             if (s1.length > 0
+                &&!hasS2Changed
                 && isLBracketEqvNoFn(s1[s1.length - 1])) {
+                console.log(s1.map(x=>x.id))
                 return {
                     success: false,
                     msg: "Empty brackets",
                     lexems: []
                 };
             }
+
+            hasS2Changed = true;
 
             while (s1.length>0) {
                 const currentOp = s1.pop()!;

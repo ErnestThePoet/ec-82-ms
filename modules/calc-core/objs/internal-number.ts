@@ -26,6 +26,7 @@ export class InternalNumber{
     };
 
     constructor(type: InternalNumberType, value: Decimal | FracValue | DegreeValue) {
+        this.numberType = type;
         switch (type) {
             case "DEC":
                 this.decValue = <Decimal>value;
