@@ -2,6 +2,7 @@ import { KeyEntry, KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
 import { Operator } from "../modules/calc-core/objs/operators";
 import { preprocess } from "../modules/calc-core/preprocessing";
 import { parse } from "../modules/calc-core/parse";
+import { calculate } from "../modules/calc-core/calculate";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
 function printResult(ke: KeyEntry[]) {
@@ -19,6 +20,15 @@ function printResult(ke: KeyEntry[]) {
     }
     else {
         console.log(pr.msg);
+    }
+
+    const cr = calculate(pr.lexems);
+
+    if (cr.success) {
+        console.log(cr.result!.toString());
+    }
+    else {
+        console.log(cr.msg);
     }
 }
 
@@ -135,27 +145,4 @@ function test7() {
     printResult(ke);
 }
 
-function test8() {
-    // 3+5/(7+8(1+2))²
-    const ke: KeyEntry[] = [
-        KEY_ENTRIES.n3,
-        KEY_ENTRIES.add,
-        KEY_ENTRIES.n5,
-        KEY_ENTRIES.div,
-        KEY_ENTRIES.lBracket,
-        KEY_ENTRIES.n7,
-        KEY_ENTRIES.add,
-        KEY_ENTRIES.n8,
-        KEY_ENTRIES.lBracket,
-        KEY_ENTRIES.n1,
-        KEY_ENTRIES.add,
-        KEY_ENTRIES.n2,
-        KEY_ENTRIES.rBracket,
-        KEY_ENTRIES.rBracket,
-        KEY_ENTRIES.sqrt
-    ];
-
-    printResult(ke);
-}
-
-test8();
+test2();

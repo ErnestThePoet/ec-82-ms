@@ -14,7 +14,7 @@ import {
 } from "./objs/key-entry";
 
 function appendAns(entries: KeyEntry[]):void{
-    if (isOpUnaryL(entries[entries.length - 1])) {
+    if (entries.length===1&&isOpUnaryL(entries[0])) {
         entries.push(KEY_ENTRIES.ANS);
     }
 }

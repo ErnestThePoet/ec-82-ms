@@ -108,6 +108,14 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 return subParseResult;
             }
 
+            if (subParseResult.lexems.length === 0) {
+                return {
+                    success: false,
+                    msg: "Insufficent operands",
+                    lexems: []
+                };
+            }
+
             // append this UnaryR operator to postfix expression
             subParseResult.lexems.push({
                 type: "OP",
@@ -197,7 +205,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 || arg2ParseResult.lexems.length === 0) {
                 return {
                     success: false,
-                    msg: "Insufficent args",
+                    msg: "Insufficent operands",
                     lexems: []
                 };
             }
@@ -358,6 +366,14 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     return dmsParseResults[j];
                 }
 
+                if (dmsParseResults[j].lexems.length === 0) {
+                    return {
+                        success: false,
+                        msg: "Insufficent operands",
+                        lexems: []
+                    };
+                }
+
                 dmsLexems = dmsLexems.concat(dmsParseResults[j].lexems);
             }
 
@@ -447,6 +463,16 @@ export function parse(entries: KeyEntry[]): ParseResult{
         }
         else if (isRBracket(entries[i])) {
             let isLBracketEqvFound: boolean = false;
+
+            // brackets cannot be empty
+            if (s1.length > 0
+                && isLBracketEqvNoFn(s1[s1.length - 1])) {
+                return {
+                    success: false,
+                    msg: "Empty brackets",
+                    lexems: []
+                };
+            }
 
             while (s1.length>0) {
                 const currentOp = s1.pop()!;
