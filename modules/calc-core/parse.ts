@@ -50,7 +50,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 // if we fail to reach a LBracketEqv, then the parsing is unsuccessful
 
                 // rBrackets-lBrackets during search.
-                let bracketDiff = 0;
+                // set to -1 to make sure current rBracket returns it to 0
+                let bracketDiff = -1;
                 
                 while (probeIndex >= 0) {
                     if (isRBracket(entries[probeIndex])) {
@@ -59,10 +60,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     else if (isLBracketEqv(entries[probeIndex])) {
                         if (bracketDiff === 0) {
                             // this is the matching lBracket
-                            // include if is op
-                            if (!isLBracket(entries[probeIndex])) {
-                                subEntries.unshift(entries[probeIndex]);
-                            }
+                            // include it to make sub parsing work
+                            subEntries.unshift(entries[probeIndex]);
                             break;
                         }
                         else {
@@ -194,6 +193,15 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 return arg2ParseResult;
             }
 
+            if (arg1ParseResult.lexems.length === 0
+                || arg2ParseResult.lexems.length === 0) {
+                return {
+                    success: false,
+                    msg: "Insufficent args",
+                    lexems: []
+                };
+            }
+
             const ppLexems = arg1ParseResult.lexems.concat(
                 arg2ParseResult.lexems
             );
@@ -231,7 +239,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
 
             while (true) {
                 if (isRBracket(entries[i - 1])) {
-                    let bracketDiff = 0;
+                    let bracketDiff = -1;
 
                     while (probeIndex >= 0) {
                         if (isRBracket(entries[probeIndex])) {
@@ -240,11 +248,9 @@ export function parse(entries: KeyEntry[]): ParseResult{
                         else if (isLBracketEqv(entries[probeIndex])) {
                             if (bracketDiff === 0) {
                                 // this is the matching lBracket
-                                // include if is op
-                                if (!isLBracket(entries[probeIndex])) {
-                                    subEntriesSMD[degreeCount - 1]
-                                        .unshift(entries[probeIndex]);
-                                }
+                                // include it to make sub parsing work
+                                subEntriesSMD[degreeCount - 1]
+                                    .unshift(entries[probeIndex]);
                                 break;
                             }
                             else {
@@ -313,24 +319,50 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 }
             }
 
-            const smdParseResults:ParseResult[] = [
+            let smdParseResults: ParseResult[] = [
                 parse(subEntriesSMD[0]),
                 parse(subEntriesSMD[1]),
                 parse(subEntriesSMD[2])
             ];
 
-            let smdLexems: Lexem[] = [];
+            let dmsParseResults: ParseResult[] = [];
 
-            for (let j = 0; j < smdParseResults.length; j++){
-                if (!smdParseResults[j].success) {
-                    return smdParseResults[j];
+            switch (degreeCount) {
+                case 1:
+                    dmsParseResults = [
+                        smdParseResults[0],
+                        smdParseResults[1],
+                        smdParseResults[2]
+                    ];
+                    break;
+                case 2:
+                    dmsParseResults = [
+                        smdParseResults[1],
+                        smdParseResults[0],
+                        smdParseResults[2]
+                    ];
+                    break;
+                case 3:
+                    dmsParseResults = [
+                        smdParseResults[2],
+                        smdParseResults[1],
+                        smdParseResults[0]
+                    ];
+                    break;
+            }
+
+            let dmsLexems: Lexem[] = [];
+
+            for (let j = 0; j < dmsParseResults.length; j++){
+                if (!dmsParseResults[j].success) {
+                    return dmsParseResults[j];
                 }
 
-                smdLexems = smdLexems.concat(smdParseResults[j].lexems);
+                dmsLexems = dmsLexems.concat(dmsParseResults[j].lexems);
             }
 
             // append this UnaryR operator to postfix expression
-            smdLexems.push({
+            dmsLexems.push({
                 type: "OP",
                 obj: getOperatorById("CREATE_DEGREE")
             });
@@ -339,7 +371,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 id: "PPU",
                 svg: "",
                 type: "PPU",
-                ppLexems: smdLexems
+                ppLexems: dmsLexems
             });
 
             // next iteration will start from probeIndex
@@ -377,6 +409,11 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     };
                 }
                 probeIndex++;
+            }
+
+            // Decimal constructor does not accept single "."
+            if (num === ".") {
+                num = "0";
             }
 
             if (probeIndex < entries.length) {

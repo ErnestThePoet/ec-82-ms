@@ -105,6 +105,7 @@ function reducePosNeg(entries: KeyEntry[]): void{
                             bracketDiff--;
                         }
                     }
+                    probeIndex++;
                 }
 
                 if (probeIndex >= entries.length) {
