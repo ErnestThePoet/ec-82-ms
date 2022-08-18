@@ -1,0 +1,12 @@
+.divFuncKeys {
+    width: 100%;
+    height: 27%;
+
+    >div:first-child {
+        >div{
+            width: 35%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    }
+}

@@ -1,7 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "../styles/sys-keys.module.scss";
-import SysKey from "./key/sys-key";
+import stylesP from "../styles/panel.module.scss";
+import Key from "./key";
 
 export default class SysKeys extends React.Component{
     constructor(props: {}) {
@@ -12,40 +13,40 @@ export default class SysKeys extends React.Component{
         <div className={classNames(styles.divSysKeys,
             "d-flex justify-content-between")}>
             <div>
-                <SysKey
+                <Key role="ksys"
                     upperContent={
-                        <span role="kl" className={styles.spanSysKeyLabelGreen}>
+                        <span role="klg">
                             SHIFT
                         </span>
                     }
-                    onClick={() => { }} ></SysKey>
-                <SysKey
+                    onClick={() => { }} ></Key>
+                <Key role="ksys"
                     upperContent={
-                        <span role="kl" className={styles.spanSysKeyLabelOrange}>
+                        <span role="klo">
                             ALPHA
                         </span>
                     }
-                    onClick={() => { }} ></SysKey>
+                    onClick={() => { }} ></Key>
             </div>
 
             <div>
-                <SysKey
+                <Key role="ksys"
                     upperContent={
-                        <span role="kl" className={styles.spanSysKeyLabelGreen}>
+                        <span role="klg">
                             MODE CLR
                         </span>
                     }
-                    onClick={() => { }} ></SysKey>
-                <SysKey
+                    onClick={() => { }} ></Key>
+                <Key role="ksys"
                     upperContent={
-                        <span role="kl" className={styles.spanSysKeyLabelGreen}>
+                        <span role="klg">
                             LANG
                         </span>
                     }
-                    onClick={() => { }} ></SysKey>
+                    onClick={() => { }} ></Key>
             </div>
 
-            <div role="key" className={styles.divDirKeys}>
+            <div role="kdir">
                 <i className="fa-solid fa-caret-up"></i>
                 <i className="fa-solid fa-caret-up"></i>
                 <i className="fa-solid fa-caret-up"></i>

@@ -1,25 +1,24 @@
 import React from "react";
-import classNames from "classnames";
-import styles from "../../styles/key/sys-key.module.scss";
 
-export interface KeyProps{
+interface KeyProps{
+    role: "ksys"|"kfunc"|"kbasic";
     content?: any;
     upperContent?: any;
     onClick: () => void;
 }
 
-export default class SysKey extends React.Component<KeyProps>{
+export default class Key extends React.Component<KeyProps>{
     constructor(props: KeyProps) {
         super(props);
     }
     
     render = () => (
-        <div className={classNames("d-flex flex-column align-items-center")}>
+        <div className={"d-flex flex-column align-items-center"}>
             <div>
                 {this.props.upperContent}
             </div>
 
-            <div role="key" className={classNames(styles.divKey)}
+            <div role={this.props.role}
             onClick={()=>this.props.onClick()}>
                 {this.props.content}
             </div>
