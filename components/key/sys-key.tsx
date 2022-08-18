@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
-import styles from "../styles/sys-key.module.scss";
+import styles from "../../styles/key/sys-key.module.scss";
 
-interface KeyProps{
+export interface KeyProps{
     content?: any;
     upperContent?: any;
     onClick: () => void;
