@@ -1,52 +1,56 @@
 import { makeAutoObservable } from "mobx";
+import type { KeyEntry } from "../modules/calc-core/objs/key-entry";
+import Decimal from "decimal.js";
+import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
-type CalculatorValueType = "DEC" | "FRAC";
 type CalculatorDRGMode = "D" | "R" | "G";
+type CalculatorFuncMode = "" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
 
 class CalculatorState{
     constructor() {
         makeAutoObservable(this);
     }
+
+    historyEntries: Array<KeyEntry[]> = [];
+    entries: KeyEntry[] = [];
+
+    cursorIndex: number = 0;
+
+    calcResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
+    dispResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
     
-    // whether in fraction calculation mode or decimal.
-    valueType: CalculatorValueType = "DEC";
-    
+    isInsert: boolean = true;
     // degree, radian or grade
     drgMode: CalculatorDRGMode = "D";
 
-    // shift
-    shift: boolean = false;
-    // alpha
-    alpha: boolean = false;
-    // hyp
-    hyp: boolean = false;
+    funcMode: CalculatorFuncMode = "";
 
-    setValueType(newType: CalculatorValueType) {
-        this.valueType = newType;
+    setCursorIndex(index: number) {
+        this.cursorIndex = index;
+    }
+
+    setCalcResult(result: InternalNumber) {
+        this.calcResult = result;
+    }
+
+    setDispResult(result: InternalNumber) {
+        this.dispResult = result;
+    }
+
+    setIsInsert(insert: boolean) {
+        this.isInsert = insert;
     }
 
     setDRGMode(newMode: CalculatorDRGMode) {
         this.drgMode = newMode;
     }
 
-    setShift(newShift:boolean) {
-        this.shift = newShift;
-
-        if (newShift) {
-            this.alpha = false;
-        }
+    setFuncMode(newMode: CalculatorFuncMode) {
+        this.funcMode = newMode;
     }
 
-    setAlpha(newAlpha: boolean) {
-        this.alpha = newAlpha;
-
-        if (newAlpha) {
-            this.shift = false;
-        }
-    }
-
-    setHyp(newHyp: boolean) {
-        this.hyp = newHyp;
+    clearFuncMode() {
+        this.funcMode = "";
     }
 }
 

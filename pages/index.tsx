@@ -17,8 +17,6 @@ class Home extends React.Component {
     <div className={styles.container}>
       <Head>
         <title>{stringsRes.strings.APP_TITLE}</title>
-        <meta name="description" content="EC-82MS Web Calculator" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
