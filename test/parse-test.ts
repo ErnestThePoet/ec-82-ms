@@ -158,4 +158,22 @@ function test8() {
     printResult(ke);
 }
 
-test8();
+function test9() {
+    // 5-Pol(5,Pol(7,9))
+    const ke: KeyEntry[] = [
+        KEY_ENTRIES.n5,
+        KEY_ENTRIES.sub,
+        KEY_ENTRIES.pol,
+        KEY_ENTRIES.n5,
+        KEY_ENTRIES.comma,
+        KEY_ENTRIES.pol,
+        KEY_ENTRIES.n7,
+        KEY_ENTRIES.comma,
+        KEY_ENTRIES.n9,
+        KEY_ENTRIES.rBracket
+    ];
+
+    printResult(ke);
+}
+
+test9();

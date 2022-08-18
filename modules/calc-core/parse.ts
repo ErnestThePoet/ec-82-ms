@@ -21,6 +21,7 @@ import { Lexem } from "./objs/lexem";
 import Decimal from "decimal.js";
 import { InternalNumber } from "./objs/internal-number";
 import { getOperatorById } from "./objs/operators";
+import stringsRes from "../../observables/strings-res";
 
 interface ParseResult {
     success: boolean;
@@ -75,7 +76,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (probeIndex < 0) {
                     return {
                         success: false,
-                        msg: "Missing (",
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_L_BRACKET,
                         lexems: []
                     };
                 }
@@ -97,7 +98,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             else {
                 return {
                     success: false,
-                    msg: "Unexpected key entry",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
                     lexems: []
                 };
             }
@@ -111,7 +112,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (subParseResult.lexems.length === 0) {
                 return {
                     success: false,
-                    msg: "Insufficent operands",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
                     lexems: []
                 };
             }
@@ -152,7 +153,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (probeIndex >= entries.length) {
                 return {
                     success: false,
-                    msg: "Failed to find ,",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_COMMA,
                     lexems: []
                 };
             }
@@ -184,7 +185,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (probeIndex >= entries.length) {
                 return {
                     success: false,
-                    msg: "Failed to find )",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_R_BRACKET,
                     lexems: []
                 };
             }
@@ -205,7 +206,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 || arg2ParseResult.lexems.length === 0) {
                 return {
                     success: false,
-                    msg: "Insufficent operands",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
                     lexems: []
                 };
             }
@@ -272,7 +273,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     if (probeIndex < 0) {
                         return {
                             success: false,
-                            msg: "Missing (",
+                            msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_L_BRACKET,
                             lexems: []
                         };
                     }
@@ -293,7 +294,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 else {
                     return {
                         success: false,
-                        msg: "Unexpected key entry",
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
                         lexems: []
                     };
                 }
@@ -306,7 +307,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     if (degreeCount > 3) {
                         return {
                             success: false,
-                            msg: "Too many degree symbols",
+                            msg: stringsRes.strings.PARSE_ERROR_MSGS.TOO_MANY_DEGREE_SYMBOL,
                             lexems: []
                         };
                     }
@@ -369,7 +370,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (dmsParseResults[j].lexems.length === 0) {
                     return {
                         success: false,
-                        msg: "Insufficent operands",
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
                         lexems: []
                     };
                 }
@@ -428,7 +429,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (dotCount > 1) {
                     return {
                         success: false,
-                        msg: "Too many decimal points",
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS.TOO_MANY_DECIMAL_POINT,
                         lexems: []
                     };
                 }
@@ -484,7 +485,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 console.log(s1.map(x=>x.id))
                 return {
                     success: false,
-                    msg: "Empty brackets",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.EMPTY_BRACKETS,
                     lexems: []
                 };
             }
@@ -516,7 +517,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (!isLBracketEqvFound) {
                 return {
                     success: false,
-                    msg: "Missing (",
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_L_BRACKET,
                     lexems: []
                 };
             }
@@ -524,7 +525,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
         else {
             return {
                 success: false,
-                msg: "Unexpected key entry",
+                msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
                 lexems: []
             };
         }

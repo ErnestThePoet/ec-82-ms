@@ -3,6 +3,16 @@ import type { FracValue, DegreeValue } from "./types";
 
 type InternalNumberType = "DEC" | "FRAC" | "DEGREE";
 
+interface StorageFracValue { u: string; d: string; }
+interface StorageDegreeValue { neg: boolean; d: string; m: string; s: string }
+
+interface StorageObject{
+    type: InternalNumberType;
+    value: string
+    | StorageFracValue
+    | StorageDegreeValue;
+}
+
 // Immutable
 export class InternalNumber{
     // an InternalNumber object only maintains the value of its current type.
@@ -67,5 +77,55 @@ export class InternalNumber{
                     + `${this.degreeValue.m.toString()}'`
                     + `${this.degreeValue.s.toString()}"`;
         }
+    }
+
+    toStorageObjectString(): string{
+        const storageObject: StorageObject = {
+            type: this.numberType,
+            value: ""
+        };
+
+        switch (this.numberType) {
+            case "DEC":
+                storageObject.value = this.decValue.toString();
+                break;
+            case "FRAC":
+                storageObject.value = {
+                    u: this.fracValue.u.toString(),
+                    d: this.fracValue.d.toString()
+                };
+                break;
+            case "DEGREE":
+                storageObject.value = {
+                    neg: this.degreeValue.neg,
+                    d: this.degreeValue.d.toString(),
+                    m: this.degreeValue.m.toString(),
+                    s: this.degreeValue.s.toString(),
+                };
+                break;
+        }
+
+        return JSON.stringify(storageObject);
+    }
+}
+
+export function fromStorageObjectString(str: string): InternalNumber{
+    const storageObject:StorageObject = JSON.parse(str);
+
+    switch (storageObject.type) {
+        case "DEC":
+            return new InternalNumber("DEC", new Decimal(storageObject.value as string));
+        case "FRAC":
+            return new InternalNumber("FRAC", {
+                u: new Decimal((<StorageFracValue>storageObject.value).u),
+                d: new Decimal((<StorageFracValue>storageObject.value).d),
+            });
+        case "DEGREE":
+            return new InternalNumber("DEGREE", {
+                neg: (<StorageDegreeValue>storageObject.value).neg,
+                d: new Decimal((<StorageDegreeValue>storageObject.value).d),
+                m: new Decimal((<StorageDegreeValue>storageObject.value).m),
+                s: new Decimal((<StorageDegreeValue>storageObject.value).s),
+            });
     }
 }

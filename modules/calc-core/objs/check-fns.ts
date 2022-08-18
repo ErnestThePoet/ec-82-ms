@@ -22,7 +22,7 @@ const gzCheck: (funcName: string) => CheckFn
     (...operands: InternalNumber[]) => (
         {
             ok: isPositive(operands[0]),
-            msg: funcName+stringsRes.strings.ERROR_MSGS.GOT_NOT_POSITIVE
+            msg: funcName+stringsRes.strings.CALC_CK_ERROR_MSGS.GOT_NOT_POSITIVE
         }
     )
 );
@@ -52,7 +52,7 @@ export const CHECK_FNS: CheckFns = {
     alwaysTrue: () => ({ ok: true, msg: "" }),
     sqrtCheck: (...operands: InternalNumber[]) => ({
         ok: isZeroPositive(operands[0]),
-        msg: stringsRes.strings.ERROR_MSGS.SQRT
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.SQRT
     }),
     logCheck: gzCheck("log()"),
     lnCheck: gzCheck("ln()"),
@@ -70,37 +70,37 @@ export const CHECK_FNS: CheckFns = {
 
         return {
             ok: !isOdd(div(operands[0],new InternalNumber("DEC",new Decimal(halfPi)))),
-            msg: stringsRes.strings.ERROR_MSGS.TAN
+            msg: stringsRes.strings.CALC_CK_ERROR_MSGS.TAN
         }
     },
     asinAcosCheck: (...operands: InternalNumber[]) => {
         const decValue = getDecValue(operands[0]);
         return {
             ok: decValue.gte(-1) && decValue.lte(1),
-            msg: stringsRes.strings.ERROR_MSGS.ASINACOS
+            msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ASINACOS
         }
     },
     factCheck: (...operands: InternalNumber[]) => ({
         ok: isNonNegativeInteger(operands[0]),
-        msg: stringsRes.strings.ERROR_MSGS.FACT
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.FACT
     }),
     invCheck: (...operands: InternalNumber[]) => ({
         ok: !isZero(operands[0]),
-        msg: stringsRes.strings.ERROR_MSGS.INV
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.INV
     }),
     nCrnPrCheck: (...operands: InternalNumber[]) => {
         if (!isNonNegativeInteger(operands[0])
             || !isNonNegativeInteger(operands[1])) {
             return {
                 ok: false,
-                msg: stringsRes.strings.ERROR_MSGS.COMBINE_NOT_NNINT
+                msg: stringsRes.strings.CALC_CK_ERROR_MSGS.COMBINE_NOT_NNINT
             }
         }
         
         if (getDecValue(operands[0]).lt(getDecValue(operands[1]))) {
             return {
                 ok: false,
-                msg: stringsRes.strings.ERROR_MSGS.COMBINE_X_LT_Y
+                msg: stringsRes.strings.CALC_CK_ERROR_MSGS.COMBINE_X_LT_Y
             }
         }
 
@@ -111,20 +111,20 @@ export const CHECK_FNS: CheckFns = {
     },
     powCheck: (...operands: InternalNumber[]) => ({
         ok: isZeroPositive(operands[0]) || getDecValue(operands[1]).isInteger(),
-        msg: stringsRes.strings.ERROR_MSGS.POW
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.POW
     }),
     rootCheck: (...operands: InternalNumber[]) => {
         if (isZero(operands[0])) {
             return {
                 ok: false,
-                msg: stringsRes.strings.ERROR_MSGS.ROOT_X_ZERO
+                msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ROOT_X_ZERO
             }
         }
         
         if (isNegative(operands[1]) && !isOdd(operands[0])) {
             return {
                 ok: false,
-                msg: stringsRes.strings.ERROR_MSGS.ROOT_Y_NEG_X_NOT_ODD_INT
+                msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ROOT_Y_NEG_X_NOT_ODD_INT
             }
         }
         
@@ -135,19 +135,19 @@ export const CHECK_FNS: CheckFns = {
     },
     divCheck: (...operands: InternalNumber[]) => ({
         ok: !isZero(operands[1]),
-        msg: stringsRes.strings.ERROR_MSGS.DIV
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.DIV
     }),
     recCheck: (...operands: InternalNumber[]) => ({
         ok: isZeroPositive(operands[0]),
-        msg: stringsRes.strings.ERROR_MSGS.REC
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.REC
     }),
 
     createDegreeCheck: (...operands: InternalNumber[]) => ({
         ok: isZeroPositive(operands[1]) && isZeroPositive(operands[2]),
-        msg:stringsRes.strings.ERROR_MSGS.CREATE_DEGREE
+        msg:stringsRes.strings.CALC_CK_ERROR_MSGS.CREATE_DEGREE
     }),
     createFracCheck: (...operands: InternalNumber[]) => ({
         ok: !isZero(operands[2]),
-        msg: stringsRes.strings.ERROR_MSGS.CREATE_FRAC
+        msg: stringsRes.strings.CALC_CK_ERROR_MSGS.CREATE_FRAC
     }),
 };
