@@ -15,6 +15,7 @@ class CalculatorState{
     entries: KeyEntry[] = [];
 
     cursorIndex: number = 0;
+    dispStartIndex: number = 0;
 
     calcResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
     dispResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
@@ -27,6 +28,10 @@ class CalculatorState{
 
     setCursorIndex(index: number) {
         this.cursorIndex = index;
+    }
+
+    setDispStartIndex(index: number) {
+        this.dispStartIndex = index;
     }
 
     setCalcResult(result: InternalNumber) {

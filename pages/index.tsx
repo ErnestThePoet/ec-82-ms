@@ -4,6 +4,9 @@ import styles from '../styles/index.module.scss';
 import * as L from "../logics/index";
 import stringsRes from '../observables/strings-res';
 
+import Panel from '../components/panel';
+import classNames from 'classnames';
+
 class Home extends React.Component {
   constructor(props: any) {
     super(props);
@@ -14,13 +17,14 @@ class Home extends React.Component {
   }
 
   render = () => (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>{stringsRes.strings.APP_TITLE}</title>
       </Head>
 
-      <main className={styles.main}>
-        
+      <main className={classNames(styles.mainMain,
+        "d-flex justify-content-center")} >
+        <Panel/>
       </main>
     </div>
   );

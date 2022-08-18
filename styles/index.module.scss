@@ -1,0 +1,12 @@
+@import "./common/layout";
+
+.mainMain{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: $z-index-main;
+
+    font-family: 'Ubuntu', sans-serif;
+}

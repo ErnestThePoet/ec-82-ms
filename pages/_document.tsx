@@ -13,6 +13,7 @@ class MyDocument extends Document {
                 <Head>
                     <meta name="description" content="EC-82MS Web Calculator" />
                     <link rel="icon" href="/_next/static/favicon.ico" />
+                    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet"></link>
                 </Head>
                 <body style={{ margin: 0 }}>
                     <Main />

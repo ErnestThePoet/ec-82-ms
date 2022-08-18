@@ -1,0 +1,29 @@
+@keyframes falling-appear{
+    from{
+        transform: translateY(-100%);
+    }
+
+    to{
+        transform: translateY(0);
+    }
+}
+
+@keyframes fading-in-appear{
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes scale-in-appear{
+    from{
+        transform: scale(95%);
+    }
+
+    to{
+        transform: scale(100%);
+    }
+}
