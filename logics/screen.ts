@@ -2,7 +2,12 @@ import cs, { CalculatorDRGMode } from "../observables/calculator-state";
 import cm from "../observables/calculator-memory";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 import Decimal from "decimal.js";
-import sr,{ LangType } from "../observables/strings-res";
+import sr, { LangType } from "../observables/strings-res";
+
+export const onKeyEntryImgClick = (index: number) => {
+    cs.setDisplayMode("NORMAL_EDIT");
+    cs.setCursorIndex(index);
+}
 
 export const onDrgClick = (drg: CalculatorDRGMode) => {
     cs.setDRGMode(drg);

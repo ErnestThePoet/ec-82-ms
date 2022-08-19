@@ -31,8 +31,14 @@
 
         min-height: 1.5em;
         max-height: 50%;
-        overflow: hidden;
+        overflow: auto;
         //background-color: rebeccapurple;
+
+        @include slim-scroll-bar;
+
+        >img{
+            cursor: text;
+        }
     }
 
     >div[role="result"]{

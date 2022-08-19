@@ -16,8 +16,6 @@ type CalculatorDisplayMode = "NORMAL_EDIT" |"NORMAL_SHOW"|"ERROR"| "CLEAR" | "DR
 export type CalculatorDRGMode = "D" | "R" | "G";
 type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
 
-export const DISPLAY_LENGTH = 20;
-
 class CalculatorState{
     constructor() {
         makeAutoObservable(this);
@@ -28,7 +26,6 @@ class CalculatorState{
 
     entryIndex: number = 0;
     cursorIndex: number = 0;
-    dispStartIndex: number = 0;
 
     calcResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
     dispResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
@@ -51,7 +48,10 @@ class CalculatorState{
             case "NORMAL_EDIT":
                 if (this.isInsert) {
                     this.entries.splice(this.cursorIndex, 0, ke);
-                    this.setCursorIndex(this.entries.length);
+                    // if insert takes place at end
+                    if (this.cursorIndex === this.entries.length - 1) {
+                        this.setCursorIndex(this.entries.length);
+                    }
                 }
                 else {
                     if (this.cursorIndex >= this.entries.length) {
@@ -106,9 +106,6 @@ class CalculatorState{
         }
 
         this.cursorIndex = index;
-
-        this.dispStartIndex =
-            index - DISPLAY_LENGTH + 1 >= 0 ? index - DISPLAY_LENGTH + 1:0;
     }
 
     setCalcResult(result: InternalNumber) {
@@ -190,7 +187,16 @@ class CalculatorState{
         this.entryIndex = this.historyEntries.length-1;
 
         this.calcResult = calculateResult.result!;
-        this.dispResult = calculateResult.result!;
+
+        // for integer frac values, display in integer
+        const decCalcResult = getDecValue(this.calcResult);
+        if (this.calcResult.type === "FRAC" && decCalcResult.isInteger()) {
+            this.dispResult = new InternalNumber("DEC", decCalcResult);
+        }
+        else {
+            this.dispResult = calculateResult.result!;
+        }
+        
         calculatorMemory.ans = calculateResult.result!;
 
         this.displayMode = "NORMAL_SHOW";
