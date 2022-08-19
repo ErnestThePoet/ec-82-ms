@@ -72,6 +72,8 @@ class CalculatorState{
                 }
                 
                 this.setCursorIndex(this.entries.length);
+                // start new entry
+                this.setEntryIndex(this.historyEntries.length);
                 this.displayMode = "NORMAL_EDIT";
                 break;
         }
@@ -185,7 +187,7 @@ class CalculatorState{
         }
 
         this.historyEntries.push(this.entries);
-        this.entryIndex = this.historyEntries.length;
+        //this.entryIndex = this.historyEntries.length;
 
         this.calcResult = calculateResult.result!;
         this.dispResult = calculateResult.result!;

@@ -17,7 +17,7 @@ export function toDegreeValue(x: FracValue): DegreeValue {
 
 // u and d follow same RI as FracValue except u and d may not be int.
 export function fromTerminatingDiv(u: Decimal, d: Decimal): FracValue{
-    const isNegative = (u.isNeg() && d.isPos()) || (u.isPos() && d.isNeg());
+    const isNegative = (u.lt(0) && d.gt(0)) || (u.gt(0) && d.lt(0));
 
     u = u.abs();
     d = d.abs();
@@ -45,7 +45,7 @@ export function reduce(x: FracValue):FracValue {
 // x must not evaluate to 0.
 export function invert(x: FracValue): FracValue{
     return {
-        u: x.u.isNeg()?x.d.abs().neg():x.d.abs(),
+        u: x.u.lt(0)?x.d.abs().neg():x.d.abs(),
         d: x.u.abs()
     };
 }

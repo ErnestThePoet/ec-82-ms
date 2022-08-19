@@ -88,12 +88,12 @@ export function addDegree(x: DegreeValue, y: DegreeValue): DegreeValue{
             let m = x.m.sub(y.m);
             let d = x.d.sub(y.d);
 
-            if (s.isNeg()) {
+            if (s.lt(0)) {
                 m=m.sub(1);
                 s=s.add(60);
             }
 
-            if (m.isNeg()) {
+            if (m.lt(0)) {
                 d=d.sub(1);
                 m=m.add(60);
             }
@@ -107,12 +107,12 @@ export function addDegree(x: DegreeValue, y: DegreeValue): DegreeValue{
             let m = y.m.sub(x.m);
             let d = y.d.sub(x.d);
 
-            if (s.isNeg()) {
+            if (s.lt(0)) {
                 m=m.sub(1);
                 s=s.add(60);
             }
 
-            if (m.isNeg()) {
+            if (m.lt(0)) {
                 d=d.sub(1);
                 m=m.add(60);
             }

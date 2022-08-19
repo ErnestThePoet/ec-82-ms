@@ -61,9 +61,9 @@ export function isZero(x: InternalNumber): boolean {
 export function isPositive(x: InternalNumber): boolean{
     switch (x.type) {
         case "DEC":
-            return x.dec.isPos();
+            return x.dec.gt(0);
         case "FRAC":
-            return x.frac.u.isPos();
+            return x.frac.u.gt(0);
         case "DEGREE":
             return !isZero(x)&&!x.degree.neg;
     }
@@ -72,9 +72,9 @@ export function isPositive(x: InternalNumber): boolean{
 export function isNegative(x: InternalNumber): boolean {
     switch (x.type) {
         case "DEC":
-            return x.dec.isNeg();
+            return x.dec.lt(0);
         case "FRAC":
-            return x.frac.u.isNeg();
+            return x.frac.u.lt(0);
         case "DEGREE":
             return !isZero(x) &&x.degree.neg;
     }

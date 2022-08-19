@@ -11,7 +11,7 @@ export function toFracValue(x: Decimal): FracValue{
 }
 
 export function toDegreeValue(x: Decimal): DegreeValue{
-    const neg: boolean = x.isNegative();
+    const neg: boolean = x.lt(0);
     x = x.abs();
     const d: Decimal = x.floor();
     x=x.sub(d);

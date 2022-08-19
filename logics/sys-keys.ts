@@ -89,6 +89,15 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                 break;
         }
     }
+    else if (cs.displayMode === "ERROR") {
+        switch (dir) {
+            case "L":
+            case "R":
+                cs.setDisplayMode("NORMAL_EDIT");
+                cs.setCursorIndex(cs.entries.length);
+                break;
+        }
+    }
 }
 
 export const onModeClrClick = () => {

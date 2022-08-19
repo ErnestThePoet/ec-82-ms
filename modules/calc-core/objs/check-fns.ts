@@ -54,8 +54,8 @@ export const CHECK_FNS: CheckFns = {
         ok: isZeroPositive(operands[0]),
         msg: stringsRes.strings.CALC_CK_ERROR_MSGS.SQRT
     }),
-    logCheck: gzCheck("log()"),
-    lnCheck: gzCheck("ln()"),
+    logCheck: gzCheck("log() "),
+    lnCheck: gzCheck("ln() "),
     tanCheck: (...operands: InternalNumber[]) => {
         let halfPi = 90;
 
