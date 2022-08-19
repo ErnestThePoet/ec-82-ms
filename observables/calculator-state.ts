@@ -44,20 +44,34 @@ class CalculatorState{
         switch (this.displayMode) {
             case "NORMAL_EDIT":
                 if (this.isInsert) {
-                    this.entries.splice(this.entryIndex, 0, ke);
+                    this.entries.splice(this.cursorIndex, 0, ke);
                 }
                 else {
-                    if (this.entryIndex >= this.entries.length) {
+                    if (this.cursorIndex >= this.entries.length) {
                         this.entries.push(ke);
+                        this.cursorIndex = this.entries.length;
                     }
                     else {
-                        this.entries[this.entryIndex] = ke;
+                        this.entries[this.cursorIndex] = ke;
                     }
                 }
                 break;
             case "NORMAL_SHOW":
                 this.entries = [ke];
+                this.cursorIndex = this.entries.length;
                 break;
+        }
+    }
+
+    deleteEntry() {
+        if (this.displayMode === "NORMAL_EDIT") {
+            if (this.cursorIndex >= this.entries.length) {
+                this.entries.pop();
+                this.cursorIndex = this.entries.length;
+            }
+            else {
+                this.entries.splice(this.cursorIndex, 1);
+            }
         }
     }
 
@@ -91,8 +105,8 @@ class CalculatorState{
         this.dispResult = result;
     }
 
-    setIsInsert(insert: boolean) {
-        this.isInsert = insert;
+    toggleIsInsert() {
+        this.isInsert = !this.isInsert;
     }
 
     setDisplayMode(newMode: CalculatorDisplayMode) {
@@ -137,6 +151,10 @@ class CalculatorState{
                     new InternalNumber("DEC", getDecValue(this.calcResult));
                 break;
         }
+    }
+
+    calculate() {
+        
     }
 }
 
