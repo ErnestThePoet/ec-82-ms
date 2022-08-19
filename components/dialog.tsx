@@ -1,66 +1,46 @@
 import styles from "../styles/dialog.module.scss";
-
-import classNames from "classnames";
+import Key from "./key";
 
 const Dialog = function (props: {
     title: string,
-    closeButton?: boolean,
     yesButton?: boolean,
     cancelButton?: boolean,
-    yesText?: string,
-    cancelText?: string,
+    yesContent?: string,
+    cancelContent?: string,
     closeDialog: (close: boolean) => void;
     style?: {};
     className?: any;
     children: any;
 }) {
     return (
-        <div className={classNames(styles.divDialogWall,
-            "d-flex justify-content-center align-items-center")}
+        <div className={styles.divDialogWall}
             onClick={e => { e.stopPropagation(); }}
             style={props.style}>
-            <div className={classNames(props.className, styles.divDialogWrapper)}>
+            <div className={styles.divDialogWrapper}>
                 <div
-                    className={classNames(styles.divDialogTitleBar,
-                        "d-flex justify-content-between align-items-center")}>
+                    className={styles.divDialogTitleBar}>
                     <label className={styles.lblDialogTitle}>{props.title}</label>
-                    {
-                        props.closeButton &&
-                        <i
-                            className="fa-solid fa-xmark"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => { props.closeDialog(false); }}></i>
-                    }
                 </div>
 
                 <div>
-                    <div className={classNames(styles.divDialogContentWrapper)}>
+                    <div className={styles.divDialogContentWrapper}>
                         {props.children}
                     </div>
 
                     {
                         (props.yesButton || props.cancelButton) &&
-                        <div className={classNames(styles.divYesNoWrapper,
-                            "d-flex justify-content-end mt-2")}>
+                        <div className={styles.divYesNoWrapper}>
                             {
                                 props.cancelButton &&
-                                <button type="button"
-                                    className={classNames(styles.btnYesNo, "btn btn-light")}
-                                    onClick={() => { props.closeDialog(false); }}>
-                                    {
-                                        props.cancelText ? props.cancelText : "取消"
-                                    }
-                                </button>
+                                <Key role="kfunc"
+                                    content={props.cancelContent ? props.cancelContent : <span role="klb">取消</span>}
+                                    onClick={() => { props.closeDialog(false); }}/>
                             }
                             {
                                 props.yesButton &&
-                                <button type="button"
-                                    className={classNames(styles.btnYesNo, "btn btn-info")}
-                                    onClick={() => { props.closeDialog(true); }}>
-                                    {
-                                        props.yesText ? props.yesText : "确定"
-                                    }
-                                </button>
+                                <Key role="kfunc"
+                                    content={props.yesContent ? props.yesContent : <span role="klb">确定</span>}
+                                    onClick={() => { props.closeDialog(true); }} />
                             }
                         </div>
                     }

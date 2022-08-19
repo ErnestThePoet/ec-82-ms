@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 import styles from "../styles/func-keys.module.scss";
 import Key from "./key";
 
@@ -9,9 +8,8 @@ export default class FuncKeys extends React.Component {
     }
 
     render = () => (
-        <div className={classNames(styles.divFuncKeys,
-            "d-flex flex-column justify-content-between")}>
-            <div className="d-flex justify-content-between">
+        <div className={styles.divFuncKeys}>
+            <div>
                 <div>
                     <Key role="kfunc"
                         upperContent={<span role="klg">x!</span>}
@@ -36,7 +34,7 @@ export default class FuncKeys extends React.Component {
                 </div>
             </div>
 
-            <div className="w-100 d-flex justify-content-evenly align-items-end">
+            <div>
                 <Key role="kfunc"
                     content={<span role="klb">d/c</span>}
                     onClick={() => { }} />
@@ -55,22 +53,22 @@ export default class FuncKeys extends React.Component {
                     content={<span role="klb">log</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span><span role="klg">e<sup>x</sup>{ "  "}</span><span role="klo">e</span></span>}
+                    upperContent={<span><span role="klg">e<sup>x</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span role="klo">e</span></span>}
                     content={<span role="klb">ln</span>}
                     onClick={() => { }} />
             </div>
 
-            <div className="d-flex justify-content-evenly align-items-end">
+            <div>
                 <Key role="kfunc"
-                    upperContent={<span role="klo">A</span>}
+                    upperContent={<span role="klo">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; A</span>}
                     content={<span role="klb">{ "( - )"}</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span><span role="klg">{"← "}&nbsp;&nbsp;&nbsp;&nbsp;</span><span role="klo">B</span></span>}
+                    upperContent={<span><span role="klg">←&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span role="klo">B</span></span>}
                     content={<span role="klb">{"° ′ ″"}</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span role="klo">C</span>}
+                    upperContent={<span role="klo">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; C</span>}
                     content={<span role="klb">hyp</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
@@ -87,7 +85,7 @@ export default class FuncKeys extends React.Component {
                     onClick={() => { }} />
             </div>
 
-            <div className="d-flex justify-content-evenly align-items-end">
+            <div>
                 <Key role="kfunc"
                     upperContent={<span role="klg">STO</span>}
                     content={<span role="klb">RCL</span>}
@@ -100,15 +98,15 @@ export default class FuncKeys extends React.Component {
                     content={<span role="klb">{"("}</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span role="klo">X</span>}
+                    upperContent={<span role="klo">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; X</span>}
                     content={<span role="klb">{")"}</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span role="klo">Y</span>}
+                    upperContent={<span role="klo">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Y</span>}
                     content={<span role="klb">,</span>}
                     onClick={() => { }} />
                 <Key role="kfunc"
-                    upperContent={<span><span role="klg">M-{"  "}&nbsp;&nbsp;&nbsp;&nbsp;</span><span role="klo">M</span></span>}
+                    upperContent={<span><span role="klg">M-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span role="klo">M</span></span>}
                     content={<span role="klb">M+</span>}
                     onClick={() => { }} />
             </div>

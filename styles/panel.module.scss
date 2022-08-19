@@ -1,5 +1,4 @@
 @mixin key-label{
-    user-select: none;
     text-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
 
     font-size: 12px;
@@ -7,8 +6,6 @@
 }
 
 @mixin key{
-    cursor: pointer;
-    user-select: none;
     text-align: center;
     box-shadow: inset 1px 1px 1px 0px rgb(255 255 255 / 80%), inset -1px -1px 1px 0px rgb(40 49 85 / 30%), 1px 1px 3px 0px rgb(40 49 85 / 10%);
 }
@@ -19,6 +16,21 @@
     height: 100%;
     background-color: #EAECF3;
     border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    [role="kw"]{
+        cursor: pointer;
+        user-select: none;
+    }
+
+    [role="klw"] {
+        @include key-label;
+        color: white;
+        font-size: 16px;
+    }
 
     [role="klb"] {
         @include key-label;
@@ -33,6 +45,12 @@
     [role="klo"] {
         @include key-label;
         color: orangered;
+    }
+
+    [role="klgr"] {
+        @include key-label;
+        color: rgb(96, 96, 96);
+        font-size: 16px;
     }
 
     [role="ksys"]{
@@ -65,33 +83,35 @@
         border-top-right-radius: 50%;
         border-bottom-left-radius: 50%;
         border-bottom-right-radius: 50%;
+
+        cursor: pointer;
     
-        >i {
+        >span {
             width: 30%;
             height: 50%;
             text-align: center;
             //background-color: rebeccapurple;
-            font-size: 20px;
+            font-size: 15px;
             position: absolute;
             color: white;
         }
     
-        >i:nth-child(1) {
+        >span:nth-child(1) {
             left: 50%;
             transform: translate(-50%, 10%);
         }
     
-        >i:nth-child(2) {
+        >span:nth-child(2) {
             left: 0;
             transform: translate(25%, 50%) rotate(270deg);
         }
     
-        >i:nth-child(3) {
+        >span:nth-child(3) {
             left: 50%;
             transform: translate(-50%, 90%) rotate(180deg);
         }
     
-        >i:nth-child(4) {
+        >span:nth-child(4) {
             left: 100%;
             transform: translate(-120%, 50%) rotate(90deg);
         }
@@ -103,9 +123,27 @@
         font-size: 10px;
         line-height: 2.5em;
         width: 4.5em;
-        height: 2.8em;
+        height: 2.5em;
     
         background-image: linear-gradient(135deg, #F4F5F6, #fff);
         border-radius: 6px;
+    }
+
+    [role="kbasic"],[role="kbasicy"] {
+        @include key;
+
+        font-size: 10px;
+        line-height: 3em;
+        width: 5.5em;
+        height: 3em;
+
+        background-image: linear-gradient(135deg, #2e2e2e, #000000);
+        border-radius: 6px;
+    }
+
+    [role="kbasicy"] {
+        @include key;
+
+        background-image: linear-gradient(135deg, #fffb00, #e5e100);
     }
 }

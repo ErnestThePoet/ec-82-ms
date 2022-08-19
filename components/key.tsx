@@ -1,7 +1,8 @@
 import React from "react";
+import styles from "../styles/key.module.scss";
 
 interface KeyProps{
-    role: "ksys"|"kfunc"|"kbasic";
+    role: "ksys"|"kfunc"|"kbasic"|"kbasicy";
     content?: any;
     upperContent?: any;
     onClick: () => void;
@@ -13,13 +14,13 @@ export default class Key extends React.Component<KeyProps>{
     }
     
     render = () => (
-        <div className={"d-flex flex-column align-items-center"}>
+        <div role="kw" className={styles.divKeyWrapper}
+            onClick={() => this.props.onClick()}>
             <div>
                 {this.props.upperContent}
             </div>
 
-            <div role={this.props.role}
-            onClick={()=>this.props.onClick()}>
+            <div role={this.props.role}>
                 {this.props.content}
             </div>
         </div>

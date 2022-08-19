@@ -1,7 +1,5 @@
 import React from "react";
-import classNames from "classnames";
 import styles from "../styles/sys-keys.module.scss";
-import stylesP from "../styles/panel.module.scss";
 import Key from "./key";
 
 export default class SysKeys extends React.Component{
@@ -10,8 +8,7 @@ export default class SysKeys extends React.Component{
     }
 
     render = () => (
-        <div className={classNames(styles.divSysKeys,
-            "d-flex justify-content-between")}>
+        <div className={styles.divSysKeys}>
             <div>
                 <Key role="ksys"
                     upperContent={
@@ -47,10 +44,10 @@ export default class SysKeys extends React.Component{
             </div>
 
             <div role="kdir">
-                <i className="fa-solid fa-caret-up"></i>
-                <i className="fa-solid fa-caret-up"></i>
-                <i className="fa-solid fa-caret-up"></i>
-                <i className="fa-solid fa-caret-up"></i>
+                <span>▲</span>
+                <span>▲</span>
+                <span>▲</span>
+                <span>▲</span>
             </div>
         </div>
     )

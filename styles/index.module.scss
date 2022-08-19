@@ -8,5 +8,8 @@
     height: 100%;
     z-index: $z-index-main;
 
+    display: flex;
+    justify-content: center;
+
     font-family: 'Ubuntu', sans-serif;
 }

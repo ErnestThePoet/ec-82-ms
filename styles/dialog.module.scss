@@ -7,6 +7,10 @@
     left: 0;
     top: 0;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     @include full-parent-size;
     background-color: rgba(0, 0, 0, 0.15);
     z-index: $z-index-dialog-wall;
@@ -37,6 +41,10 @@
 
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .lblDialogTitle {
@@ -52,19 +60,11 @@
 }
 
 .divYesNoWrapper {
+    margin-top: 10px;
+
     padding: 10px;
     padding-top: 0;
-}
 
-.btnYesNo {
-    font-size: 13px !important;
-    margin-left: 5px;
-
-    &:focus {
-        box-shadow: none;
-    }
-
-    &:active {
-        box-shadow: none;
-    }
+    display: flex;
+    justify-content: flex-end;
 }

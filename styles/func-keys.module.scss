@@ -1,12 +1,26 @@
 .divFuncKeys {
     width: 100%;
     height: 27%;
+    padding: 0 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     >div:first-child {
+        display: flex;
+        justify-content: space-between;
+        
         >div{
-            width: 35%;
+            width: 30%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
         }
+    }
+
+    >div:not(:first-child) {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
     }
 }

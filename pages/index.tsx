@@ -5,7 +5,6 @@ import * as L from "../logics/index";
 import stringsRes from '../observables/strings-res';
 
 import Panel from '../components/panel';
-import classNames from 'classnames';
 
 class Home extends React.Component {
   constructor(props: any) {
@@ -22,8 +21,7 @@ class Home extends React.Component {
         <title>{stringsRes.strings.APP_TITLE}</title>
       </Head>
 
-      <main className={classNames(styles.mainMain,
-        "d-flex justify-content-center")} >
+      <main className={styles.mainMain} >
         <Panel/>
       </main>
     </div>
