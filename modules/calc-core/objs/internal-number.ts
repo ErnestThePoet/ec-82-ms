@@ -69,7 +69,12 @@ export class InternalNumber{
     toString(): string{
         switch (this.numberType) {
             case "DEC":
-                return this.decValue.toString();
+                if (this.decValue.abs().lt("1000_000_000")) {
+                    return this.decValue.toString();
+                }
+                else {
+                    return this.decValue.toExponential(9);
+                }
             case "FRAC":
                 return this.fracValue.u.toString() + "/" + this.fracValue.d.toString();
             case "DEGREE":

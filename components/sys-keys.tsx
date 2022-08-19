@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../styles/sys-keys.module.scss";
 import Key from "./key";
+import * as L from "../logics/sys-keys";
 
 export default class SysKeys extends React.Component{
     constructor(props: {}) {
@@ -16,14 +17,14 @@ export default class SysKeys extends React.Component{
                             SHIFT
                         </span>
                     }
-                    onClick={() => { }} ></Key>
+                    onClick={() => { L.onShiftClick(); }} ></Key>
                 <Key role="ksys"
                     upperContent={
                         <span role="klo">
                             ALPHA
                         </span>
                     }
-                    onClick={() => { }} ></Key>
+                    onClick={() => { L.onAlphaClick(); }} ></Key>
             </div>
 
             <div>
@@ -33,14 +34,14 @@ export default class SysKeys extends React.Component{
                             MODE CLR
                         </span>
                     }
-                    onClick={() => { }} ></Key>
+                    onClick={() => { L.onModeClrClick(); }} ></Key>
                 <Key role="ksys"
                     upperContent={
                         <span role="klg">
                             LANG
                         </span>
                     }
-                    onClick={() => { }} ></Key>
+                    onClick={() => { L.onLangClick(); }} ></Key>
             </div>
 
             <div role="kdir">

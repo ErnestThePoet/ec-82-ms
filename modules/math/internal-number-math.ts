@@ -9,12 +9,12 @@ import * as DB from "./value-type-basics/dec-basics";
 import * as FB from "./value-type-basics/frac-basics";
 import * as DGB from "./value-type-basics/degree-basics";
 import * as DC from "./degree-conversions";
-import type { FracValue, OperationFn } from "../calc-core/objs/types";
+import type { DegreeValue, FracValue, OperationFn } from "../calc-core/objs/types";
 import { InternalNumber } from "../calc-core/objs/internal-number";
 import calculatorState from "../../observables/calculator-state";
 import calculatorMemory from "../../observables/calculator-memory";
 
-function getFracValue(x: InternalNumber): FracValue{
+export function getFracValue(x: InternalNumber): FracValue{
     switch (x.type) {
         case "DEC":
             return DB.toFracValue(x.dec);
@@ -33,6 +33,17 @@ export function getDecValue(x: InternalNumber): Decimal{
             return FB.toDecValue(x.frac);
         case "DEGREE":
             return DGB.toDecValue(x.degree);
+    }
+}
+
+export function getDegreeValue(x: InternalNumber): DegreeValue {
+    switch (x.type) {
+        case "DEC":
+            return DB.toDegreeValue(x.dec);
+        case "FRAC":
+            return FB.toDegreeValue(x.frac);
+        case "DEGREE":
+            return x.degree;
     }
 }
 

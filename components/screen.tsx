@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import classNames from "classnames";
+import calculatorState from "../observables/calculator-state";
 import styles from "../styles/screen.module.scss";
 
 export default class Screen extends React.Component{
@@ -10,6 +10,12 @@ export default class Screen extends React.Component{
 
     ThisComponent = observer(() => (
         <div className={styles.divScreenWrapper}>
+            {
+                calculatorState.displayMode === "NORMAL" &&
+                <div className={styles.divNormalWrapper}>
+                    
+                </div>
+            }
         </div>
     ));
 
