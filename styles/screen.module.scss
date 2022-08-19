@@ -1,4 +1,5 @@
 @import "./common/anims";
+@import "./common/common";
 
 .divScreenWrapper{
     box-sizing: border-box;
@@ -38,7 +39,10 @@
         font-size: 42px;
         word-wrap: break-word;
         text-align: end;
-        max-height: 42%;
+        flex-grow: 1;
+        overflow: auto;
+
+        @include slim-scroll-bar;
     }
 
     >div[role="error"] {
