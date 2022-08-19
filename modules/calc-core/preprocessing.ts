@@ -64,7 +64,7 @@ function reduceAddSub(entries: KeyEntry[]): void{
 
 function reducePosNeg(entries: KeyEntry[]): void{
     // previous preprocessing eusures there is no continuous +,-.
-    // X -> UnaryL | BinaryFn | BracketL | BinaryOp | Symbol | <Start>
+    // X -> UnaryL | BinaryFn | BracketL | BinaryOp | Comma | <Start>
     // Y -> UnaryL | BinaryFn | BracketL | Var | Num
     // reduce rules:
     // X+Y => XY
@@ -73,7 +73,7 @@ function reducePosNeg(entries: KeyEntry[]): void{
     // that's why we manually add the RBracket.
 
     const isX = (x: KeyEntry) =>
-        isLBracketEqv(x) || isOpBinary(x) || isSymbol(x);
+        isLBracketEqv(x) || isOpBinary(x) || x.id==="COMMA";
     const isY = (x: KeyEntry) =>
         isLBracketEqv(x) || isVar(x) || isNum(x);
     

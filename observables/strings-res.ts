@@ -52,7 +52,7 @@ const STRINGS_EN_ERROR_PREFIXES = {
 const STRINGS_EN = {
     APP_TITLE: "EC-82MS Web Calculator",
     DEG: "Degree",
-    RAD: "Radius",
+    RAD: "Radian",
     GRA: "Grade",
     CLEAR: ["ClearMem", "ClearMode", "ClearAll"],
     PARSE_ERROR_MSGS: {

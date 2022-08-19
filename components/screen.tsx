@@ -24,7 +24,8 @@ export default class Screen extends React.Component {
                                     calculatorState.dispStartIndex + DISPLAY_LENGTH)
                                 .map((x, i) => (
                                     <img key={i}
-                                        className={i === calculatorState.cursorIndex
+                                        className={calculatorState.displayMode === "NORMAL_EDIT"
+                                            && i === calculatorState.cursorIndex
                                             ? (calculatorState.isInsert
                                                 ? styles.imgInsert
                                                 : styles.imgOverwrite)
@@ -33,7 +34,8 @@ export default class Screen extends React.Component {
                                 ))
                         }
                         <img
-                            className={calculatorState.cursorIndex
+                                className={calculatorState.displayMode === "NORMAL_EDIT"
+                                    && calculatorState.cursorIndex
                                 === calculatorState.entries.length
                                 ? (calculatorState.isInsert
                                     ? styles.imgInsert
