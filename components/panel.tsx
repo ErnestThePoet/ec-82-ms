@@ -4,6 +4,7 @@ import styles from "../styles/panel.module.scss";
 
 import Screen from "./screen";
 import SysKeys from "./sys-keys";
+import FuncKeys from "./func-keys";
 
 
 export default class Panel extends React.Component{
@@ -16,11 +17,9 @@ export default class Panel extends React.Component{
             styles.divPanelWrapper,
             "d-flex flex-column align-items-center")}>
             
-            {/* Screen */}
             <Screen/>
-            
-            {/* SysKey and DirKey */}
-            <SysKeys/>
+            <SysKeys />
+            <FuncKeys/>
 
             
             
