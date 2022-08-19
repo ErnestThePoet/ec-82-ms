@@ -10,7 +10,6 @@ export default class Screen extends React.Component{
 
     ThisComponent = observer(() => (
         <div className={styles.divScreenWrapper}>
-            SCREEN
         </div>
     ));
 

@@ -1,10 +1,15 @@
 .divScreenWrapper{
+    box-sizing: border-box;
     background-color: #aaa;
 
     flex-grow: 1;
 
-    width: 100%;
+    width: calc(100% - 2em);
     height: 150px;
 
-    margin-bottom: 1.5em;
+    margin: 1em 0.5em 2em 0.5em;
+    padding: 12px 16px 11px 16px;
+    box-shadow: inset 1px 1px 1px 0 rgb(40 49 85 / 40%);
+    border-radius: 18px;
+    background: #fff;
 }
