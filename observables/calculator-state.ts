@@ -7,12 +7,16 @@ import {
     getDecValue,
     getFracValue
 } from "../modules/math/internal-number-math";
+import { preprocess } from "../modules/calc-core/preprocessing";
+import { parse } from "../modules/calc-core/parse";
+import { calculate } from "../modules/calc-core/calculate";
+import calculatorMemory from "./calculator-memory";
 
 type CalculatorDisplayMode = "NORMAL_EDIT" |"NORMAL_SHOW"|"ERROR"| "CLEAR" | "DRG" | "FROM_DRG" | "LANG" | "ABOUT";
 type CalculatorDRGMode = "D" | "R" | "G";
 type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
 
-export const DISPLAY_LENGTH = 10;
+export const DISPLAY_LENGTH = 20;
 
 class CalculatorState{
     constructor() {
@@ -28,6 +32,8 @@ class CalculatorState{
 
     calcResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
     dispResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
+
+    errorMessage: string = "";
     
     /////////////// Modes
     isInsert: boolean = true;
@@ -45,11 +51,12 @@ class CalculatorState{
             case "NORMAL_EDIT":
                 if (this.isInsert) {
                     this.entries.splice(this.cursorIndex, 0, ke);
+                    this.setCursorIndex(this.entries.length);
                 }
                 else {
                     if (this.cursorIndex >= this.entries.length) {
                         this.entries.push(ke);
-                        this.cursorIndex = this.entries.length;
+                        this.setCursorIndex(this.entries.length);
                     }
                     else {
                         this.entries[this.cursorIndex] = ke;
@@ -58,7 +65,8 @@ class CalculatorState{
                 break;
             case "NORMAL_SHOW":
                 this.entries = [ke];
-                this.cursorIndex = this.entries.length;
+                this.setCursorIndex(this.entries.length);
+                this.displayMode = "NORMAL_EDIT";
                 break;
         }
     }
@@ -67,7 +75,7 @@ class CalculatorState{
         if (this.displayMode === "NORMAL_EDIT") {
             if (this.cursorIndex >= this.entries.length) {
                 this.entries.pop();
-                this.cursorIndex = this.entries.length;
+                this.setCursorIndex(this.entries.length);
             }
             else {
                 this.entries.splice(this.cursorIndex, 1);
@@ -91,10 +99,8 @@ class CalculatorState{
 
         this.cursorIndex = index;
 
-        if (index < this.dispStartIndex
-            || index >= this.dispStartIndex + DISPLAY_LENGTH) {
-            this.dispStartIndex = index;
-        }
+        this.dispStartIndex =
+            index - DISPLAY_LENGTH + 1 >= 0 ? index - DISPLAY_LENGTH + 1:0;
     }
 
     setCalcResult(result: InternalNumber) {
@@ -154,7 +160,29 @@ class CalculatorState{
     }
 
     calculate() {
-        
+        const entriesCopy = Object.assign([], this.entries);
+
+        preprocess(entriesCopy);
+
+        const parseResult = parse(entriesCopy);
+        if (!parseResult.success) {
+            this.errorMessage = parseResult.msg;
+            this.displayMode = "ERROR";
+            return;
+        }
+
+        const calculateResult = calculate(parseResult.lexems);
+        if (!calculateResult.success) {
+            this.errorMessage = calculateResult.msg;
+            this.displayMode = "ERROR";
+            return;
+        }
+
+        this.calcResult = calculateResult.result!;
+        this.dispResult = calculateResult.result!;
+        calculatorMemory.ans = calculateResult.result!;
+
+        this.displayMode = "NORMAL_SHOW";
     }
 }
 

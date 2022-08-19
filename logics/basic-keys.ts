@@ -66,6 +66,8 @@ export const onR1C5Click = () => {
     }
     else {
         cs.setDisplayMode("NORMAL_EDIT");
+        cs.entries = [];
+        cs.setCursorIndex(0);
         cs.dispResult = new InternalNumber("DEC", new Decimal(0));
     }
 

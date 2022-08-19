@@ -27,3 +27,31 @@
         transform: scale(100%);
     }
 }
+
+@keyframes insert-course{
+    from{
+        border-left: 1px solid black;
+    }
+
+    50%{
+        border-left: 1px solid transparent;
+    }
+
+    to {
+        border-left: 1px solid black;
+    }
+}
+
+@keyframes overwrite-course {
+    from {
+        border-bottom: 1px solid black;
+    }
+
+    50% {
+        border-bottom: 1px solid transparent;
+    }
+
+    to {
+        border-bottom: 1px solid black;
+    }
+}

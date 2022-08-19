@@ -1,3 +1,5 @@
+@import "./common/anims";
+
 .divScreenWrapper{
     box-sizing: border-box;
     background-color: #aaa;
@@ -18,5 +20,39 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rebeccapurple;
+    
+    display: flex;
+    flex-direction: column;
+
+    >div[role="entries"]{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+
+        min-height: 1.5em;
+        max-height: 50%;
+        overflow: hidden;
+        //background-color: rebeccapurple;
+    }
+
+    >div[role="result"]{
+        font-size: 50px;
+        word-wrap: break-word;
+        text-align: end;
+    }
+}
+
+.imgKeyEntry{
+    animation-duration: 0.75s;
+    animation-iteration-count: infinite;
+}
+
+.imgInsert{
+    @extend .imgKeyEntry;
+    animation-name: insert-course;
+}
+
+.imgOverwrite {
+    @extend .imgKeyEntry;
+    animation-name: overwrite-course;
 }

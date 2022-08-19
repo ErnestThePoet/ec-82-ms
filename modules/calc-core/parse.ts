@@ -482,7 +482,6 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (s1.length > 0
                 &&!hasS2Changed
                 && isLBracketEqvNoFn(s1[s1.length - 1])) {
-                console.log(s1.map(x=>x.id))
                 return {
                     success: false,
                     msg: stringsRes.strings.PARSE_ERROR_MSGS.EMPTY_BRACKETS,

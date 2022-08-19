@@ -45,10 +45,10 @@ export default class SysKeys extends React.Component{
             </div>
 
             <div role="kdir">
-                <span>▲</span>
-                <span>▲</span>
-                <span>▲</span>
-                <span>▲</span>
+                <span onClick={() => { L.onDirClick("U"); }}>▲</span>
+                <span onClick={() => { L.onDirClick("L"); }}>▲</span>
+                <span onClick={() => { L.onDirClick("D"); }}>▲</span>
+                <span onClick={() => { L.onDirClick("R"); }}>▲</span>
             </div>
         </div>
     )
