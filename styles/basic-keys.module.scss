@@ -1,8 +1,9 @@
 .divBasicKeys {
+    box-sizing: border-box;
     width: 100%;
     height: 33%;
 
-    padding: 0 15px 15px 15px;
+    padding: 12px 15px 15px 15px;
 
     display: flex;
     flex-direction: column;
@@ -12,5 +13,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+
+        height: 18%;
     }
 }

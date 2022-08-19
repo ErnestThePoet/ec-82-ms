@@ -11,23 +11,23 @@ export default class FuncKeys extends React.Component {
         <div className={styles.divFuncKeys}>
             <div>
                 <div>
-                    <Key role="kfunc"
+                    <Key role="kfuncr1"
                         upperContent={<span role="klg">x!</span>}
                         content={<span role="klb">x<sup>-1</sup></span>}
                         onClick={() => { }} />
                     
-                    <Key role="kfunc"
+                    <Key role="kfuncr1"
                         upperContent={<span role="klg">nPr</span>}
                         content={<span role="klb">nCr</span>}
                         onClick={() => { }} />
                 </div>
                 <div>
-                    <Key role="kfunc"
+                    <Key role="kfuncr1"
                         upperContent={<span role="klg">{ "Pol("}</span>}
                         content={<span role="klb">{"Rec("}</span>}
                         onClick={() => { }} />
 
-                    <Key role="kfunc"
+                    <Key role="kfuncr1"
                         upperContent={<span role="klg"><sup>3</sup>√</span>}
                         content={<span role="klb">x<sup>3</sup></span>}
                         onClick={() => { }} />

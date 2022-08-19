@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/key.module.scss";
 
 interface KeyProps{
-    role: "ksys"|"kfunc"|"kbasic"|"kbasicy";
+    role: "ksys"|"kfunc"|"kfuncr1"|"kbasic"|"kbasicy";
     content?: any;
     upperContent?: any;
     onClick: () => void;
@@ -14,13 +14,13 @@ export default class Key extends React.Component<KeyProps>{
     }
     
     render = () => (
-        <div role="kw" className={styles.divKeyWrapper}
+        <div role={this.props.role} className={styles.divKeyWrapper}
             onClick={() => this.props.onClick()}>
             <div>
                 {this.props.upperContent}
             </div>
 
-            <div role={this.props.role}>
+            <div>
                 {this.props.content}
             </div>
         </div>
