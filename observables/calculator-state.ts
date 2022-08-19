@@ -187,7 +187,7 @@ class CalculatorState{
         }
 
         this.historyEntries.push(this.entries);
-        //this.entryIndex = this.historyEntries.length;
+        this.entryIndex = this.historyEntries.length-1;
 
         this.calcResult = calculateResult.result!;
         this.dispResult = calculateResult.result!;
