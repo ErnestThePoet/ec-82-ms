@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import calculatorMemory from "../observables/calculator-memory";
+import stringsRes from "../observables/strings-res";
 
 export const initialize = () => {
     Decimal.set({
@@ -7,4 +8,5 @@ export const initialize = () => {
     });
 
     calculatorMemory.loadFromLocalStorage();
+    stringsRes.switchLangFromStorage();
 }

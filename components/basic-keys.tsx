@@ -56,12 +56,15 @@ export default class BasicKeys extends React.Component {
                     content={<span role="klw">2</span>}
                     onClick={() => { L.onR3C2Click(); }} />
                 <Key role="kbasic"
+                    upperContent={<span role="klg">D</span>}
                     content={<span role="klw">3</span>}
                     onClick={() => { L.onR3C3Click(); }} />
                 <Key role="kbasic"
+                    upperContent={<span role="klg">R</span>}
                     content={<span role="klw">+</span>}
                     onClick={() => { L.onR3C4Click(); }} />
                 <Key role="kbasic"
+                    upperContent={<span role="klg">G</span>}
                     content={<span role="klw">-</span>}
                     onClick={() => { L.onR3C5Click(); }} />
             </div>
@@ -79,7 +82,6 @@ export default class BasicKeys extends React.Component {
                     content={<span role="klw">EXP</span>}
                     onClick={() => { L.onR4C3Click(); }} />
                 <Key role="kbasic"
-                    upperContent={<span role="klg">DRG▶</span>}
                     content={<span role="klw">Ans</span>}
                     onClick={() => { L.onR4C4Click(); }} />
                 <Key role="kbasic"

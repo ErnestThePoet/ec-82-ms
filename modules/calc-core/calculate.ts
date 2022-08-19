@@ -1,6 +1,7 @@
 import { Lexem } from "./objs/lexem";
 import { InternalNumber } from "./objs/internal-number";
 import { Operator } from "./objs/operators";
+import stringRes from "../../observables/strings-res";
 
 interface CalculateResult{
     success: boolean;
@@ -21,7 +22,7 @@ export function calculate(lexems: Lexem[]): CalculateResult{
             if (operands.length < op.argN) {
                 return {
                     success: false,
-                    msg: "Insufficent operands"
+                    msg: stringRes.strings.CALC_CK_ERROR_MSGS.INSUFFICENT_OPERANDS
                 };
             }
             
@@ -70,7 +71,7 @@ export function calculate(lexems: Lexem[]): CalculateResult{
     if (operands.length !== 1) {
         return {
             success: false,
-            msg: "Operand stack remaining count is not 1"
+            msg: stringRes.strings.CALC_CK_ERROR_MSGS.OPERAND_STACK
         };
     }
 

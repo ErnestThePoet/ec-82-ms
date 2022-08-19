@@ -88,6 +88,19 @@ class CalculatorMemory {
         localStorage.setItem("memM", this.M_.toStorageObjectString());
     }
 
+    clear() {
+        this.ans = new InternalNumber("DEC", new Decimal(0));
+        this.A= new InternalNumber("DEC", new Decimal(0));
+        this.B= new InternalNumber("DEC", new Decimal(0));
+        this.C = new InternalNumber("DEC", new Decimal(0));
+        this.D = new InternalNumber("DEC", new Decimal(0));
+        this.E = new InternalNumber("DEC", new Decimal(0));
+        this.F = new InternalNumber("DEC", new Decimal(0));
+        this.X = new InternalNumber("DEC", new Decimal(0));
+        this.Y = new InternalNumber("DEC", new Decimal(0));
+        this.M = new InternalNumber("DEC", new Decimal(0));
+    }
+
     loadFromLocalStorage() {
         let key = "memAns";
         if (localStorage.getItem(key) !== null) {

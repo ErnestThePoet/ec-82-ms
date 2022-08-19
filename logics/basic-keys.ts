@@ -68,6 +68,7 @@ export const onR1C5Click = () => {
         cs.setDisplayMode("NORMAL_EDIT");
         cs.entries = [];
         cs.setCursorIndex(0);
+        cs.setEntryIndex(cs.historyEntries.length);
         cs.dispResult = new InternalNumber("DEC", new Decimal(0));
     }
 
@@ -174,6 +175,9 @@ export const onR3C3Click = () => {
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.n3);
     }
+    else if (cs.funcMode === "SHIFT") {
+        cs.inputEntry(KEY_ENTRIES.fromD);
+    }
 
     cs.clearFuncMode();
 }
@@ -187,6 +191,9 @@ export const onR3C4Click = () => {
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.add);
     }
+    else if (cs.funcMode === "SHIFT") {
+        cs.inputEntry(KEY_ENTRIES.fromR);
+    }
 
     cs.clearFuncMode();
 }
@@ -199,6 +206,9 @@ export const onR3C5Click = () => {
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.sub);
+    }
+    else if (cs.funcMode === "SHIFT") {
+        cs.inputEntry(KEY_ENTRIES.fromG);
     }
 
     cs.clearFuncMode();
@@ -257,9 +267,6 @@ export const onR4C4Click = () => {
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.ANS);
-    }
-    else if (cs.funcMode === "SHIFT") {
-        cs.setDisplayMode("FROM_DRG");
     }
 
     cs.clearFuncMode();

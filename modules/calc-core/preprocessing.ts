@@ -64,27 +64,28 @@ function reduceAddSub(entries: KeyEntry[]): void{
 
 function reducePosNeg(entries: KeyEntry[]): void{
     // previous preprocessing eusures there is no continuous +,-.
-    // X -> UnaryL | BinaryFn | BracketL | BinaryOp | Symbol
+    // X -> UnaryL | BinaryFn | BracketL | BinaryOp | Symbol | <Start>
     // Y -> UnaryL | BinaryFn | BracketL | Var | Num
     // reduce rules:
     // X+Y => XY
     // X-Y => XnegY)
     // note that neg is a special UnaryL because no LBracket is shown.
     // that's why we manually add the RBracket.
+
     const isX = (x: KeyEntry) =>
         isLBracketEqv(x) || isOpBinary(x) || isSymbol(x);
     const isY = (x: KeyEntry) =>
         isLBracketEqv(x) || isVar(x) || isNum(x);
     
-    for (let i = 0; i <=entries.length-3; i++){
-        if (isX(entries[i])
+    for (let i = -1; i <=entries.length-3; i++){
+        if ((i===-1||(i>=0&&isX(entries[i])))
             && entries[i + 1].id === "ADD"
             && isY(entries[i+2])) {
             entries.splice(i + 1, 1);
             // next search should start from X
             i--;
         }
-        else if (isX(entries[i])
+        else if ((i===-1||(i>=0&&isX(entries[i])))
             && entries[i + 1].id === "SUB"
             && isY(entries[i+2])) {
             entries[i + 1] = KEY_ENTRIES.neg;

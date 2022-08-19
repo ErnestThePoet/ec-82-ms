@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import type { KeyEntry } from "../modules/calc-core/objs/key-entry";
+import { KeyEntry,isOpBinary,isOpUnaryR, KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
 import Decimal from "decimal.js";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 import {
@@ -12,8 +12,8 @@ import { parse } from "../modules/calc-core/parse";
 import { calculate } from "../modules/calc-core/calculate";
 import calculatorMemory from "./calculator-memory";
 
-type CalculatorDisplayMode = "NORMAL_EDIT" |"NORMAL_SHOW"|"ERROR"| "CLEAR" | "DRG" | "FROM_DRG" | "LANG" | "ABOUT";
-type CalculatorDRGMode = "D" | "R" | "G";
+type CalculatorDisplayMode = "NORMAL_EDIT" |"NORMAL_SHOW"|"ERROR"| "CLEAR" | "DRG" | "LANG" | "ABOUT";
+export type CalculatorDRGMode = "D" | "R" | "G";
 type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
 
 export const DISPLAY_LENGTH = 20;
@@ -64,7 +64,13 @@ class CalculatorState{
                 }
                 break;
             case "NORMAL_SHOW":
-                this.entries = [ke];
+                if (isOpBinary(ke) || isOpUnaryR(ke)) {
+                    this.entries = [KEY_ENTRIES.ANS,ke];
+                }
+                else {
+                    this.entries = [ke];
+                }
+                
                 this.setCursorIndex(this.entries.length);
                 this.displayMode = "NORMAL_EDIT";
                 break;
@@ -177,6 +183,9 @@ class CalculatorState{
             this.displayMode = "ERROR";
             return;
         }
+
+        this.historyEntries.push(this.entries);
+        this.entryIndex = this.historyEntries.length;
 
         this.calcResult = calculateResult.result!;
         this.dispResult = calculateResult.result!;
