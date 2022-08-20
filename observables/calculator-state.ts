@@ -166,6 +166,9 @@ class CalculatorState{
     }
 
     calculate() {
+        if (this.entries.length === 0) {
+            return;
+        }
         const entriesCopy = preprocess(this.entries);
 
         const parseResult = parse(entriesCopy);
