@@ -42,6 +42,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
     // Var
     // PPU
     // before reaching the start position.
+
+    // if we scan from R to L, it will be unable to handle chained UnaryR.
     for (let i = 1; i <entries.length; i++){
         if (isOpUnaryR(entries[i])) {
             const subEntries: KeyEntry[] = [];

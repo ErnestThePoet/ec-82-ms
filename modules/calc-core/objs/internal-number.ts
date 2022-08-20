@@ -73,10 +73,10 @@ export class InternalNumber{
                     if (this.decValue.abs().lt("1e-20")) {
                         return "0";
                     }
-                    return this.decValue.toSignificantDigits(15).toString();
+                    return this.decValue.toSignificantDigits(20).toString();
                 }
                 else {
-                    return this.decValue.toExponential(15);
+                    return this.decValue.toExponential(20);
                 }
             case "FRAC":
                 return this.fracValue.u.toString() + "/" + this.fracValue.d.toString();
