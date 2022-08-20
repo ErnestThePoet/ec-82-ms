@@ -14,7 +14,7 @@ import {
     isOpBinary
 } from "./objs/key-entry";
 
-function appendAns(entries: KeyEntry[]):void{
+export function appendAns(entries: KeyEntry[]):void{
     if (entries.length===1&&isOpUnaryL(entries[0])) {
         entries.push(KEY_ENTRIES.ANS);
     }
@@ -181,7 +181,7 @@ function fillMul(entries: KeyEntry[]): void{
 }
 
 export function preprocess(entries: KeyEntry[]): void{
-    appendAns(entries);
+    //appendAns(entries);
     reduceAddSub(entries);
     reducePosNeg(entries);
     padRBrackets(entries);

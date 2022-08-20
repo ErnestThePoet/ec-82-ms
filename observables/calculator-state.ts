@@ -7,7 +7,7 @@ import {
     getDecValue,
     getFracValue
 } from "../modules/math/internal-number-math";
-import { preprocess } from "../modules/calc-core/preprocessing";
+import { preprocess,appendAns } from "../modules/calc-core/preprocessing";
 import { parse } from "../modules/calc-core/parse";
 import { calculate } from "../modules/calc-core/calculate";
 import calculatorMemory from "./calculator-memory";
@@ -165,6 +165,9 @@ class CalculatorState{
     }
 
     calculate() {
+        // make appendAns shown in screen
+        appendAns(this.entries);
+
         const entriesCopy = Object.assign([], this.entries);
 
         preprocess(entriesCopy);
