@@ -33,6 +33,7 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                         cs.entryIndex
                     ];
                     cs.setCursorIndex(cs.entries.length);
+                    cs.setDisplayMode("NORMAL_SHOW");
                 }
                 break;
             case "D":
@@ -45,6 +46,7 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                         cs.entryIndex
                     ];
                     cs.setCursorIndex(cs.entries.length);
+                    cs.setDisplayMode("NORMAL_SHOW");
                 }
                 break;
             case "L":
