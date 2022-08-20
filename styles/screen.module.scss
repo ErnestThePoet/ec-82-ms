@@ -30,7 +30,7 @@
         flex-wrap: wrap;
 
         min-height: 1.5em;
-        max-height: 50%;
+        max-height: 48%;
         overflow: auto;
         //background-color: rebeccapurple;
 
@@ -56,11 +56,15 @@
         font-size: 18px;
         word-wrap: break-word;
         text-align: start;
-        max-height: 42%;
+        
+        flex-grow: 1;
+        overflow: auto;
+        
+        @include slim-scroll-bar;
     }
 
     >div[role="mode"] {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: bold;
         height: 8%;
         margin-top: auto;

@@ -48,10 +48,7 @@ class CalculatorState{
             case "NORMAL_EDIT":
                 if (this.isInsert) {
                     this.entries.splice(this.cursorIndex, 0, ke);
-                    // if insert takes place at end
-                    if (this.cursorIndex === this.entries.length - 1) {
-                        this.setCursorIndex(this.entries.length);
-                    }
+                    this.setCursorIndex(this.cursorIndex+1);
                 }
                 else {
                     if (this.cursorIndex >= this.entries.length) {
@@ -81,12 +78,16 @@ class CalculatorState{
 
     deleteEntry() {
         if (this.displayMode === "NORMAL_EDIT") {
-            if (this.cursorIndex >= this.entries.length) {
-                this.entries.pop();
-                this.setCursorIndex(this.entries.length);
+            // when cursor is not at beginning, delete the entry before cursor
+            if(this.cursorIndex-1>=0) {
+                this.entries.splice(this.cursorIndex - 1, 1);
+                this.setCursorIndex(this.cursorIndex - 1);
             }
-            else {
-                this.entries.splice(this.cursorIndex, 1);
+            // if cursor is at beginning, delete the first entry
+            else if (this.cursorIndex === 0) {
+                if (this.entries.length > 0) {
+                    this.entries.shift();
+                }
             }
         }
     }
