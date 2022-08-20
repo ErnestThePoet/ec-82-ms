@@ -6,7 +6,7 @@ const STRINGS_ZH_CN_ERROR_PREFIXES = {
 };
 
 const STRINGS_ZH_CN = {
-    APP_TITLE: "EC-82MS Web计算器",
+    APP_TITLE: "EC-82MS Web科学计算器",
     DEG: "角度",
     RAD: "弧度",
     GRA: "斜度",
