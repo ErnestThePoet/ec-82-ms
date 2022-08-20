@@ -42,7 +42,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
     // Var
     // PPU
     // before reaching the start position.
-    for (let i = entries.length - 1; i > 0; i--){
+    for (let i = 1; i <entries.length; i++){
         if (isOpUnaryR(entries[i])) {
             const subEntries: KeyEntry[] = [];
             let probeIndex = i - 1;
@@ -131,7 +131,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
             });
 
             // next iteration will start from probeIndex
-            i = probeIndex+1;
+            i = probeIndex;
         }
     }
 
