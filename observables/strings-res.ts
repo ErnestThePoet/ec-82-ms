@@ -45,8 +45,8 @@ const STRINGS_ZH_CN = {
 }
 
 const STRINGS_EN_ERROR_PREFIXES = {
-    PARSE: "Parsing error: ",
-    CALC: "Calculation error: "
+    PARSE: "Parsing Error: ",
+    CALC: "Calculation Error: "
 };
 
 const STRINGS_EN = {

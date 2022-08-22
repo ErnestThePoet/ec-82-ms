@@ -147,7 +147,7 @@ export const CHECK_FNS: CheckFns = {
         msg:stringsRes.strings.CALC_CK_ERROR_MSGS.CREATE_DEGREE
     }),
     createFracCheck: (...operands: InternalNumber[]) => ({
-        ok: !isZero(operands[2]),
+        ok: !isZero(operands[1]),
         msg: stringsRes.strings.CALC_CK_ERROR_MSGS.CREATE_FRAC
     }),
 };

@@ -8,7 +8,6 @@ import {
     isLBracketEqv,
     isRBracket,
 
-    isSymbol,
     isVar,
     isNum,
     isOpBinary

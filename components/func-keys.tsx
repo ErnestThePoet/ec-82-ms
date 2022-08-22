@@ -24,8 +24,8 @@ export default class FuncKeys extends React.Component {
                 </div>
                 <div>
                     <Key role="kfuncr1"
-                        upperContent={<span role="klg">{ "Pol("}</span>}
-                        content={<span role="klb">{"Rec("}</span>}
+                        upperContent={<span role="klg">{ "Rec("}</span>}
+                        content={<span role="klb">{"Pol("}</span>}
                         onClick={() => { L.onR1C3Click(); }} />
 
                     <Key role="kfuncr1"
