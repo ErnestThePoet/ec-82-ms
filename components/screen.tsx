@@ -121,7 +121,7 @@ export default class Screen extends React.Component {
                     <title>{"August, 2022"}</title>
                     <div>
                         Repositories:
-                        <a href="https://github.com/ErnestThePoet/EC-82MS">Github</a>
+                        <a href="https://github.com/ErnestThePoet/ec-82-ms">Github</a>
                         <a href="https://gitee.com/ecui/ec-82-ms">Gitee</a>
                     </div>
                 </div>
