@@ -94,7 +94,7 @@ export function isNonNegativeInteger(x: InternalNumber): boolean {
 
 export function isOdd(x: InternalNumber): boolean {
     const decValue = getDecValue(x);
-    return decValue.isInteger() && decValue.mod(2).eq(1);
+    return decValue.isInteger() && decValue.abs().mod(2).eq(1);
 }
 
 export const negative: OperationFn = (x: InternalNumber) => {
