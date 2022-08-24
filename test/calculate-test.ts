@@ -4,10 +4,9 @@ import { preprocess } from "../modules/calc-core/preprocessing";
 import { parse } from "../modules/calc-core/parse";
 import { calculate } from "../modules/calc-core/calculate";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
-import Decimal from "decimal.js";
 
 function printResult(ke: KeyEntry[]) {
-    preprocess(ke);
+    ke=preprocess(ke);
 
     console.log(ke.map(x => x.id).join(" "));
 

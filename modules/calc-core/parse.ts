@@ -146,8 +146,22 @@ export function parse(entries: KeyEntry[]): ParseResult{
             
             let probeIndex = i + 1;
 
-            while (probeIndex < entries.length
-                && entries[probeIndex].id !== "COMMA") {
+            // number of BinaryFn - number of comma in the search sequence.
+            // when=0, the comma is the matching one.
+            let commaDiff = 0;
+
+            while (probeIndex < entries.length) {
+                if (entries[probeIndex].id === "COMMA") {
+                    if (commaDiff === 0) {
+                        break;
+                    }
+                    else {
+                        commaDiff--;
+                    }
+                }
+                else if (isOpBinaryFn(entries[probeIndex])) {
+                    commaDiff++;
+                }
                 arg1Entries.push(entries[probeIndex]);
                 probeIndex++;
             }

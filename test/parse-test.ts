@@ -5,7 +5,7 @@ import { parse } from "../modules/calc-core/parse";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
 function printResult(ke: KeyEntry[]) {
-    preprocess(ke);
+    ke=preprocess(ke);
 
     console.log(ke.map(x => x.id).join(" "));
 
@@ -177,16 +177,19 @@ function test9() {
 }
 
 function test10() {
-    // Pol(Pol(6,6
+    // Pol(Pol(1,2),Pol(3,4
     const ke: KeyEntry[] = [
         KEY_ENTRIES.pol,
         KEY_ENTRIES.pol,
-        KEY_ENTRIES.n6,
+        KEY_ENTRIES.n1,
         KEY_ENTRIES.comma,
-        KEY_ENTRIES.n6,
+        KEY_ENTRIES.n2,
         KEY_ENTRIES.rBracket,
         KEY_ENTRIES.comma,
-        KEY_ENTRIES.n6
+        KEY_ENTRIES.pol,
+        KEY_ENTRIES.n3,
+        KEY_ENTRIES.comma,
+        KEY_ENTRIES.n4
     ];
 
     printResult(ke);

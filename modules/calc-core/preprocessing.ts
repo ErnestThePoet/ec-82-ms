@@ -138,7 +138,7 @@ function padRBrackets(entries: KeyEntry[]): void{
     let bracketDiffCount = 0;
 
     for (const i of entries) {
-        if (isLBracketEqv(i) || i.id === "POL" || i.id === "REC") {
+        if (isLBracketEqv(i)) {
             bracketDiffCount++;
         }
         else if (i.id === ")") {
