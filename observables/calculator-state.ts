@@ -185,7 +185,7 @@ class CalculatorState{
             return;
         }
 
-        this.historyEntries.push(this.entries);
+        this.historyEntries.push(Object.assign([],this.entries));
         this.entryIndex = this.historyEntries.length-1;
 
         this.calcResult = calculateResult.result!;

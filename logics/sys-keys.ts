@@ -29,9 +29,9 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                 }
                 if (cs.entryIndex - 1 >= 0) {
                     cs.entryIndex--;
-                    cs.entries = cs.historyEntries[
+                    cs.entries = Object.assign([],cs.historyEntries[
                         cs.entryIndex
-                    ];
+                    ]);
                     cs.setCursorIndex(cs.entries.length);
                     cs.setDisplayMode("NORMAL_SHOW");
                 }
@@ -42,9 +42,9 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                 }
                 if (cs.entryIndex + 1 <cs.historyEntries.length) {
                     cs.entryIndex++;
-                    cs.entries = cs.historyEntries[
+                    cs.entries = Object.assign([],cs.historyEntries[
                         cs.entryIndex
-                    ];
+                    ]);
                     cs.setCursorIndex(cs.entries.length);
                     cs.setDisplayMode("NORMAL_SHOW");
                 }
@@ -66,18 +66,18 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
             case "U":
                 if (cs.entryIndex - 1 >= 0) {
                     cs.entryIndex--;
-                    cs.entries = cs.historyEntries[
+                    cs.entries = Object.assign([],cs.historyEntries[
                         cs.entryIndex
-                    ];
+                    ]);
                     cs.setCursorIndex(cs.entries.length);
                 }
                 break;
             case "D":
                 if (cs.entryIndex + 1 < cs.historyEntries.length) {
                     cs.entryIndex++;
-                    cs.entries = cs.historyEntries[
+                    cs.entries = Object.assign([],cs.historyEntries[
                         cs.entryIndex
-                    ];
+                    ]);
                     cs.setCursorIndex(cs.entries.length);
                 }
                 break;
@@ -85,7 +85,7 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
             case "R":
                 if (cs.entryIndex >= 0 && cs.entryIndex < cs.historyEntries.length) {
                     cs.setDisplayMode("NORMAL_EDIT");
-                    cs.entries = cs.historyEntries[cs.entryIndex];
+                    cs.entries = Object.assign([],cs.historyEntries[cs.entryIndex]);
                     cs.setCursorIndex(cs.entries.length);
                 }
                 break;
