@@ -14,7 +14,7 @@ import {
     KEY_ENTRIES,
     getNumString,
     getVarInternalNumber,
-    isOpPriorityHigher,
+    isOpBinaryPriorityHigher,
     isLBracket
 } from "./objs/key-entry";
 import { Lexem } from "./objs/lexem";
@@ -460,7 +460,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
         else if (isOpBinary(entries[i])) {
             if (s1.length === 0
                 || isLBracketEqvNoFn(s1[s1.length - 1])
-                || !isOpPriorityHigher(s1[s1.length - 1], entries[i])) {
+                || !isOpBinaryPriorityHigher(s1[s1.length - 1], entries[i])) {
                 s1.push(entries[i]);
             }
             else {

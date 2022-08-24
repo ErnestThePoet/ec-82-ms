@@ -176,4 +176,20 @@ function test9() {
     printResult(ke);
 }
 
-test9();
+function test10() {
+    // Pol(Pol(6,6
+    const ke: KeyEntry[] = [
+        KEY_ENTRIES.pol,
+        KEY_ENTRIES.pol,
+        KEY_ENTRIES.n6,
+        KEY_ENTRIES.comma,
+        KEY_ENTRIES.n6,
+        KEY_ENTRIES.rBracket,
+        KEY_ENTRIES.comma,
+        KEY_ENTRIES.n6
+    ];
+
+    printResult(ke);
+}
+
+test10();

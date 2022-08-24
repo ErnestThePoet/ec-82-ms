@@ -118,8 +118,30 @@ export function getVarInternalNumber(k: KeyEntry): InternalNumber{
     }
 }
 
-export function isOpPriorityHigher(x: KeyEntry, y: KeyEntry) {
-    return x.id !== "ADD" && x.id !== "SUB" && (y.id === "ADD" || y.id === "SUB");
+export function isOpBinaryPriorityHigher(x: KeyEntry, y: KeyEntry) {
+    switch (x.id) {
+        case "POW":
+        case "ROOT":
+            return y.id !== "POW"
+                && y.id !== "ROOT";
+        
+        case "FRAC":
+            return y.id !== "POW"
+                && y.id !== "ROOT"
+                && y.id !== "FRAC";
+        
+        case "NCR":
+        case "NPR":
+        case "MUL":
+        case "DIV":
+            return y.id === "ADD"
+                || y.id === "SUB";
+        
+        case "ADD":
+        case "SUB":
+        default:
+            return false;
+    }
 }
 
 interface KeyEntries {
