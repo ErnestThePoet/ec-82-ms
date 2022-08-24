@@ -460,7 +460,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
         else if (isOpBinary(entries[i])) {
             if (s1.length === 0
                 || isLBracketEqvNoFn(s1[s1.length - 1])
-                || !isOpBinaryPriorityHigher(s1[s1.length - 1], entries[i])) {
+                || isOpBinaryPriorityHigher(entries[i], s1[s1.length - 1])) {
                 s1.push(entries[i]);
             }
             else {

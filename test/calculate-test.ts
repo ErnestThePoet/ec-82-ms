@@ -177,4 +177,30 @@ function test9() {
     printResult(ke);
 }
 
-test3();
+function test10() {
+    // 250/(22*60+25)*3.6
+    const ke: KeyEntry[] = [
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.n5,
+        KEY_ENTRIES.n0,
+        KEY_ENTRIES.div,
+        KEY_ENTRIES.lBracket,
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.mul,
+        KEY_ENTRIES.n6,
+        KEY_ENTRIES.n0,
+        KEY_ENTRIES.add,
+        KEY_ENTRIES.n2,
+        KEY_ENTRIES.n5,
+        KEY_ENTRIES.rBracket,
+        KEY_ENTRIES.mul,
+        KEY_ENTRIES.n3,
+        KEY_ENTRIES.nDot,
+        KEY_ENTRIES.n6
+    ];
+
+    printResult(ke);
+}
+
+test10();
