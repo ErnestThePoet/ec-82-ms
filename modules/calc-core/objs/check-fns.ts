@@ -2,6 +2,7 @@ import Decimal from "decimal.js";
 import calculatorState from "../../../observables/calculator-state";
 import stringsRes from "../../../observables/strings-res";
 import { InternalNumber } from "./internal-number";
+import { PI } from "../../math/constants";
 import {
     getDecValue,
     isNegative,
@@ -57,19 +58,19 @@ export const CHECK_FNS: CheckFns = {
     logCheck: gzCheck("log() "),
     lnCheck: gzCheck("ln() "),
     tanCheck: (...operands: InternalNumber[]) => {
-        let halfPi = 90;
+        let halfPi = new Decimal(90);
 
         switch (calculatorState.drgMode) {
             case "R":
-                halfPi = Math.PI / 2;
+                halfPi = new Decimal(PI).div(2);
                 break;
             case "G":
-                halfPi = 50;
+                halfPi = new Decimal(50);
                 break;
         }
 
         return {
-            ok: !isOdd(div(operands[0],new InternalNumber("DEC",new Decimal(halfPi)))),
+            ok: !isOdd(div(operands[0],new InternalNumber("DEC",halfPi))),
             msg: stringsRes.strings.CALC_CK_ERROR_MSGS.TAN
         }
     },
