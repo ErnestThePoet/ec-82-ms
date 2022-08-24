@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import type { FracValue, DegreeValue } from "./types";
+import { toDecValue } from "../../math/value-type-basics/frac-basics";
 
 type InternalNumberType = "DEC" | "FRAC" | "DEGREE";
 
@@ -12,6 +13,11 @@ interface StorageObject{
     | StorageFracValue
     | StorageDegreeValue;
 }
+
+const DISP_SIGNIFICANT_DIGITS: number = 20;
+const DISP_ZERO_BOUND: string = "1e-20";
+const DISP_EXP_BOUND: string = "1e20";
+const DISP_FRAC_BOUND: string = "1e20";
 
 // Immutable
 export class InternalNumber{
@@ -69,16 +75,22 @@ export class InternalNumber{
     toString(): string{
         switch (this.numberType) {
             case "DEC":
-                if (this.decValue.abs().lt("1000_000_000_000_000")) {
-                    if (this.decValue.abs().lt("1e-20")) {
+                if (this.decValue.abs().lt(DISP_EXP_BOUND)) {
+                    if (this.decValue.abs().lt(DISP_ZERO_BOUND)) {
                         return "0";
                     }
-                    return this.decValue.toSignificantDigits(20).toString();
+                    return this.decValue
+                        .toSignificantDigits(DISP_SIGNIFICANT_DIGITS).toString();
                 }
                 else {
-                    return this.decValue.toExponential(20);
+                    return this.decValue
+                        .toExponential(DISP_SIGNIFICANT_DIGITS);
                 }
             case "FRAC":
+                if (this.fracValue.u.abs().gte(DISP_FRAC_BOUND)
+                    || this.fracValue.d.abs().gte(DISP_FRAC_BOUND)) {
+                    return new InternalNumber("DEC", toDecValue(this.fracValue)).toString();
+                }
                 return this.fracValue.u.toString() + "/" + this.fracValue.d.toString();
             case "DEGREE":
                 return `${this.degreeValue.neg ? "-" : ""}${this.degreeValue.d.toString()}°`
