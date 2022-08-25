@@ -50,10 +50,10 @@ export function toFracValue(x: DegreeValue): FracValue{
 // d,m,s only need to be non-negative.
 export function fromDmsNeg(d: Decimal, m: Decimal, s: Decimal, neg: boolean): DegreeValue {
     // step 1: make d and m integers
-    m = m.add(d.mod(1));
+    m = m.add(d.mod(1).mul(60));
     d = d.floor();
 
-    s = s.add(m.mod(1));
+    s = s.add(m.mod(1).mul(60));
     m = m.floor();
 
     // step 2: reduce m and s
