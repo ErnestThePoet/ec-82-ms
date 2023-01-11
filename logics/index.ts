@@ -26,6 +26,7 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             LB.onR4C2Click();
             break;
         case "Enter":
+        case "=":
             LB.onR4C5Click();
             break;
         case "1":
