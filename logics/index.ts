@@ -103,7 +103,9 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             break;
         case "(":
         case ")":
-            inputNormalEntryFromKeyboard(e.key);
+        case "s":
+        case "S":
+            inputNormalEntryFromKeyboard(e.key.toUpperCase());
             break;
         case "a":
         case "A":
@@ -134,12 +136,15 @@ const inputNormalEntryFromKeyboard = (key: string) => {
     cs.clearFuncMode();
 
     switch (key) {
-      case "(":
-        LF.onR4C3Click();
-        break;
-      case ")":
-        LF.onR4C4Click();
-        break;
+        case "(":
+            LF.onR4C3Click();
+            break;
+        case ")":
+            LF.onR4C4Click();
+                break;
+        case "S":
+            LB.onR4C4Click();
+            break;
     }
 }
 
