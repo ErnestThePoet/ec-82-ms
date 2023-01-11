@@ -416,7 +416,7 @@ export const KEY_ENTRIES: KeyEntries = {
     comma: {
         id: "COMMA",
         type: "SYMBOL",
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="0.713ex" viewBox="0 -121 278 315" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-448-TEX-N-2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-448-TEX-N-2C"></use></g></g></g></svg>'
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="0.713ex" viewBox="0 -660 278 660" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-448-TEX-N-2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-448-TEX-N-2C"></use></g></g></g></svg>'
     },
 
     A: {
@@ -538,6 +538,6 @@ export const KEY_ENTRIES: KeyEntries = {
     nDot: {
         id: ".",
         type: "NUM",
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="0.271ex" viewBox="0 -120 278 120" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-614-TEX-N-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-614-TEX-N-2E"></use></g></g></g></svg>'
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="0.271ex" viewBox="0 -660 278 660" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-614-TEX-N-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-614-TEX-N-2E"></use></g></g></g></svg>'
     }
 };
