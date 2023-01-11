@@ -80,6 +80,9 @@ const onWindowKeydown = (e: KeyboardEvent) => {
         case "Delete":
             LB.onR1C5Click();
             break;
+        case "Insert":
+            inputShiftEntryFromKeyboard(e.key);
+            break;
         case "Shift":
             LS.onShiftClick();
             break;
@@ -94,6 +97,12 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             break;
         case "ArrowRight":
             LS.onDirClick("R");
+            break;
+        case "Home":
+            cs.setCursorIndex(0);
+            break;
+        case "End":
+            cs.setCursorIndex(cs.entries.length);
             break;
         case "'":
             LF.onR3C2Click();
@@ -128,8 +137,6 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             inputAlphaEntryFromKeyboard(e.key.toUpperCase());
             break;
     }
-
-
 }
 
 const inputNormalEntryFromKeyboard = (key: string) => {
@@ -144,6 +151,16 @@ const inputNormalEntryFromKeyboard = (key: string) => {
                 break;
         case "S":
             LB.onR4C4Click();
+            break;
+    }
+}
+
+const inputShiftEntryFromKeyboard = (key: string) => {
+    cs.setFuncMode("SHIFT");
+
+    switch (key) {
+        case "Insert":
+            LB.onR1C4Click();
             break;
     }
 }
