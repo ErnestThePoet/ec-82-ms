@@ -83,11 +83,8 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
                 break;
             case "L":
             case "R":
-                if (cs.entryIndex >= 0 && cs.entryIndex < cs.historyEntries.length) {
-                    cs.setDisplayMode("NORMAL_EDIT");
-                    cs.entries = Object.assign([],cs.historyEntries[cs.entryIndex]);
-                    cs.setCursorIndex(cs.entries.length);
-                }
+                cs.setDisplayMode("NORMAL_EDIT");
+                cs.setCursorIndex(cs.entries.length);
                 break;
         }
     }

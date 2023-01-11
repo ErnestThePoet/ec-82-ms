@@ -99,9 +99,11 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             LS.onDirClick("R");
             break;
         case "Home":
+            cs.setDisplayMode("NORMAL_EDIT");
             cs.setCursorIndex(0);
             break;
         case "End":
+            cs.setDisplayMode("NORMAL_EDIT");
             cs.setCursorIndex(cs.entries.length);
             break;
         case "'":
