@@ -90,18 +90,24 @@
     }
 }
 
-.imgKeyEntry{
+.imgNormal{
+    margin-bottom: 5px;
+}
+
+.imgCursor{
     animation-duration: 0.75s;
     animation-iteration-count: infinite;
 }
 
 .imgInsert{
-    @extend .imgKeyEntry;
+    @extend .imgNormal;
+    @extend .imgCursor;
     animation-name: insert-course;
 }
 
 .imgOverwrite {
-    @extend .imgKeyEntry;
+    @extend .imgNormal;
+    @extend .imgCursor;
     animation-name: overwrite-course;
 }
 
