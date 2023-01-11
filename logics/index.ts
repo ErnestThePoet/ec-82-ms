@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
-import calculatorMemory from "../observables/calculator-memory";
+import cs from "../observables/calculator-state";
+import cm from "../observables/calculator-memory";
 import stringsRes from "../observables/strings-res";
 import * as LS from "./sys-keys";
 import * as LF from "./func-keys";
@@ -10,7 +11,7 @@ export const initialize = () => {
         precision: 50
     });
 
-    calculatorMemory.loadFromLocalStorage();
+    cm.loadFromLocalStorage();
     stringsRes.switchLangFromStorage();
 
     window.onkeydown = onWindowKeydown;
@@ -98,6 +99,79 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             break;
         case ",":
             LF.onR4C5Click();
+            break;
+        case "(":
+        case ")":
+            inputNormalEntryFromKeyboard(e.key);
+            break;
+        case "a":
+        case "A":
+        case "b":
+        case "B":
+        case "c":
+        case "C":
+        case "d":
+        case "D":
+        case "e":
+        case "E":
+        case "f":
+        case "F":
+        case "x":
+        case "X":
+        case "y":
+        case "Y":
+        case "m":
+        case "M":
+            inputAlphaEntryFromKeyboard(e.key.toUpperCase());
+            break;
+    }
+
+
+}
+
+const inputNormalEntryFromKeyboard = (key: string) => {
+    cs.clearFuncMode();
+
+    switch (key) {
+      case "(":
+        LF.onR4C3Click();
+        break;
+      case ")":
+        LF.onR4C4Click();
+        break;
+    }
+}
+
+const inputAlphaEntryFromKeyboard = (key: string) => {
+    cs.setFuncMode("ALPHA");
+
+    switch (key) {
+        case "A":
+            LF.onR3C1Click();
+            break;
+        case "B":
+            LF.onR3C2Click();
+            break;
+        case "C":
+            LF.onR3C3Click();
+            break;
+        case "D":
+            LF.onR3C4Click();
+            break;
+        case "E":
+            LF.onR3C5Click();
+            break;
+        case "F":
+            LF.onR3C6Click();
+            break;
+        case "X":
+            LF.onR4C4Click();
+            break;
+        case "Y":
+            LF.onR4C5Click();
+            break;
+        case "M":
+            LF.onR4C6Click();
             break;
     }
 }
