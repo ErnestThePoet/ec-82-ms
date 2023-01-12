@@ -41,6 +41,11 @@ export default class Screen extends React.Component {
                                     : styles.imgOverwrite)
                                     : styles.imgNormal}
                                 alt="CURSOR"
+                                style={{ height: 20, width: 15 }}
+                                /* Without explicit size, 
+                                   this cursor will have large size
+                                   on IOS browsers, making entries div
+                                   reach its max-height. */
                             onClick={() => L.onKeyEntryImgClick(cs.entries.length)}
                                 src={`data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="0" viewBox="0 0 1000 0" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mstyle"><g data-mml-node="mspace"></g></g></g></g></svg>')}`} />
                     </div>
