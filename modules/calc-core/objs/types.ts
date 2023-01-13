@@ -5,7 +5,7 @@ import { InternalNumber } from "./internal-number";
 // RI:
 // u and d are integers.
 // d is always positive.
-export interface FracValue{
+export interface FracValue {
     u: Decimal;
     d: Decimal;
 }
@@ -13,7 +13,7 @@ export interface FracValue{
 // RI:
 // d and m are [0,59] integers.
 // s is [0,60).
-export interface DegreeValue{
+export interface DegreeValue {
     d: Decimal;
     m: Decimal;
     s: Decimal;
@@ -25,5 +25,5 @@ export interface OperationFn {
 }
 
 export interface CheckFn {
-    (...operands: InternalNumber[]): { ok: boolean, msg: string };
+    (...operands: InternalNumber[]): { ok: boolean; msg: string };
 }

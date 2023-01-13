@@ -5,19 +5,23 @@ import { parse } from "../modules/calc-core/parse";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
 function printResult(ke: KeyEntry[]) {
-    ke=preprocess(ke);
+    ke = preprocess(ke);
 
     console.log(ke.map(x => x.id).join(" "));
 
     const pr = parse(ke);
 
     if (pr.success) {
-        console.log(pr.lexems.map(
-            x => x.type === "NBR"
-                ? (<InternalNumber>x.obj).toString()
-                : (<Operator>x.obj).id).join(" "));
-    }
-    else {
+        console.log(
+            pr.lexems
+                .map(x =>
+                    x.type === "NBR"
+                        ? (<InternalNumber>x.obj).toString()
+                        : (<Operator>x.obj).id
+                )
+                .join(" ")
+        );
+    } else {
         console.log(pr.msg);
     }
 }
@@ -48,10 +52,7 @@ function test1() {
 
 function test2() {
     // 6E
-    const ke: KeyEntry[] = [
-        KEY_ENTRIES.n6,
-        KEY_ENTRIES.E
-    ];
+    const ke: KeyEntry[] = [KEY_ENTRIES.n6, KEY_ENTRIES.E];
 
     printResult(ke);
 }

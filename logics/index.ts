@@ -15,7 +15,7 @@ export const initialize = () => {
     stringsRes.switchLangFromStorage();
 
     window.onkeydown = onWindowKeydown;
-}
+};
 
 const onWindowKeydown = (e: KeyboardEvent) => {
     switch (e.key) {
@@ -59,11 +59,10 @@ const onWindowKeydown = (e: KeyboardEvent) => {
         case "/":
             if (e.code === "NumpadDivide") {
                 LB.onR2C5Click();
-            }
-            else {
+            } else {
                 LF.onR2C1Click();
             }
-            
+
             break;
         case "7":
             LB.onR1C1Click();
@@ -139,7 +138,7 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             inputAlphaEntryFromKeyboard(e.key.toUpperCase());
             break;
     }
-}
+};
 
 const inputNormalEntryFromKeyboard = (key: string) => {
     cs.clearFuncMode();
@@ -150,12 +149,12 @@ const inputNormalEntryFromKeyboard = (key: string) => {
             break;
         case ")":
             LF.onR4C4Click();
-                break;
+            break;
         case "S":
             LB.onR4C4Click();
             break;
     }
-}
+};
 
 const inputShiftEntryFromKeyboard = (key: string) => {
     cs.setFuncMode("SHIFT");
@@ -165,7 +164,7 @@ const inputShiftEntryFromKeyboard = (key: string) => {
             LB.onR1C4Click();
             break;
     }
-}
+};
 
 const inputAlphaEntryFromKeyboard = (key: string) => {
     cs.setFuncMode("ALPHA");
@@ -199,4 +198,4 @@ const inputAlphaEntryFromKeyboard = (key: string) => {
             LF.onR4C6Click();
             break;
     }
-}
+};

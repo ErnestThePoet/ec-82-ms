@@ -4,7 +4,7 @@ import { InternalNumber } from "./internal-number";
 type LexemType = "OP" | "NBR";
 type LexemObj = Operator | InternalNumber;
 
-export interface Lexem{
+export interface Lexem {
     type: LexemType;
     obj: LexemObj;
 }

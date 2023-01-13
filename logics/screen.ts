@@ -7,14 +7,14 @@ import sr, { LangType } from "../observables/strings-res";
 export const onKeyEntryImgClick = (index: number) => {
     cs.setDisplayMode("NORMAL_EDIT");
     cs.setCursorIndex(index);
-}
+};
 
 export const onDrgClick = (drg: CalculatorDRGMode) => {
     cs.setDRGMode(drg);
     cs.setDisplayMode("NORMAL_EDIT");
-}
+};
 
-export const onClearClick = (mode:0|1|2) => {
+export const onClearClick = (mode: 0 | 1 | 2) => {
     switch (mode) {
         case 2:
             cs.setDRGMode("D");
@@ -35,9 +35,9 @@ export const onClearClick = (mode:0|1|2) => {
     }
 
     cs.setDisplayMode("NORMAL_EDIT");
-}
+};
 
 export const onLangClick = (lang: LangType) => {
     sr.switchLanguage(lang);
     cs.setDisplayMode("NORMAL_EDIT");
-}
+};

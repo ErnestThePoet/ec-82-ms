@@ -2,19 +2,19 @@ import Decimal from "decimal.js";
 import calculatorState from "../../observables/calculator-state";
 import * as C from "../math/constants";
 
-export function degreeToRad(degree: Decimal): Decimal{
+export function degreeToRad(degree: Decimal): Decimal {
     return new Decimal(C.PI).mul(degree).div(180);
 }
 
-export function gradeToRad(grade: Decimal): Decimal{
+export function gradeToRad(grade: Decimal): Decimal {
     return new Decimal(C.PI).mul(grade).div(200);
 }
 
-export function radToDegree(rad: Decimal): Decimal{
+export function radToDegree(rad: Decimal): Decimal {
     return new Decimal(180).mul(rad).div(C.PI);
 }
 
-export function radToGrade(rad: Decimal): Decimal{
+export function radToGrade(rad: Decimal): Decimal {
     return new Decimal(200).mul(rad).div(C.PI);
 }
 

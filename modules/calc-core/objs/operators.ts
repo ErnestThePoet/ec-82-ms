@@ -2,7 +2,7 @@ import { CHECK_FNS } from "./check-fns";
 import type { CheckFn, OperationFn } from "./types";
 import * as INM from "../../math/internal-number-math";
 
-export interface Operator{
+export interface Operator {
     id: string;
     argN: number;
     op: OperationFn;
@@ -12,9 +12,9 @@ export interface Operator{
 export const OPERATORS_UNARY_L: readonly Operator[] = [
     {
         id: "CBRT",
-        argN:1,
+        argN: 1,
         op: INM.cbrt,
-        ck:CHECK_FNS.alwaysTrue
+        ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "SQRT",
@@ -99,7 +99,8 @@ export const OPERATORS_UNARY_L: readonly Operator[] = [
         argN: 1,
         op: INM.atan,
         ck: CHECK_FNS.alwaysTrue
-    }, {
+    },
+    {
         id: "NEG",
         argN: 1,
         op: INM.negative,
@@ -112,7 +113,7 @@ export const OPERATORS_UNARY_R: readonly Operator[] = [
         id: "FACT",
         argN: 1,
         op: INM.fact,
-        ck:CHECK_FNS.factCheck
+        ck: CHECK_FNS.factCheck
     },
     {
         id: "INV",
@@ -142,7 +143,7 @@ export const OPERATORS_UNARY_R: readonly Operator[] = [
         id: "FROM_D",
         argN: 1,
         op: INM.fromD,
-        ck:CHECK_FNS.alwaysTrue
+        ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "FROM_R",
@@ -163,31 +164,31 @@ export const OPERATORS_BINARY: readonly Operator[] = [
         id: "NPR",
         argN: 2,
         op: INM.nPr,
-        ck:CHECK_FNS.nCrnPrCheck
+        ck: CHECK_FNS.nCrnPrCheck
     },
     {
         id: "NCR",
         argN: 2,
         op: INM.nCr,
-        ck:CHECK_FNS.nCrnPrCheck
+        ck: CHECK_FNS.nCrnPrCheck
     },
     {
         id: "POW",
         argN: 2,
         op: INM.pow,
-        ck:CHECK_FNS.powCheck
+        ck: CHECK_FNS.powCheck
     },
     {
         id: "ROOT",
         argN: 2,
         op: INM.root,
-        ck:CHECK_FNS.rootCheck
+        ck: CHECK_FNS.rootCheck
     },
     {
         id: "ADD",
         argN: 2,
         op: INM.add,
-        ck:CHECK_FNS.alwaysTrue
+        ck: CHECK_FNS.alwaysTrue
     },
     {
         id: "SUB",
@@ -235,8 +236,8 @@ export const OPERATORS_TERNARY_FN: readonly Operator[] = [
         id: "CREATE_DEGREE",
         argN: 3,
         op: INM.createDegree,
-        ck:CHECK_FNS.createDegreeCheck
-    },
+        ck: CHECK_FNS.createDegreeCheck
+    }
     // {
     //     id: "CREATE_FRAC",
     //     argN: 3,
@@ -245,10 +246,13 @@ export const OPERATORS_TERNARY_FN: readonly Operator[] = [
     // }
 ] as const;
 
-const FULL_OPERATORS: readonly Operator[] =
-    OPERATORS_UNARY_L.concat(OPERATORS_UNARY_R).concat(OPERATORS_BINARY)
-        .concat(OPERATORS_BINARY_FN).concat(OPERATORS_TERNARY_FN);
+const FULL_OPERATORS: readonly Operator[] = OPERATORS_UNARY_L.concat(
+    OPERATORS_UNARY_R
+)
+    .concat(OPERATORS_BINARY)
+    .concat(OPERATORS_BINARY_FN)
+    .concat(OPERATORS_TERNARY_FN);
 
-export function getOperatorById(id: string): Operator{
+export function getOperatorById(id: string): Operator {
     return FULL_OPERATORS.find(x => x.id === id)!;
 }

@@ -16,7 +16,7 @@ class CalculatorMemory {
     Y_: InternalNumber = new InternalNumber("DEC", new Decimal(0));
     M_: InternalNumber = new InternalNumber("DEC", new Decimal(0));
 
-    get ans(): InternalNumber{
+    get ans(): InternalNumber {
         return this.ans_;
     }
     get A(): InternalNumber {
@@ -90,8 +90,8 @@ class CalculatorMemory {
 
     clear() {
         this.ans = new InternalNumber("DEC", new Decimal(0));
-        this.A= new InternalNumber("DEC", new Decimal(0));
-        this.B= new InternalNumber("DEC", new Decimal(0));
+        this.A = new InternalNumber("DEC", new Decimal(0));
+        this.B = new InternalNumber("DEC", new Decimal(0));
         this.C = new InternalNumber("DEC", new Decimal(0));
         this.D = new InternalNumber("DEC", new Decimal(0));
         this.E = new InternalNumber("DEC", new Decimal(0));
@@ -105,80 +105,70 @@ class CalculatorMemory {
         let key = "memAns";
         if (localStorage.getItem(key) !== null) {
             this.ans_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.ans = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memA";
         if (localStorage.getItem(key) !== null) {
             this.A_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.A = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memB";
         if (localStorage.getItem(key) !== null) {
             this.B_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.B = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memC";
         if (localStorage.getItem(key) !== null) {
             this.C_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.C = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memD";
         if (localStorage.getItem(key) !== null) {
             this.D_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.D = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memE";
         if (localStorage.getItem(key) !== null) {
             this.E_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.E = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memF";
         if (localStorage.getItem(key) !== null) {
             this.F_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.F = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memX";
         if (localStorage.getItem(key) !== null) {
             this.X_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.X = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memY";
         if (localStorage.getItem(key) !== null) {
             this.Y_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.Y = new InternalNumber("DEC", new Decimal(0));
         }
 
         key = "memM";
         if (localStorage.getItem(key) !== null) {
             this.M_ = fromStorageObjectString(localStorage.getItem(key)!);
-        }
-        else {
+        } else {
             this.M = new InternalNumber("DEC", new Decimal(0));
         }
     }

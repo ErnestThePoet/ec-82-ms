@@ -1,5 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { KeyEntry,isOpBinary,isOpUnaryR, KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
+import {
+    KeyEntry,
+    isOpBinary,
+    isOpUnaryR,
+    KEY_ENTRIES
+} from "../modules/calc-core/objs/key-entry";
 import Decimal from "decimal.js";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 import {
@@ -12,11 +17,18 @@ import { parse } from "../modules/calc-core/parse";
 import { calculate } from "../modules/calc-core/calculate";
 import calculatorMemory from "./calculator-memory";
 
-type CalculatorDisplayMode = "NORMAL_EDIT" |"NORMAL_SHOW"|"ERROR"| "CLEAR" | "DRG" | "LANG" | "ABOUT";
+type CalculatorDisplayMode =
+    | "NORMAL_EDIT"
+    | "NORMAL_SHOW"
+    | "ERROR"
+    | "CLEAR"
+    | "DRG"
+    | "LANG"
+    | "ABOUT";
 export type CalculatorDRGMode = "D" | "R" | "G";
 type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
 
-class CalculatorState{
+class CalculatorState {
     constructor() {
         makeAutoObservable(this);
     }
@@ -31,7 +43,7 @@ class CalculatorState{
     dispResult: InternalNumber = new InternalNumber("DEC", new Decimal(0));
 
     errorMessage: string = "";
-    
+
     /////////////// Modes
     isInsert: boolean = true;
 
@@ -48,26 +60,23 @@ class CalculatorState{
             case "NORMAL_EDIT":
                 if (this.isInsert) {
                     this.entries.splice(this.cursorIndex, 0, ke);
-                    this.setCursorIndex(this.cursorIndex+1);
-                }
-                else {
+                    this.setCursorIndex(this.cursorIndex + 1);
+                } else {
                     if (this.cursorIndex >= this.entries.length) {
                         this.entries.push(ke);
                         this.setCursorIndex(this.entries.length);
-                    }
-                    else {
+                    } else {
                         this.entries[this.cursorIndex] = ke;
                     }
                 }
                 break;
             case "NORMAL_SHOW":
                 if (isOpBinary(ke) || isOpUnaryR(ke)) {
-                    this.entries = [KEY_ENTRIES.ANS,ke];
-                }
-                else {
+                    this.entries = [KEY_ENTRIES.ANS, ke];
+                } else {
                     this.entries = [ke];
                 }
-                
+
                 this.setCursorIndex(this.entries.length);
                 // start new entry
                 this.setEntryIndex(this.historyEntries.length);
@@ -79,7 +88,7 @@ class CalculatorState{
     deleteEntry() {
         if (this.displayMode === "NORMAL_EDIT") {
             // when cursor is not at beginning, delete the entry before cursor
-            if(this.cursorIndex-1>=0) {
+            if (this.cursorIndex - 1 >= 0) {
                 this.entries.splice(this.cursorIndex - 1, 1);
                 this.setCursorIndex(this.cursorIndex - 1);
             }
@@ -141,12 +150,16 @@ class CalculatorState{
         switch (this.dispResult.type) {
             case "DEC":
             case "DEGREE":
-                this.dispResult =
-                    new InternalNumber("FRAC", getFracValue(this.calcResult));
+                this.dispResult = new InternalNumber(
+                    "FRAC",
+                    getFracValue(this.calcResult)
+                );
                 break;
             case "FRAC":
-                this.dispResult =
-                    new InternalNumber("DEC", getDecValue(this.calcResult));
+                this.dispResult = new InternalNumber(
+                    "DEC",
+                    getDecValue(this.calcResult)
+                );
                 break;
         }
     }
@@ -155,12 +168,16 @@ class CalculatorState{
         switch (this.dispResult.type) {
             case "DEC":
             case "FRAC":
-                this.dispResult =
-                    new InternalNumber("DEGREE", getDegreeValue(this.calcResult));
+                this.dispResult = new InternalNumber(
+                    "DEGREE",
+                    getDegreeValue(this.calcResult)
+                );
                 break;
             case "DEGREE":
-                this.dispResult =
-                    new InternalNumber("DEC", getDecValue(this.calcResult));
+                this.dispResult = new InternalNumber(
+                    "DEC",
+                    getDecValue(this.calcResult)
+                );
                 break;
         }
     }
@@ -185,8 +202,8 @@ class CalculatorState{
             return;
         }
 
-        this.historyEntries.push(Object.assign([],this.entries));
-        this.entryIndex = this.historyEntries.length-1;
+        this.historyEntries.push(Object.assign([], this.entries));
+        this.entryIndex = this.historyEntries.length - 1;
 
         this.calcResult = calculateResult.result!;
 
@@ -194,11 +211,10 @@ class CalculatorState{
         const decCalcResult = getDecValue(this.calcResult);
         if (this.calcResult.type === "FRAC" && decCalcResult.isInteger()) {
             this.dispResult = new InternalNumber("DEC", decCalcResult);
-        }
-        else {
+        } else {
             this.dispResult = calculateResult.result!;
         }
-        
+
         calculatorMemory.ans = calculateResult.result!;
 
         this.displayMode = "NORMAL_SHOW";

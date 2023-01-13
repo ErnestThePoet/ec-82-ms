@@ -6,19 +6,23 @@ import { calculate } from "../modules/calc-core/calculate";
 import { InternalNumber } from "../modules/calc-core/objs/internal-number";
 
 function printResult(ke: KeyEntry[]) {
-    ke=preprocess(ke);
+    ke = preprocess(ke);
 
     console.log(ke.map(x => x.id).join(" "));
 
     const pr = parse(ke);
 
     if (pr.success) {
-        console.log(pr.lexems.map(
-            x => x.type === "NBR"
-                ? (<InternalNumber>x.obj).toString()
-                : (<Operator>x.obj).id).join(" "));
-    }
-    else {
+        console.log(
+            pr.lexems
+                .map(x =>
+                    x.type === "NBR"
+                        ? (<InternalNumber>x.obj).toString()
+                        : (<Operator>x.obj).id
+                )
+                .join(" ")
+        );
+    } else {
         console.log(pr.msg);
         return;
     }
@@ -27,8 +31,7 @@ function printResult(ke: KeyEntry[]) {
 
     if (cr.success) {
         console.log(cr.result!.toString());
-    }
-    else {
+    } else {
         console.log(cr.msg);
     }
 }

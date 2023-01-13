@@ -4,24 +4,83 @@ import calculatorMemory from "../../../observables/calculator-memory";
 import type { Lexem } from "./lexem";
 import * as C from "../../math/constants";
 
-type OperatorUnaryLId = "CBRT" | "SQRT" | "LOG" | "LN" | "EXP10" | "EXP"
-    | "SIN" | "COS" | "TAN" | "SINH" | "COSH" | "TANH" | "ASIN" | "ACOS" | "ATAN" | "NEG";
-type OperatorUnaryRId = "FACT" | "INV" | "CUBE" | "SQR" | "PERCENT" | "FROM_D" | "FROM_R" | "FROM_G";
-type OperatorBinaryId = "NPR" | "NCR" | "POW" | "ROOT" | "ADD" | "SUB" | "MUL" | "DIV";
+type OperatorUnaryLId =
+    | "CBRT"
+    | "SQRT"
+    | "LOG"
+    | "LN"
+    | "EXP10"
+    | "EXP"
+    | "SIN"
+    | "COS"
+    | "TAN"
+    | "SINH"
+    | "COSH"
+    | "TANH"
+    | "ASIN"
+    | "ACOS"
+    | "ATAN"
+    | "NEG";
+type OperatorUnaryRId =
+    | "FACT"
+    | "INV"
+    | "CUBE"
+    | "SQR"
+    | "PERCENT"
+    | "FROM_D"
+    | "FROM_R"
+    | "FROM_G";
+type OperatorBinaryId =
+    | "NPR"
+    | "NCR"
+    | "POW"
+    | "ROOT"
+    | "ADD"
+    | "SUB"
+    | "MUL"
+    | "DIV";
 type OperatorBinaryFnId = "POL" | "REC";
 
 type BracketId = "(" | ")";
 type SymbolId = "FRAC" | "DEGREE" | "COMMA";
-type VarId = "A" | "B" | "C" | "D" | "E" | "F" | "X" | "Y" | "M" | "e" | "PI" | "RAN" | "ANS";
+type VarId =
+    | "A"
+    | "B"
+    | "C"
+    | "D"
+    | "E"
+    | "F"
+    | "X"
+    | "Y"
+    | "M"
+    | "e"
+    | "PI"
+    | "RAN"
+    | "ANS";
 type NumId = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | ".";
 
-type KeyEntryId = OperatorUnaryLId | OperatorUnaryRId
-    | OperatorBinaryId | OperatorBinaryFnId
-    | BracketId | SymbolId | VarId | NumId |"PPU";
+type KeyEntryId =
+    | OperatorUnaryLId
+    | OperatorUnaryRId
+    | OperatorBinaryId
+    | OperatorBinaryFnId
+    | BracketId
+    | SymbolId
+    | VarId
+    | NumId
+    | "PPU";
 
-type KeyEntryType = "OP_UNARY_L" | "OP_UNARY_R" | "OP_BINARY" | "OP_BINARY_FN"
-    | "BRACKET_L" | "BRACKET_R" | "SYMBOL" | "VAR" | "NUM"
-    |"PPU";
+type KeyEntryType =
+    | "OP_UNARY_L"
+    | "OP_UNARY_R"
+    | "OP_BINARY"
+    | "OP_BINARY_FN"
+    | "BRACKET_L"
+    | "BRACKET_R"
+    | "SYMBOL"
+    | "VAR"
+    | "NUM"
+    | "PPU";
 
 export interface KeyEntry {
     svg: string;
@@ -34,7 +93,7 @@ export function isOpUnaryL(k: KeyEntry): boolean {
     return k.type === "OP_UNARY_L";
 }
 
-export function isOpUnaryR(k: KeyEntry): boolean{
+export function isOpUnaryR(k: KeyEntry): boolean {
     return k.type === "OP_UNARY_R";
 }
 
@@ -51,25 +110,26 @@ export function isLBracket(k: KeyEntry): boolean {
 }
 
 export function isLBracketEqv(k: KeyEntry): boolean {
-    return k.type === "BRACKET_L"
-        || k.type === "OP_UNARY_L"
-        || k.type === "OP_BINARY_FN";
+    return (
+        k.type === "BRACKET_L" ||
+        k.type === "OP_UNARY_L" ||
+        k.type === "OP_BINARY_FN"
+    );
 }
 
 export function isLBracketEqvNoFn(k: KeyEntry): boolean {
-    return k.type === "BRACKET_L"
-        || k.type === "OP_UNARY_L";
+    return k.type === "BRACKET_L" || k.type === "OP_UNARY_L";
 }
 
 export function isRBracket(k: KeyEntry): boolean {
     return k.type === "BRACKET_R";
 }
 
-export function isSymbol(k: KeyEntry): boolean{
+export function isSymbol(k: KeyEntry): boolean {
     return k.type === "SYMBOL";
 }
 
-export function isVar(k: KeyEntry): boolean{
+export function isVar(k: KeyEntry): boolean {
     return k.type === "VAR";
 }
 
@@ -77,15 +137,15 @@ export function isNum(k: KeyEntry): boolean {
     return k.type === "NUM";
 }
 
-export function isPpu(k: KeyEntry): boolean{
+export function isPpu(k: KeyEntry): boolean {
     return k.type === "PPU";
 }
 
-export function getNumString(k: KeyEntry): string{
+export function getNumString(k: KeyEntry): string {
     return k.id;
 }
 
-export function getVarInternalNumber(k: KeyEntry): InternalNumber{
+export function getVarInternalNumber(k: KeyEntry): InternalNumber {
     switch (k.id) {
         case "A":
             return calculatorMemory.A;
@@ -122,21 +182,17 @@ export function isOpBinaryPriorityHigher(x: KeyEntry, y: KeyEntry) {
     switch (x.id) {
         case "POW":
         case "ROOT":
-            return y.id !== "POW"
-                && y.id !== "ROOT";
-        
+            return y.id !== "POW" && y.id !== "ROOT";
+
         case "FRAC":
-            return y.id !== "POW"
-                && y.id !== "ROOT"
-                && y.id !== "FRAC";
-        
+            return y.id !== "POW" && y.id !== "ROOT" && y.id !== "FRAC";
+
         case "NCR":
         case "NPR":
         case "MUL":
         case "DIV":
-            return y.id === "ADD"
-                || y.id === "SUB";
-        
+            return y.id === "ADD" || y.id === "SUB";
+
         case "ADD":
         case "SUB":
         default:
@@ -220,7 +276,7 @@ interface KeyEntries {
 export const KEY_ENTRIES: KeyEntries = {
     cbrt: {
         id: "CBRT",
-        type:"OP_UNARY_L",
+        type: "OP_UNARY_L",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="3.438ex" height="2.567ex" viewBox="0 -750 1519.8 1134.8" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-90-TEX-N-33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path id="MJX-90-TEX-N-221A" d="M95 178Q89 178 81 186T72 200T103 230T169 280T207 309Q209 311 212 311H213Q219 311 227 294T281 177Q300 134 312 108L397 -77Q398 -77 501 136T707 565T814 786Q820 800 834 800Q841 800 846 794T853 782V776L620 293L385 -193Q381 -200 366 -200Q357 -200 354 -197Q352 -195 256 15L160 225L144 214Q129 202 113 190T95 178Z"></path><path id="MJX-90-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mroot"><g><g data-mml-node="mstyle" transform="translate(853, 0)"><g data-mml-node="mspace"></g></g></g><g data-mml-node="mn" transform="translate(261.8, 176.3) scale(0.5)"><use xlink:href="#MJX-90-TEX-N-33"></use></g><g data-mml-node="mo" transform="translate(0, -184.7)"><use xlink:href="#MJX-90-TEX-N-221A"></use></g><rect width="277.8" height="60" x="853" y="555.3"></rect></g><g data-mml-node="mo" transform="translate(1130.8, 0)"><use xlink:href="#MJX-90-TEX-N-28"></use></g></g></g></svg>'
     },
     sqrt: {
@@ -301,7 +357,7 @@ export const KEY_ENTRIES: KeyEntries = {
 
     fact: {
         id: "FACT",
-        type:"OP_UNARY_R",
+        type: "OP_UNARY_R",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="1.62ex" viewBox="0 -716 278 716" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-276-TEX-N-21" d="M78 661Q78 682 96 699T138 716T180 700T199 661Q199 654 179 432T158 206Q156 198 139 198Q121 198 119 206Q118 209 98 431T78 661ZM79 61Q79 89 97 105T141 121Q164 119 181 104T198 61Q198 31 181 16T139 1Q114 1 97 16T79 61Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-276-TEX-N-21"></use></g></g></g></svg>'
     },
     inv: {
@@ -342,7 +398,7 @@ export const KEY_ENTRIES: KeyEntries = {
 
     npr: {
         id: "NPR",
-        type:"OP_BINARY",
+        type: "OP_BINARY",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="1.778ex" height="1.552ex" viewBox="0 -686 786 686" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-474-TEX-B-1D40F" d="M400 0Q376 3 226 3Q75 3 51 0H39V62H147V624H39V686H253Q435 686 470 685T536 678Q585 668 621 648T675 605T705 557T718 514T721 483T718 451T704 409T673 362T616 322T530 293Q500 288 399 287H304V62H412V0H400ZM553 475Q553 554 537 582T459 622Q451 623 373 624H298V343H372Q457 344 480 350Q527 362 540 390T553 475Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><use xlink:href="#MJX-474-TEX-B-1D40F"></use></g></g></g></g></svg>'
     },
     ncr: {
@@ -388,7 +444,7 @@ export const KEY_ENTRIES: KeyEntries = {
 
     pol: {
         id: "POL",
-        type:"OP_BINARY_FN",
+        type: "OP_BINARY_FN",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="4.351ex" height="2.262ex" viewBox="0 -750 1923 1000" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-402-TEX-I-1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path><path id="MJX-402-TEX-I-1D45C" d="M201 -11Q126 -11 80 38T34 156Q34 221 64 279T146 380Q222 441 301 441Q333 441 341 440Q354 437 367 433T402 417T438 387T464 338T476 268Q476 161 390 75T201 -11ZM121 120Q121 70 147 48T206 26Q250 26 289 58T351 142Q360 163 374 216T388 308Q388 352 370 375Q346 405 306 405Q243 405 195 347Q158 303 140 230T121 120Z"></path><path id="MJX-402-TEX-I-1D459" d="M117 59Q117 26 142 26Q179 26 205 131Q211 151 215 152Q217 153 225 153H229Q238 153 241 153T246 151T248 144Q247 138 245 128T234 90T214 43T183 6T137 -11Q101 -11 70 11T38 85Q38 97 39 102L104 360Q167 615 167 623Q167 626 166 628T162 632T157 634T149 635T141 636T132 637T122 637Q112 637 109 637T101 638T95 641T94 647Q94 649 96 661Q101 680 107 682T179 688Q194 689 213 690T243 693T254 694Q266 694 266 686Q266 675 193 386T118 83Q118 81 118 75T117 65V59Z"></path><path id="MJX-402-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mi"><use xlink:href="#MJX-402-TEX-I-1D443"></use></g><g data-mml-node="mi" transform="translate(751, 0)"><use xlink:href="#MJX-402-TEX-I-1D45C"></use></g><g data-mml-node="mi" transform="translate(1236, 0)"><use xlink:href="#MJX-402-TEX-I-1D459"></use></g><g data-mml-node="mo" transform="translate(1534, 0)"><use xlink:href="#MJX-402-TEX-N-28"></use></g></g></g></svg>'
     },
     rec: {
@@ -399,12 +455,12 @@ export const KEY_ENTRIES: KeyEntries = {
 
     lBracket: {
         id: "(",
-        type:"BRACKET_L",
+        type: "BRACKET_L",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.88ex" height="2.262ex" viewBox="0 -750 389 1000" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-416-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-416-TEX-N-28"></use></g></g></g></svg>'
     },
     rBracket: {
         id: ")",
-        type:"BRACKET_R",
+        type: "BRACKET_R",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="0.88ex" height="2.262ex" viewBox="0 -750 389 1000" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-418-TEX-N-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mo"><use xlink:href="#MJX-418-TEX-N-29"></use></g></g></g></svg>'
     },
 
@@ -421,7 +477,7 @@ export const KEY_ENTRIES: KeyEntries = {
 
     A: {
         id: "A",
-        type:"VAR",
+        type: "VAR",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="1.697ex" height="1.62ex" viewBox="0 -716 750 716" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-502-TEX-N-41" d="M255 0Q240 3 140 3Q48 3 39 0H32V46H47Q119 49 139 88Q140 91 192 245T295 553T348 708Q351 716 366 716H376Q396 715 400 709Q402 707 508 390L617 67Q624 54 636 51T687 46H717V0H708Q699 3 581 3Q458 3 437 0H427V46H440Q510 46 510 64Q510 66 486 138L462 209H229L209 150Q189 91 189 85Q189 72 209 59T259 46H264V0H255ZM447 255L345 557L244 256Q244 255 345 255H447Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><use xlink:href="#MJX-502-TEX-N-41"></use></g></g></g></g></svg>'
     },
     B: {
@@ -487,7 +543,7 @@ export const KEY_ENTRIES: KeyEntries = {
 
     n0: {
         id: "0",
-        type:"NUM",
+        type: "NUM",
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.557ex" viewBox="0 -666 500 688" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style=""><defs><path id="MJX-594-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mn"><use xlink:href="#MJX-594-TEX-N-30"></use></g></g></g></svg>'
     },
     n1: {

@@ -8,19 +8,19 @@
     flex-direction: column;
     justify-content: space-between;
 
-    >div:first-child {
+    > div:first-child {
         display: flex;
         justify-content: space-between;
         height: 16%;
-        
-        >div{
+
+        > div {
             width: 31%;
             display: flex;
             justify-content: space-between;
         }
     }
 
-    >div:not(:first-child) {
+    > div:not(:first-child) {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;

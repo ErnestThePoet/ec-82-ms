@@ -4,8 +4,7 @@ import { KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
 import cs from "../observables/calculator-state";
 
 export const onR1C1Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -14,11 +13,10 @@ export const onR1C1Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR1C2Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -27,11 +25,10 @@ export const onR1C2Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR1C3Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -40,11 +37,10 @@ export const onR1C3Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR1C4Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -52,19 +48,17 @@ export const onR1C4Click = () => {
         if (cs.displayMode === "NORMAL_EDIT") {
             cs.deleteEntry();
         }
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.toggleIsInsert();
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR1C5Click = () => {
     if (cs.funcMode === "SHIFT") {
         cs.setDisplayMode("ABOUT");
-    }
-    else {
+    } else {
         cs.setDisplayMode("NORMAL_EDIT");
         cs.entries = [];
         cs.setCursorIndex(0);
@@ -73,11 +67,10 @@ export const onR1C5Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR2C1Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -86,11 +79,10 @@ export const onR2C1Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR2C2Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -99,11 +91,10 @@ export const onR2C2Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR2C3Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -112,11 +103,10 @@ export const onR2C3Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR2C4Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -125,11 +115,10 @@ export const onR2C4Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR2C5Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -138,11 +127,10 @@ export const onR2C5Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR3C1Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -151,11 +139,10 @@ export const onR3C1Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR3C2Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -164,59 +151,52 @@ export const onR3C2Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR3C3Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.n3);
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.fromD);
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR3C4Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.add);
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.fromR);
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR3C5Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.sub);
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.fromG);
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR4C1Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -225,43 +205,38 @@ export const onR4C1Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR4C2Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.nDot);
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.RAN);
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR4C3Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.exp10);
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.PI);
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR4C4Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
@@ -270,20 +245,18 @@ export const onR4C4Click = () => {
     }
 
     cs.clearFuncMode();
-}
+};
 
 export const onR4C5Click = () => {
-    if (cs.displayMode !== "NORMAL_EDIT"
-        && cs.displayMode !== "NORMAL_SHOW") {
+    if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
 
     if (cs.funcMode === "NONE") {
         cs.calculate();
-    }
-    else if (cs.funcMode === "SHIFT") {
+    } else if (cs.funcMode === "SHIFT") {
         cs.inputEntry(KEY_ENTRIES.percent);
     }
 
     cs.clearFuncMode();
-}
+};

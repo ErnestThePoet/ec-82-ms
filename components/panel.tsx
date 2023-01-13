@@ -6,20 +6,17 @@ import SysKeys from "./sys-keys";
 import FuncKeys from "./func-keys";
 import BasicKeys from "./basic-keys";
 
-export default class Panel extends React.Component{
+export default class Panel extends React.Component {
     constructor(props: {}) {
         super(props);
     }
 
     render = () => (
         <div className={styles.divPanelWrapper}>
-            
-            <Screen/>
+            <Screen />
             <SysKeys />
-            <FuncKeys/>
-            <BasicKeys/>
-            
-            
+            <FuncKeys />
+            <BasicKeys />
         </div>
-    )
+    );
 }

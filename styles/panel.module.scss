@@ -1,4 +1,4 @@
-@mixin key-label{
+@mixin key-label {
     text-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
 
     font-size: 12px;
@@ -8,25 +8,27 @@
     user-select: none;
 }
 
-@mixin key{
+@mixin key {
     cursor: pointer;
     user-select: none;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    box-shadow: inset 1px 1px 1px 0px rgb(255 255 255 / 80%), inset -1px -1px 1px 0px rgb(40 49 85 / 30%), 1px 1px 3px 0px rgb(40 49 85 / 10%);
+    box-shadow: inset 1px 1px 1px 0px rgb(255 255 255 / 80%),
+        inset -1px -1px 1px 0px rgb(40 49 85 / 30%),
+        1px 1px 3px 0px rgb(40 49 85 / 10%);
 
     transition-duration: 200ms;
 }
 
-@mixin key-trans-dark{
+@mixin key-trans-dark {
     &:hover {
         filter: opacity(0.9);
     }
 
-    &:active{
+    &:active {
         filter: opacity(0.83);
     }
 }
@@ -36,16 +38,16 @@
         filter: brightness(95%);
     }
 
-    &:active{
+    &:active {
         filter: brightness(90%);
     }
 }
 
-.divPanelWrapper{
+.divPanelWrapper {
     position: relative;
-    width: m#{i}n(100%,50vh);
+    width: m#{i}n(100%, 50vh);
     height: 100%;
-    background-color: #EAECF3;
+    background-color: #eaecf3;
     border-radius: 10px;
 
     display: flex;
@@ -81,43 +83,42 @@
         font-size: 12px;
     }
 
-
-    [role="ksys"]{
+    [role="ksys"] {
         width: 35%;
         height: 55%;
     }
-    [role="ksys"]>div:nth-child(2){
+    [role="ksys"] > div:nth-child(2) {
         @include key;
         @include key-trans-dark;
-        
+
         width: 100%;
         height: 100%;
-    
+
         background-image: linear-gradient(135deg, #525252, #000000);
         border-radius: 10px;
     }
 
-    [role="kdir"]{
+    [role="kdir"] {
         @include key;
         // only if panel is position:relative can this width
         // is relative to panel's.
         position: absolute;
-    
+
         left: 50%;
         transform: translate(-50%, -10px);
-    
+
         background-image: linear-gradient(135deg, #525252, #000000);
         width: 32%;
         height: 12%;
-    
+
         border-top-left-radius: 50%;
         border-top-right-radius: 50%;
         border-bottom-left-radius: 50%;
         border-bottom-right-radius: 50%;
 
         cursor: pointer;
-    
-        >span {
+
+        > span {
             width: 30%;
             height: 50%;
             text-align: center;
@@ -126,29 +127,29 @@
             position: absolute;
             color: white;
         }
-    
-        >span:nth-child(1) {
+
+        > span:nth-child(1) {
             left: 50%;
             transform: translate(-50%, -40%);
         }
-    
-        >span:nth-child(2) {
+
+        > span:nth-child(2) {
             left: 0;
             transform: translate(25%, 0) rotate(270deg);
         }
-    
-        >span:nth-child(3) {
+
+        > span:nth-child(3) {
             left: 50%;
             transform: translate(-50%, 50%) rotate(180deg);
         }
-    
-        >span:nth-child(4) {
+
+        > span:nth-child(4) {
             left: 100%;
             transform: translate(-120%, 0) rotate(90deg);
         }
     }
 
-    [role="kfunc"]{
+    [role="kfunc"] {
         width: 14%;
         height: 100%;
     }
@@ -156,22 +157,25 @@
         width: 45%;
         height: 100%;
     }
-    [role="kfunc"]>div:nth-child(2),[role="kfuncr1"]>div:nth-child(2) {
+    [role="kfunc"] > div:nth-child(2),
+    [role="kfuncr1"] > div:nth-child(2) {
         @include key;
         @include key-trans-light;
 
         width: 100%;
         height: 100%;
-    
-        background-image: linear-gradient(135deg, #F4F5F6, #fff);
+
+        background-image: linear-gradient(135deg, #f4f5f6, #fff);
         border-radius: 6px;
     }
 
-    [role="kbasic"],[role="kbasicy"]{
+    [role="kbasic"],
+    [role="kbasicy"] {
         width: 17%;
         height: 100%;
     }
-    [role="kbasic"]>div:nth-child(2),[role="kbasicy"]>div:nth-child(2) {
+    [role="kbasic"] > div:nth-child(2),
+    [role="kbasicy"] > div:nth-child(2) {
         @include key;
         @include key-trans-dark;
 
@@ -182,7 +186,7 @@
         border-radius: 6px;
     }
 
-    [role="kbasicy"]>div:nth-child(2) {
+    [role="kbasicy"] > div:nth-child(2) {
         @include key;
         @include key-trans-light;
 

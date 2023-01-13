@@ -20,7 +20,11 @@ function test() {
         KEY_ENTRIES.n6
     ];
 
-    console.log(preprocess(ke1).map(x => x.id).join(" "));
+    console.log(
+        preprocess(ke1)
+            .map(x => x.id)
+            .join(" ")
+    );
 }
 
 test();

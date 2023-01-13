@@ -3,29 +3,29 @@ import { InternalNumber } from "./objs/internal-number";
 import { Operator } from "./objs/operators";
 import stringRes from "../../observables/strings-res";
 
-interface CalculateResult{
+interface CalculateResult {
     success: boolean;
     msg: string;
     result?: InternalNumber;
 }
 
-export function calculate(lexems: Lexem[]): CalculateResult{
+export function calculate(lexems: Lexem[]): CalculateResult {
     const operands: InternalNumber[] = [];
 
-    for (let i = 0; i < lexems.length; i++){
+    for (let i = 0; i < lexems.length; i++) {
         if (lexems[i].type === "NBR") {
             operands.push(lexems[i].obj as InternalNumber);
-        }
-        else {
+        } else {
             const op: Operator = lexems[i].obj as Operator;
             // check remaining arg count
             if (operands.length < op.argN) {
                 return {
                     success: false,
-                    msg: stringRes.strings.CALC_CK_ERROR_MSGS.INSUFFICENT_OPERANDS
+                    msg: stringRes.strings.CALC_CK_ERROR_MSGS
+                        .INSUFFICENT_OPERANDS
                 };
             }
-            
+
             // check validaty then calculate
             switch (op.argN) {
                 case 1:
@@ -42,27 +42,27 @@ export function calculate(lexems: Lexem[]): CalculateResult{
                 case 2:
                     const opr22: InternalNumber = operands.pop()!;
                     const opr21: InternalNumber = operands.pop()!;
-                    const ckResult2 = op.ck(opr21,opr22);
+                    const ckResult2 = op.ck(opr21, opr22);
                     if (!ckResult2.ok) {
                         return {
                             success: false,
                             msg: ckResult2.msg
                         };
                     }
-                    operands.push(op.op(opr21,opr22));
+                    operands.push(op.op(opr21, opr22));
                     break;
                 case 3:
                     const opr33: InternalNumber = operands.pop()!;
                     const opr32: InternalNumber = operands.pop()!;
                     const opr31: InternalNumber = operands.pop()!;
-                    const ckResult3 = op.ck(opr31,opr32,opr33);
+                    const ckResult3 = op.ck(opr31, opr32, opr33);
                     if (!ckResult3.ok) {
                         return {
                             success: false,
                             msg: ckResult3.msg
                         };
                     }
-                    operands.push(op.op(opr31,opr32,opr33));
+                    operands.push(op.op(opr31, opr32, opr33));
                     break;
             }
         }

@@ -3,7 +3,6 @@ import {
     isLBracketEqv,
     isLBracketEqvNoFn,
     isRBracket,
-
     isOpUnaryL,
     isOpUnaryR,
     isOpBinary,
@@ -29,7 +28,7 @@ interface ParseResult {
     lexems: Lexem[];
 }
 
-export function parse(entries: KeyEntry[]): ParseResult{
+export function parse(entries: KeyEntry[]): ParseResult {
     // first we eliminish all UnaryR, BinaryFn and TernaryFn.
     // We pre-parse them into a Lexem[] which can be treated as a Var.
     // Then we replace the original KeyEntrys with one KeyEntry
@@ -44,7 +43,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
     // before reaching the start position.
 
     // if we scan from R to L, it will be unable to handle chained UnaryR.
-    for (let i = 1; i <entries.length; i++){
+    for (let i = 1; i < entries.length; i++) {
         if (isOpUnaryR(entries[i])) {
             const subEntries: KeyEntry[] = [];
             let probeIndex = i - 1;
@@ -55,19 +54,17 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 // rBrackets-lBrackets during search.
                 // set to -1 to make sure current rBracket returns it to 0
                 let bracketDiff = -1;
-                
+
                 while (probeIndex >= 0) {
                     if (isRBracket(entries[probeIndex])) {
                         bracketDiff++;
-                    }
-                    else if (isLBracketEqv(entries[probeIndex])) {
+                    } else if (isLBracketEqv(entries[probeIndex])) {
                         if (bracketDiff === 0) {
                             // this is the matching lBracket
                             // include it to make sub parsing work
                             subEntries.unshift(entries[probeIndex]);
                             break;
-                        }
-                        else {
+                        } else {
                             bracketDiff--;
                         }
                     }
@@ -78,26 +75,23 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (probeIndex < 0) {
                     return {
                         success: false,
-                        msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_L_BRACKET,
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS
+                            .MISSING_L_BRACKET,
                         lexems: []
                     };
-                }
-                else {
+                } else {
                     // make sure it points to the KeyEntry before PPU
                     probeIndex--;
                 }
-            }
-            else if (isNum(entries[i - 1])) {
+            } else if (isNum(entries[i - 1])) {
                 while (probeIndex >= 0 && isNum(entries[probeIndex])) {
                     subEntries.unshift(entries[probeIndex]);
                     probeIndex--;
                 }
-            }
-            else if (isVar(entries[i - 1]) || isPpu(entries[i - 1])) {
+            } else if (isVar(entries[i - 1]) || isPpu(entries[i - 1])) {
                 probeIndex = i - 2;
                 subEntries.unshift(entries[i - 1]);
-            }
-            else {
+            } else {
                 return {
                     success: false,
                     msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
@@ -114,7 +108,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
             if (subParseResult.lexems.length === 0) {
                 return {
                     success: false,
-                    msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS
+                        .INSUFFICENT_OPERANDS,
                     lexems: []
                 };
             }
@@ -129,7 +124,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 id: "PPU",
                 svg: "",
                 type: "PPU",
-                ppLexems:subParseResult.lexems
+                ppLexems: subParseResult.lexems
             });
 
             // next iteration will start from probeIndex
@@ -138,12 +133,12 @@ export function parse(entries: KeyEntry[]): ParseResult{
     }
 
     // preparse BinaryFns
-    for (let i = 0; i < entries.length; i++){
+    for (let i = 0; i < entries.length; i++) {
         if (isOpBinaryFn(entries[i])) {
             // find a comma to terminate first arg
             const arg1Entries: KeyEntry[] = [];
             const arg2Entries: KeyEntry[] = [];
-            
+
             let probeIndex = i + 1;
 
             // number of BinaryFn - number of comma in the search sequence.
@@ -154,12 +149,10 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (entries[probeIndex].id === "COMMA") {
                     if (commaDiff === 0) {
                         break;
-                    }
-                    else {
+                    } else {
                         commaDiff--;
                     }
-                }
-                else if (isOpBinaryFn(entries[probeIndex])) {
+                } else if (isOpBinaryFn(entries[probeIndex])) {
                     commaDiff++;
                 }
                 arg1Entries.push(entries[probeIndex]);
@@ -172,8 +165,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_COMMA,
                     lexems: []
                 };
-            }
-            else {
+            } else {
                 // skip comma
                 probeIndex++;
             }
@@ -185,12 +177,10 @@ export function parse(entries: KeyEntry[]): ParseResult{
             while (probeIndex < entries.length) {
                 if (isLBracketEqv(entries[probeIndex])) {
                     bracketDiff++;
-                }
-                else if (entries[probeIndex].id === ")") {
+                } else if (entries[probeIndex].id === ")") {
                     if (bracketDiff === 0) {
                         break;
-                    }
-                    else {
+                    } else {
                         bracketDiff--;
                     }
                 }
@@ -218,11 +208,14 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 return arg2ParseResult;
             }
 
-            if (arg1ParseResult.lexems.length === 0
-                || arg2ParseResult.lexems.length === 0) {
+            if (
+                arg1ParseResult.lexems.length === 0 ||
+                arg2ParseResult.lexems.length === 0
+            ) {
                 return {
                     success: false,
-                    msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
+                    msg: stringsRes.strings.PARSE_ERROR_MSGS
+                        .INSUFFICENT_OPERANDS,
                     lexems: []
                 };
             }
@@ -237,7 +230,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 obj: getOperatorById(entries[i].id)
             });
 
-            entries.splice(i, probeIndex-i+1, {
+            entries.splice(i, probeIndex - i + 1, {
                 id: "PPU",
                 svg: "",
                 type: "PPU",
@@ -249,7 +242,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
     }
 
     // preparse TernaryFn: degree
-    for (let i = entries.length - 1; i > 0; i--){
+    for (let i = entries.length - 1; i > 0; i--) {
         // its left can only be:
         // LBracketEqv),
         // Nbr+,
@@ -259,7 +252,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
         if (entries[i].id === "DEGREE") {
             const origI = i;
             let degreeCount = 1;
-            const subEntriesSMD: Array<KeyEntry[]> = [[],[],[]];
+            const subEntriesSMD: Array<KeyEntry[]> = [[], [], []];
             let probeIndex = i - 1;
 
             while (true) {
@@ -269,61 +262,62 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     while (probeIndex >= 0) {
                         if (isRBracket(entries[probeIndex])) {
                             bracketDiff++;
-                        }
-                        else if (isLBracketEqv(entries[probeIndex])) {
+                        } else if (isLBracketEqv(entries[probeIndex])) {
                             if (bracketDiff === 0) {
                                 // this is the matching lBracket
                                 // include it to make sub parsing work
-                                subEntriesSMD[degreeCount - 1]
-                                    .unshift(entries[probeIndex]);
+                                subEntriesSMD[degreeCount - 1].unshift(
+                                    entries[probeIndex]
+                                );
                                 break;
-                            }
-                            else {
+                            } else {
                                 bracketDiff--;
                             }
                         }
-                        subEntriesSMD[degreeCount-1].unshift(entries[probeIndex]);
+                        subEntriesSMD[degreeCount - 1].unshift(
+                            entries[probeIndex]
+                        );
                         probeIndex--;
                     }
 
                     if (probeIndex < 0) {
                         return {
                             success: false,
-                            msg: stringsRes.strings.PARSE_ERROR_MSGS.MISSING_L_BRACKET,
+                            msg: stringsRes.strings.PARSE_ERROR_MSGS
+                                .MISSING_L_BRACKET,
                             lexems: []
                         };
-                    }
-                    else {
+                    } else {
                         probeIndex--;
                     }
-                }
-                else if (isNum(entries[i - 1])) {
+                } else if (isNum(entries[i - 1])) {
                     while (probeIndex >= 0 && isNum(entries[probeIndex])) {
-                        subEntriesSMD[degreeCount-1].unshift(entries[probeIndex]);
+                        subEntriesSMD[degreeCount - 1].unshift(
+                            entries[probeIndex]
+                        );
                         probeIndex--;
                     }
-                }
-                else if (isVar(entries[i - 1]) || isPpu(entries[i - 1])) {
+                } else if (isVar(entries[i - 1]) || isPpu(entries[i - 1])) {
                     probeIndex = i - 2;
                     subEntriesSMD[degreeCount - 1].unshift(entries[i - 1]);
-                }
-                else {
+                } else {
                     return {
                         success: false,
-                        msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS
+                            .UNEXPECTED_ENTRY,
                         lexems: []
                     };
                 }
 
                 if (probeIndex < 0) {
                     break;
-                }
-                else if (entries[probeIndex].id === "DEGREE") {
+                } else if (entries[probeIndex].id === "DEGREE") {
                     degreeCount++;
                     if (degreeCount > 3) {
                         return {
                             success: false,
-                            msg: stringsRes.strings.PARSE_ERROR_MSGS.TOO_MANY_DEGREE_SYMBOL,
+                            msg: stringsRes.strings.PARSE_ERROR_MSGS
+                                .TOO_MANY_DEGREE_SYMBOL,
                             lexems: []
                         };
                     }
@@ -332,8 +326,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                         break;
                     }
                     probeIndex--;
-                }
-                else {
+                } else {
                     break;
                 }
             }
@@ -378,7 +371,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
 
             let dmsLexems: Lexem[] = [];
 
-            for (let j = 0; j < dmsParseResults.length; j++){
+            for (let j = 0; j < dmsParseResults.length; j++) {
                 if (!dmsParseResults[j].success) {
                     return dmsParseResults[j];
                 }
@@ -386,7 +379,8 @@ export function parse(entries: KeyEntry[]): ParseResult{
                 if (dmsParseResults[j].lexems.length === 0) {
                     return {
                         success: false,
-                        msg: stringsRes.strings.PARSE_ERROR_MSGS.INSUFFICENT_OPERANDS,
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS
+                            .INSUFFICENT_OPERANDS,
                         lexems: []
                     };
                 }
@@ -420,32 +414,30 @@ export function parse(entries: KeyEntry[]): ParseResult{
     // when we reach the rBracket the top of s1 will
     // be lBracketEqvNoFn and without s2 change since
     // the last encounter of lBracketEqvNoFn.
-    let hasS2Changed:boolean = false;
+    let hasS2Changed: boolean = false;
 
-    for (let i = 0; i < entries.length; i++){
+    for (let i = 0; i < entries.length; i++) {
         if (isPpu(entries[i])) {
             s2 = s2.concat(entries[i].ppLexems!);
             hasS2Changed = true;
-        }
-        else if (isVar(entries[i])) {
+        } else if (isVar(entries[i])) {
             s2.push({
                 type: "NBR",
                 obj: getVarInternalNumber(entries[i])
             });
             hasS2Changed = true;
-        }
-        else if (isNum(entries[i])) {
+        } else if (isNum(entries[i])) {
             let num: string = "";
             let dotCount = 0;
             let probeIndex = i;
-            while (probeIndex < entries.length
-                && isNum(entries[probeIndex])) {
+            while (probeIndex < entries.length && isNum(entries[probeIndex])) {
                 num += getNumString(entries[probeIndex]);
                 dotCount += entries[probeIndex].id === "." ? 1 : 0;
                 if (dotCount > 1) {
                     return {
                         success: false,
-                        msg: stringsRes.strings.PARSE_ERROR_MSGS.TOO_MANY_DECIMAL_POINT,
+                        msg: stringsRes.strings.PARSE_ERROR_MSGS
+                            .TOO_MANY_DECIMAL_POINT,
                         lexems: []
                     };
                 }
@@ -470,14 +462,14 @@ export function parse(entries: KeyEntry[]): ParseResult{
             hasS2Changed = true;
 
             i = probeIndex;
-        }
-        else if (isOpBinary(entries[i])) {
-            if (s1.length === 0
-                || isLBracketEqvNoFn(s1[s1.length - 1])
-                || isOpBinaryPriorityHigher(entries[i], s1[s1.length - 1])) {
+        } else if (isOpBinary(entries[i])) {
+            if (
+                s1.length === 0 ||
+                isLBracketEqvNoFn(s1[s1.length - 1]) ||
+                isOpBinaryPriorityHigher(entries[i], s1[s1.length - 1])
+            ) {
                 s1.push(entries[i]);
-            }
-            else {
+            } else {
                 s2.push({
                     type: "OP",
                     obj: getOperatorById(s1.pop()!.id)
@@ -486,18 +478,18 @@ export function parse(entries: KeyEntry[]): ParseResult{
             }
 
             hasS2Changed = true;
-        }
-        else if (isLBracketEqvNoFn(entries[i])) {
+        } else if (isLBracketEqvNoFn(entries[i])) {
             s1.push(entries[i]);
             hasS2Changed = false;
-        }
-        else if (isRBracket(entries[i])) {
+        } else if (isRBracket(entries[i])) {
             let isLBracketEqvFound: boolean = false;
 
             // brackets cannot be empty
-            if (s1.length > 0
-                &&!hasS2Changed
-                && isLBracketEqvNoFn(s1[s1.length - 1])) {
+            if (
+                s1.length > 0 &&
+                !hasS2Changed &&
+                isLBracketEqvNoFn(s1[s1.length - 1])
+            ) {
                 return {
                     success: false,
                     msg: stringsRes.strings.PARSE_ERROR_MSGS.EMPTY_BRACKETS,
@@ -507,7 +499,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
 
             hasS2Changed = true;
 
-            while (s1.length>0) {
+            while (s1.length > 0) {
                 const currentOp = s1.pop()!;
                 if (isOpUnaryL(currentOp)) {
                     s2.push({
@@ -516,12 +508,10 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     });
                     isLBracketEqvFound = true;
                     break;
-                }
-                else if (isLBracket(currentOp)) {
+                } else if (isLBracket(currentOp)) {
                     isLBracketEqvFound = true;
                     break;
-                }
-                else {
+                } else {
                     s2.push({
                         type: "OP",
                         obj: getOperatorById(currentOp.id)
@@ -536,8 +526,7 @@ export function parse(entries: KeyEntry[]): ParseResult{
                     lexems: []
                 };
             }
-        }
-        else {
+        } else {
             return {
                 success: false,
                 msg: stringsRes.strings.PARSE_ERROR_MSGS.UNEXPECTED_ENTRY,
