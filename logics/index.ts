@@ -82,9 +82,9 @@ const onWindowKeydown = (e: KeyboardEvent) => {
         case "Insert":
             inputShiftEntryFromKeyboard(e.key);
             break;
-        case "Shift":
-            LS.onShiftClick();
-            break;
+        // case "Shift":
+        //     LS.onShiftClick();
+        //     break;
         case "ArrowUp":
             LS.onDirClick("U");
             break;

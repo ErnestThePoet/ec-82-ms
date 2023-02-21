@@ -26,7 +26,7 @@ type CalculatorDisplayMode =
     | "LANG"
     | "ABOUT";
 export type CalculatorDRGMode = "D" | "R" | "G";
-type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "HYP" | "STO" | "RCL";
+type CalculatorFuncMode = "NONE" | "SHIFT" | "ALPHA" | "STO" | "RCL";
 
 class CalculatorState {
     constructor() {
@@ -54,6 +54,9 @@ class CalculatorState {
 
     // special function mode: shift, alpha, ...
     funcMode: CalculatorFuncMode = "NONE";
+
+    // hyp mode, a standalone function mode
+    hypMode: boolean = false;
 
     inputEntry(ke: KeyEntry) {
         switch (this.displayMode) {
@@ -142,8 +145,13 @@ class CalculatorState {
         this.funcMode = newMode;
     }
 
+    setHypMode(hypMode: boolean) {
+        this.hypMode = hypMode;
+    }
+
     clearFuncMode() {
         this.funcMode = "NONE";
+        this.hypMode = false;
     }
 
     toggleDecFrac() {

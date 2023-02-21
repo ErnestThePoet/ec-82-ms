@@ -77,12 +77,18 @@
         border-radius: 8px;
 
         > span:nth-child(1) {
-            color: goldenrod;
+            color: brown;
             position: absolute;
             left: 10px;
         }
 
         > span:nth-child(2) {
+            color: goldenrod;
+            position: absolute;
+            left: 60px;
+        }
+
+        > span:nth-child(3) {
             color: mediumblue;
             position: absolute;
             right: 10px;

@@ -101,6 +101,24 @@ export const OPERATORS_UNARY_L: readonly Operator[] = [
         ck: CHECK_FNS.alwaysTrue
     },
     {
+        id: "ASINH",
+        argN: 1,
+        op: INM.asinh,
+        ck: CHECK_FNS.alwaysTrue
+    },
+    {
+        id: "ACOSH",
+        argN: 1,
+        op: INM.acosh,
+        ck: CHECK_FNS.acoshCheck
+    },
+    {
+        id: "ATANH",
+        argN: 1,
+        op: INM.atanh,
+        ck: CHECK_FNS.atanhCheck
+    },
+    {
         id: "NEG",
         argN: 1,
         op: INM.negative,

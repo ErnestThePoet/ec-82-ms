@@ -32,6 +32,10 @@ const STRINGS_ZH_CN = {
         ASINACOS:
             STRINGS_ZH_CN_ERROR_PREFIXES.CALC +
             "arcsin()或arccos()接收到了[-1,1]以外的值",
+        ACOSH:
+            STRINGS_ZH_CN_ERROR_PREFIXES.CALC + "acosh()接收到了[1,+∞)以外的值",
+        ATANH:
+            STRINGS_ZH_CN_ERROR_PREFIXES.CALC + "atanh()接收到了(-1,1)以外的值",
         FACT: STRINGS_ZH_CN_ERROR_PREFIXES.CALC + "阶乘操作数不是非负整数",
         INV: STRINGS_ZH_CN_ERROR_PREFIXES.CALC + "不能求0的倒数",
         COMBINE_NOT_NNINT:
@@ -92,6 +96,12 @@ const STRINGS_EN = {
         ASINACOS:
             STRINGS_EN_ERROR_PREFIXES.CALC +
             "arcsin() or arccos() got operand out of [-1,1]",
+        ACOSH:
+            STRINGS_EN_ERROR_PREFIXES.CALC +
+            "acosh() got operand out of [1,+∞)",
+        ATANH:
+            STRINGS_EN_ERROR_PREFIXES.CALC +
+            "atanh() got operand out of (-1,1)",
         FACT:
             STRINGS_EN_ERROR_PREFIXES.CALC +
             "factorial did not get non-negative integer",

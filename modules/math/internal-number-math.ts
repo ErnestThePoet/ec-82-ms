@@ -199,6 +199,15 @@ export const atan: OperationFn = (x: InternalNumber) =>
         "DEC",
         DC.toCurrentDegreeFromRad(Decimal.atan(getDecValue(x)))
     );
+    
+export const asinh: OperationFn = (x: InternalNumber) =>
+    new InternalNumber("DEC", Decimal.asinh(getDecValue(x)));
+
+export const acosh: OperationFn = (x: InternalNumber) =>
+    new InternalNumber("DEC", Decimal.acosh(getDecValue(x)));
+
+export const atanh: OperationFn = (x: InternalNumber) =>
+    new InternalNumber("DEC", Decimal.atanh(getDecValue(x)));
 
 export const fact: OperationFn = (x: InternalNumber) =>
     new InternalNumber("DEC", FACT.fact(getDecValue(x)));

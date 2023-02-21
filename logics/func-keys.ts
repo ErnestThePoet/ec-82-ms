@@ -190,13 +190,13 @@ export const onR3C3Click = () => {
 
     if (cs.funcMode === "ALPHA" || cs.funcMode === "RCL") {
         cs.inputEntry(KEY_ENTRIES.C);
-    } else if (cs.funcMode === "NONE") {
-        cs.setFuncMode("HYP");
-        return;
     } else if (cs.funcMode === "STO" && cs.displayMode === "NORMAL_SHOW") {
         cm.C = cs.calcResult;
         cs.dispResult = cs.calcResult;
         cs.inputEntry(KEY_ENTRIES.C);
+    } else if (!cs.hypMode) {
+        cs.setHypMode(true);
+        return;
     }
 
     cs.clearFuncMode();
@@ -210,8 +210,13 @@ export const onR3C4Click = () => {
     if (cs.funcMode === "ALPHA" || cs.funcMode === "RCL") {
         cs.inputEntry(KEY_ENTRIES.D);
     } else if (cs.funcMode === "SHIFT") {
-        cs.inputEntry(KEY_ENTRIES.asin);
-    } else if (cs.funcMode === "HYP") {
+        if (cs.hypMode) {
+            cs.inputEntry(KEY_ENTRIES.asinh)
+        }
+        else {
+            cs.inputEntry(KEY_ENTRIES.asin);
+        }
+    } else if (cs.hypMode) {
         cs.inputEntry(KEY_ENTRIES.sinh);
     } else if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.sin);
@@ -232,8 +237,12 @@ export const onR3C5Click = () => {
     if (cs.funcMode === "ALPHA" || cs.funcMode === "RCL") {
         cs.inputEntry(KEY_ENTRIES.E);
     } else if (cs.funcMode === "SHIFT") {
-        cs.inputEntry(KEY_ENTRIES.acos);
-    } else if (cs.funcMode === "HYP") {
+        if (cs.hypMode) {
+            cs.inputEntry(KEY_ENTRIES.acosh);
+        } else {
+            cs.inputEntry(KEY_ENTRIES.acos);
+        }
+    } else if (cs.hypMode) {
         cs.inputEntry(KEY_ENTRIES.cosh);
     } else if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.cos);
@@ -254,8 +263,12 @@ export const onR3C6Click = () => {
     if (cs.funcMode === "ALPHA" || cs.funcMode === "RCL") {
         cs.inputEntry(KEY_ENTRIES.F);
     } else if (cs.funcMode === "SHIFT") {
-        cs.inputEntry(KEY_ENTRIES.atan);
-    } else if (cs.funcMode === "HYP") {
+        if (cs.hypMode) {
+            cs.inputEntry(KEY_ENTRIES.atanh);
+        } else {
+            cs.inputEntry(KEY_ENTRIES.atan);
+        }
+    } else if (cs.hypMode) {
         cs.inputEntry(KEY_ENTRIES.tanh);
     } else if (cs.funcMode === "NONE") {
         cs.inputEntry(KEY_ENTRIES.tan);

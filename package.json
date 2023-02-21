@@ -1,6 +1,6 @@
 {
   "name": "ec-82ms",
-  "version": "1.8.5",
+  "version": "1.9.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

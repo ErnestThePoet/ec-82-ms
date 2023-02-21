@@ -70,6 +70,8 @@ export default class Screen extends React.Component {
                     <div role="mode">
                         <span>{cs.funcMode === "NONE" ? "" : cs.funcMode}</span>
 
+                        <span>{cs.hypMode ? "HYP" : ""}</span>
+
                         <span>{cs.drgMode}</span>
                     </div>
                 </div>

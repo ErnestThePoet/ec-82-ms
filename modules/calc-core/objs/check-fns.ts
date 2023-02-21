@@ -30,6 +30,8 @@ interface CheckFns {
     lnCheck: CheckFn; // >0
     tanCheck: CheckFn; // !=odd multiples of pi/2
     asinAcosCheck: CheckFn; // -1<=x<=1
+    acoshCheck: CheckFn; // >=1
+    atanhCheck: CheckFn; // -1<x<1
     factCheck: CheckFn; // >=0, integer
     invCheck: CheckFn; // !=0
     ///// taking 2 args
@@ -73,6 +75,20 @@ export const CHECK_FNS: CheckFns = {
         return {
             ok: decValue.gte(-1) && decValue.lte(1),
             msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ASINACOS
+        };
+    },
+    acoshCheck: (...operands: InternalNumber[]) => {
+        const decValue = getDecValue(operands[0]);
+        return {
+            ok: decValue.gte(1),
+            msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ACOSH
+        };
+    },
+    atanhCheck: (...operands: InternalNumber[]) => {
+        const decValue = getDecValue(operands[0]);
+        return {
+            ok: decValue.gt(-1) && decValue.lt(1),
+            msg: stringsRes.strings.CALC_CK_ERROR_MSGS.ATANH
         };
     },
     factCheck: (...operands: InternalNumber[]) => ({
