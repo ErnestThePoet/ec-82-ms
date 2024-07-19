@@ -17,7 +17,7 @@ class MyDocument extends Document {
             <Html>
                 {/*This Head element affects all pages.*/}
                 <Head>
-                    <meta name="description" content="EC-82MS Web Calculator" />
+                    <meta name="description" content="EC-82MS Online Scientific Calculator" />
                     <link rel="icon" href="/ec-82-ms/favicon.ico" />
                     <link
                         href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
