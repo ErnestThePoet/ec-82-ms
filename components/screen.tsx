@@ -29,6 +29,8 @@ export default class Screen extends React.Component {
                                         : styles.imgNormal
                                 }
                                 alt={x.id}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
                                 onClick={() => L.onKeyEntryImgClick(i)}
                                 src={`data:image/svg+xml;utf8,${encodeURIComponent(
                                     x.svg
@@ -45,6 +47,8 @@ export default class Screen extends React.Component {
                                     : styles.imgNormal
                             }
                             alt="CURSOR"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                             style={{ height: 20, width: 15 }}
                             /* Without explicit size, 
                             this cursor will have large size
