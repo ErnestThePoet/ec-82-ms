@@ -229,9 +229,9 @@ export default class FuncKeys extends React.Component {
                 />
                 <Key
                     role="kfunc"
-                    upperContent={<span role="klg">←</span>}
+                    upperContent={<span role="klo">i</span>}
                     content={<span role="klb">ENG</span>}
-                    onClick={() => {}}
+                    onClick={() => { L.onR4C2Click(); }}
                 />
                 <Key
                     role="kfunc"

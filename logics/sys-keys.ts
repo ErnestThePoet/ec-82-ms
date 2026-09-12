@@ -1,4 +1,6 @@
 import cs from "../observables/calculator-state";
+import fx from "../observables/fx991-state";
+import * as FX from "./fx991";
 
 export const onShiftClick = () => {
     if (cs.funcMode === "SHIFT") {
@@ -100,19 +102,31 @@ export const onDirClick = (dir: "U" | "D" | "L" | "R") => {
 };
 
 export const onModeClrClick = () => {
-    if (cs.displayMode === "DRG") {
-        cs.setDisplayMode("NORMAL_EDIT");
-    } else if (
-        cs.displayMode === "NORMAL_EDIT" ||
-        cs.displayMode === "NORMAL_SHOW"
-    ) {
-        if (cs.funcMode === "SHIFT") {
+    // FX-991 进化：MODE 键打开模式菜单（计算/复数/进制/方程/统计/角度）
+    if (cs.funcMode === "SHIFT") {
+        // SHIFT + MODE：保留原全清菜单
+        if (
+            cs.displayMode === "NORMAL_EDIT" ||
+            cs.displayMode === "NORMAL_SHOW"
+        ) {
             cs.setDisplayMode("CLEAR");
-        } else {
-            cs.setDisplayMode("DRG");
         }
+        cs.clearFuncMode();
+        return;
     }
 
+    if (cs.displayMode === "DRG") {
+        // DRG 菜单下按 MODE 返回
+        cs.setDisplayMode("NORMAL_EDIT");
+        cs.clearFuncMode();
+        return;
+    }
+
+    if (fx.showModeMenu) {
+        FX.onCloseModeMenu();
+    } else {
+        FX.onOpenModeMenu();
+    }
     cs.clearFuncMode();
 };
 

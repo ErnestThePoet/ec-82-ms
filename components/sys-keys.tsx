@@ -28,7 +28,7 @@ export default class SysKeys extends React.Component {
             <div>
                 <Key
                     role="ksys"
-                    upperContent={<span role="klg">MODE CLR</span>}
+                    upperContent={<span role="klg">MODE</span>}
                     onClick={() => {
                         L.onModeClrClick();
                     }}></Key>

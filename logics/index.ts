@@ -6,6 +6,7 @@ import * as LS from "./sys-keys";
 import * as LF from "./func-keys";
 import * as LB from "./basic-keys";
 import { KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
+import fx from "../observables/fx991-state";
 
 export const initialize = () => {
     Decimal.set({
@@ -172,6 +173,11 @@ const onWindowKeydown = (e: KeyboardEvent) => {
             }
             break;
         case "Escape":
+            // FX 模式菜单打开时，Esc 关闭菜单
+            if (fx.showModeMenu) {
+                fx.closeModeMenu();
+                break;
+            }
             // Exit from overlay menus / error, otherwise just clear
             // the current function (shift / alpha / ...) mode.
             if (

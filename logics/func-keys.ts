@@ -2,8 +2,14 @@ import { KEY_ENTRIES } from "../modules/calc-core/objs/key-entry";
 import cs from "../observables/calculator-state";
 import cm from "../observables/calculator-memory";
 import { add, sub } from "../modules/math/internal-number-math";
+import fx from "../observables/fx991-state";
+import * as FX from "./fx991";
 
 export const onR1C1Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -18,6 +24,10 @@ export const onR1C1Click = () => {
 };
 
 export const onR1C2Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -32,6 +42,10 @@ export const onR1C2Click = () => {
 };
 
 export const onR1C3Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -46,6 +60,10 @@ export const onR1C3Click = () => {
 };
 
 export const onR1C4Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -60,6 +78,10 @@ export const onR1C4Click = () => {
 };
 
 export const onR2C1Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.funcMode === "NONE") {
         if (cs.displayMode === "NORMAL_EDIT") {
             cs.inputEntry(KEY_ENTRIES.frac);
@@ -72,6 +94,10 @@ export const onR2C1Click = () => {
 };
 
 export const onR2C2Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -84,6 +110,10 @@ export const onR2C2Click = () => {
 };
 
 export const onR2C3Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -96,6 +126,10 @@ export const onR2C3Click = () => {
 };
 
 export const onR2C4Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -110,6 +144,10 @@ export const onR2C4Click = () => {
 };
 
 export const onR2C5Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -124,6 +162,10 @@ export const onR2C5Click = () => {
 };
 
 export const onR2C6Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -140,6 +182,10 @@ export const onR2C6Click = () => {
 };
 
 export const onR3C1Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -158,6 +204,11 @@ export const onR3C1Click = () => {
 };
 
 export const onR3C2Click = () => {
+    if (FX.isFxModeActive()) {
+        FX.onDegreeKey();
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -184,6 +235,10 @@ export const onR3C2Click = () => {
 };
 
 export const onR3C3Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -203,6 +258,10 @@ export const onR3C3Click = () => {
 };
 
 export const onR3C4Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -230,6 +289,10 @@ export const onR3C4Click = () => {
 };
 
 export const onR3C5Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -256,6 +319,10 @@ export const onR3C5Click = () => {
 };
 
 export const onR3C6Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -282,6 +349,10 @@ export const onR3C6Click = () => {
 };
 
 export const onR4C1Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -297,7 +368,29 @@ export const onR4C1Click = () => {
     cs.clearFuncMode();
 };
 
+export const onR4C2Click = () => {
+    // ENG 键：CMPLX 模式下输入 i；SHIFT+ENG 切换极坐标显示
+    if (FX.isFxModeActive()) {
+        if (cs.funcMode === "SHIFT") {
+            FX.onShiftEng();
+        } else {
+            FX.onEng();
+        }
+        cs.clearFuncMode();
+        return;
+    }
+    // 计算模式原样保留（原实现为空操作）
+    cs.clearFuncMode();
+};
+
 export const onR4C3Click = () => {
+    if (FX.isFxModeActive()) {
+        if (fx.mode === "CMPLX") {
+            fx.cplxAppend("(");
+        }
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -310,6 +403,13 @@ export const onR4C3Click = () => {
 };
 
 export const onR4C4Click = () => {
+    if (FX.isFxModeActive()) {
+        if (fx.mode === "CMPLX") {
+            fx.cplxAppend(")");
+        }
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -328,6 +428,10 @@ export const onR4C4Click = () => {
 };
 
 export const onR4C5Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
@@ -346,6 +450,10 @@ export const onR4C5Click = () => {
 };
 
 export const onR4C6Click = () => {
+    if (FX.isFxModeActive()) {
+        cs.clearFuncMode();
+        return;
+    }
     if (cs.displayMode !== "NORMAL_EDIT" && cs.displayMode !== "NORMAL_SHOW") {
         return;
     }
