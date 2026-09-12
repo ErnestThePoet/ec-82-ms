@@ -12,6 +12,9 @@
     cursor: pointer;
     user-select: none;
 
+    // Android: no double-tap zoom delay, immediate touch response
+    touch-action: manipulation;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,13 +49,34 @@
 .divPanelWrapper {
     position: relative;
     width: m#{i}n(100%, 50vh);
+    max-width: 500px;
     height: 100%;
-    background-color: #eaecf3;
-    border-radius: 10px;
+
+    // CLASSWIZ dark-grey body
+    background-image: linear-gradient(
+        160deg,
+        #4a4d55 0%,
+        #2e3138 48%,
+        #22252b 100%
+    );
+    border: 1px solid #15161a;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 45%),
+        inset 0 1px 0 rgb(255 255 255 / 10%);
+
+    box-sizing: border-box;
+    padding-bottom: 10px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    // On small landscape screens (typical Android phones) 50vh is too
+    // narrow to hold all the keys comfortably, so use the full width.
+    @media (max-width: 700px) and (orientation: landscape) {
+        width: 100%;
+        max-width: none;
+    }
 
     [role="klw"] {
         @include key-label;
@@ -191,5 +215,32 @@
         @include key-trans-light;
 
         background-image: linear-gradient(135deg, #fffb00, #e5e100);
+    }
+}
+
+// CLASSWIZ brand strip at the top of the body
+.divBrand {
+    width: calc(100% - 2em);
+    padding: 10px 6px 3px 6px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+
+    user-select: none;
+
+    .brandCasio {
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: #eceff4;
+    }
+
+    .brandClasswiz {
+        font-size: 10px;
+        letter-spacing: 5px;
+        color: #aeb3bd;
+        margin-top: 3px;
     }
 }

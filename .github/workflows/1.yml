@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]   # 如果你的默认分支是 master，请改为 "master"
+  workflow_dispatch:     # 保留手动触发按钮
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install   # ✅ 已将原来的 npm ci 改为 npm install
+
+      - name: Build
+        run: npm run build   # Next.js 会依据 output: 'export' 生成 ./out 文件夹
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out       # 静态导出目录，与 next.config.js 配置一致
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -13,6 +13,10 @@ export default class Panel extends React.Component {
 
     render = () => (
         <div className={styles.divPanelWrapper}>
+            <div className={styles.divBrand}>
+                <span className={styles.brandCasio}>CASIO</span>
+                <span className={styles.brandClasswiz}>CLASSWIZ</span>
+            </div>
             <Screen />
             <SysKeys />
             <FuncKeys />

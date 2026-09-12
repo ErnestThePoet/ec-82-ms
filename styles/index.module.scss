@@ -13,5 +13,17 @@
 
     font-family: "Ubuntu", sans-serif;
 
+    // prevent double-tap zoom & tap highlight on Android
+    touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    // respect display cutouts (notch / hole-punch) on Android
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+
+    // prevent long-press callout menus (image save / share) on mobile
+    -webkit-touch-callout: none;
 }
