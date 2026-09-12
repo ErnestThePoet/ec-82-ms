@@ -28,13 +28,13 @@ export default class SysKeys extends React.Component {
             <div>
                 <Key
                     role="ksys"
-                    upperContent={<span role="klg">MODE</span>}
+                    upperContent={<span role="klg">菜单</span>}
                     onClick={() => {
                         L.onModeClrClick();
                     }}></Key>
                 <Key
                     role="ksys"
-                    upperContent={<span role="klg">LANG</span>}
+                    upperContent={<span role="klg">设置</span>}
                     onClick={() => {
                         L.onLangClick();
                     }}></Key>
